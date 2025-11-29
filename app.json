@@ -1,25 +1,28 @@
 {
-  "name": "aljamay-mobile",
-  "slug": "aljamay-mobile",
-  "scheme": "aljamay-mobile",
+  "name": "aljamay",
+  "slug": "aljamay",
+  "scheme": "aljamay",
   "version": "1.0.0",
   "orientation": "portrait",
   "userInterfaceStyle": "automatic",
-  "icon": "./assets/images/app-icon-all.png",
+  "icon": "./assets/images/aljamay-logo.png",
   "updates": {
     "fallbackToCacheTimeout": 0
   },
   "newArchEnabled": true,
   "jsEngine": "hermes",
-  "assetBundlePatterns": [
-    "**/*"
-  ],
+  "assetBundlePatterns": ["**/*"],
   "android": {
     "icon": "./assets/images/app-icon-android-legacy.png",
     "package": "com.aljamaymobile",
     "adaptiveIcon": {
       "foregroundImage": "./assets/images/app-icon-android-adaptive-foreground.png",
       "backgroundImage": "./assets/images/app-icon-android-adaptive-background.png"
+    },
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
     "allowBackup": false,
     "edgeToEdgeEnabled": true
@@ -36,6 +39,7 @@
   "plugins": [
     "expo-localization",
     "expo-font",
+    "expo-router",
     [
       "expo-splash-screen",
       {
@@ -57,11 +61,15 @@
     "expo-build-properties"
   ],
   "experiments": {
-    "tsconfigPaths": true
+    "tsconfigPaths": true,
+    "typedRoutes": true
   },
   "extra": {
     "ignite": {
       "version": "UNKNOWN"
+    },
+    "eas": {
+      "projectId": "a5face2e-e735-4b44-b488-2767aad09b7a"
     }
   }
 }
