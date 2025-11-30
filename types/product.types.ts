@@ -4,14 +4,15 @@ import { ResponseType } from "types/response.types"
 export interface ProductType {
   id: string
   name: string
-  image: string
-  thumbnails: string[]
+  image: string | ImageSourcePropType
+  thumbnails?: string[] | ImageSourcePropType[]
   description: string
   price: number
   quantity: number
   discount: number
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
+  status?: "available" | "not available"
 }
 
 export interface ProductCategory {

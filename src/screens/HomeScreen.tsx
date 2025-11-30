@@ -11,7 +11,7 @@ import { useRouter } from "expo-router"
 import { TextField } from "@/components/TextField"
 import { Icon } from "@/components/Icon"
 import { Text } from "@/components/Text"
-import CategoryList from "@/components/category/categoryList"
+import CategoryList from "@/components/category/ProductCategoryList"
 import { productCategories } from "@/constants"
 
 // @demo replace-next-line export const HomeScreen: FC = function HomeScreen(

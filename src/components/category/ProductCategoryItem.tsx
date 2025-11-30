@@ -12,13 +12,13 @@ import {
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 
-interface CategoryItemProps {
+interface ProductCategoryItemProps {
   image: ImageSourcePropType
   name: string
   isSelected?: boolean
   pressHandler: (name: string) => void
 }
-const CategoryItem: FC<CategoryItemProps> = (props: CategoryItemProps) => {
+const ProductCategoryItem: FC<ProductCategoryItemProps> = (props: ProductCategoryItemProps) => {
   const { themed } = useAppTheme()
   const { name, image, isSelected, pressHandler } = props
 
@@ -56,4 +56,4 @@ const $text: ThemedStyle<TextStyle> = ({ colors }) => ({
   fontSize: 12,
 })
 
-export default CategoryItem
+export default ProductCategoryItem
