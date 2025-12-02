@@ -1,36 +1,41 @@
 import React, { FC } from "react"
-import { ActivityIndicator, FlatList, ScrollView, Text, View, ViewStyle } from "react-native"
-import { ProductType } from "types/product.types"
-import Product from "./Product"
+import { ActivityIndicator, FlatList, Text, View, ViewStyle } from "react-native"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
+import CategoryCard from "./CategoryCard"
+import { ProductCategory } from "types/product.types"
 
-interface ProductListProps {
-  products: ProductType[] | null
+interface CategoryCardListProps {
+  categories: ProductCategory[] | null
   isLoading: boolean
 }
 
-const ProductList: FC<ProductListProps> = (props: ProductListProps) => {
+const CategoryCardList: FC<CategoryCardListProps> = (props: CategoryCardListProps) => {
   const { themed } = useAppTheme()
 
-  const { products, isLoading } = props
+  const handlePress = (name: string) => {}
+
+  const { categories, isLoading } = props
   if (isLoading) return <ActivityIndicator />
-  if (!products)
+  if (!categories)
     return (
       <View style={themed($container)}>
-        <Text>No products yet</Text>
+        <Text>No categorys yet</Text>
       </View>
     )
   return (
     <FlatList
-      renderItem={({ item: product }) => <Product product={product} key={product.id} />}
-      data={products}
+      renderItem={({ item: category }) => (
+        <CategoryCard {...category} key={category.name} pressHandler={handlePress} />
+      )}
+      data={categories}
       numColumns={2}
       horizontal={false}
       ItemSeparatorComponent={() => <View style={themed($separator)} />}
       columnWrapperStyle={{ gap: 4 }}
       contentContainerStyle={themed($containerStyle)}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.name}
+      showsVerticalScrollIndicator={false}
     />
   )
 }
@@ -56,4 +61,4 @@ const $separator: ThemedStyle<ViewStyle> = ({ colors }) => ({
   backgroundColor: colors.background,
   height: 4,
 })
-export default ProductList
+export default CategoryCardList

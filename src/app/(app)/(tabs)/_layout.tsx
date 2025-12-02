@@ -8,6 +8,7 @@ import { colors } from "@/theme/colors"
 import { spacing } from "@/theme/spacing"
 import { typography } from "@/theme/typography"
 import { translate } from "@/i18n/translate"
+import { Header } from "@/components/Header"
 
 export default function Layout() {
   const { bottom } = useSafeAreaInsets()
@@ -25,7 +26,7 @@ export default function Layout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="(products)"
         options={{
           headerShown: false,
           tabBarLabel: translate("tabNavigator:homeTab"),
@@ -37,7 +38,6 @@ export default function Layout() {
       <Tabs.Screen
         name="categories"
         options={{
-          headerShown: false,
           tabBarLabel: translate("tabNavigator:categoriesTab"),
           tabBarIcon: ({ focused }) => (
             <Icon icon="menu" color={focused ? colors.tint : undefined} size={30} />
@@ -62,6 +62,17 @@ export default function Layout() {
           tabBarLabel: translate("tabNavigator:profileTab"),
           tabBarIcon: ({ focused }) => (
             <Icon icon="user" color={focused ? colors.tint : undefined} size={30} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="promo"
+        options={{
+          headerShown: true,
+          header: (props) => <Header leftTx="promo:title" {...props} />,
+          tabBarLabel: translate("tabNavigator:promo"),
+          tabBarIcon: ({ focused }) => (
+            <Icon icon="bell" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
       />

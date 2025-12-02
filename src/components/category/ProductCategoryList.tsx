@@ -4,7 +4,7 @@ import { ProductCategory, ProductType } from "types/product.types"
 import CategoryItem from "./ProductCategoryItem"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
-import ProductList from "../product/ProductList"
+import ProductList from "../../screens/ProductScreen/ProductList"
 import { dummyProducts } from "@/constants"
 
 interface ProductCategoryListProps {
@@ -36,13 +36,14 @@ const ProductCategoryList: FC<ProductCategoryListProps> = (props: ProductCategor
   }
   return (
     <View style={themed($container)}>
-      <ScrollView contentContainerStyle={themed($scroll)}>
+      <ScrollView contentContainerStyle={themed($scroll)} horizontal={true}>
         {categories.map((category) => (
           <CategoryItem
             key={category.name}
             {...category}
             pressHandler={handleItemClick}
             isSelected={selectedCategory === category.name}
+            count={products?.length}
           />
         ))}
       </ScrollView>

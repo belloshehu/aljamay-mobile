@@ -1,7 +1,8 @@
 import { FC, JSX } from "react"
-import { Button } from "../Button"
+import { Button } from "@/components/Button"
 import {
   Image,
+  ImageBackground,
   ImageSourcePropType,
   ImageStyle,
   Pressable,
@@ -12,61 +13,69 @@ import {
 } from "react-native"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
+import { useRouter } from "expo-router"
 
-interface ProductCategoryItemProps {
+interface CategoryCardProps {
   image: ImageSourcePropType
   name: string
   isSelected?: boolean
   pressHandler: (name: string) => void
   count?: number
 }
-const ProductCategoryItem: FC<ProductCategoryItemProps> = (props: ProductCategoryItemProps) => {
+const CategoryCard: FC<CategoryCardProps> = (props: CategoryCardProps) => {
   const { themed } = useAppTheme()
+  const router = useRouter()
   const { name, image, isSelected, pressHandler, count } = props
 
   const handlePress = () => {
     pressHandler(name)
+    router.push(("/(app)/(tabs)/categories/" + name) as any)
   }
 
   return (
     <Pressable style={themed($wrapper)} onPress={handlePress}>
-      <Image
+      <ImageBackground
         source={image}
         style={themed([$image, isSelected && { borderWidth: 1, height: 50 }])}
       />
       <Text style={themed([$text, isSelected && { fontWeight: "bold" }])}>{name}</Text>
-      {isSelected && (
-        <View style={themed($badge)}>
-          <Text style={themed($BadText)}>{count || 0}</Text>
-        </View>
-      )}
+
+      <View style={themed($badge)}>
+        <Text style={themed($BadText)}>{count || 0}</Text>
+      </View>
     </Pressable>
   )
 }
 
-const $wrapper: ThemedStyle<ViewStyle> = ({ colors }) => {
+const $wrapper: ThemedStyle<ViewStyle> = ({ colors, spacing }) => {
   return {
     alignItems: "center",
     justifyContent: "center",
+    width: "48%",
+    borderRadius: spacing.md,
+    height: 250,
+    backgroundColor: colors.separator,
+    position: "relative",
   }
 }
 
-const $image: ThemedStyle<ImageStyle> = ({}) => ({
-  width: 50,
-  height: 40,
-  borderRadius: 30,
-  borderWidth: 0,
+const $image: ThemedStyle<ImageStyle> = ({ spacing, colors }) => ({
+  width: "100%",
+  flex: 1,
+  borderRadius: spacing.md,
+  backgroundColor: colors.separator,
+  overlayColor: colors.errorBackground,
 })
 
 const $badge: ThemedStyle<ImageStyle> = ({ colors }) => ({
   width: 40,
-  height: 20,
-  borderRadius: 10,
+  height: 40,
+  borderRadius: 20,
   backgroundColor: colors.separator,
   position: "absolute",
-  right: -15,
-  top: -10,
   justifyContent: "center",
+  left: 0,
+  top: 10,
 })
 
 const $BadText: ThemedStyle<TextStyle> = ({ colors }) => ({
@@ -77,8 +86,9 @@ const $BadText: ThemedStyle<TextStyle> = ({ colors }) => ({
 
 const $text: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
   color: colors.text,
-  fontSize: 12,
+  fontSize: 14,
+  fontWeight: "bold",
   fontFamily: typography.code?.normal,
 })
 
-export default ProductCategoryItem
+export default CategoryCard

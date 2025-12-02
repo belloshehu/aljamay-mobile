@@ -1,6 +1,10 @@
 import demoEn from "./demo-en" // @demo remove-current-line
+import productEn from "./product.en"
 
 const en = {
+  modal: {
+    triggerButton: "Click here",
+  },
   common: {
     ok: "OK!",
     cancel: "Cancel",
@@ -72,6 +76,8 @@ const en = {
     categoriesTab: "Categories",
     shoppingCartTab: "Cart",
     profileTab: "Profile",
+    promo: "Promo",
+    support: "Support",
   },
   demoCommunityScreen: {
     title: "Connect with the community",
@@ -147,6 +153,7 @@ const en = {
   },
   // @demo remove-block-start
   ...demoEn,
+  ...productEn,
   // @demo remove-block-end
 }
 
