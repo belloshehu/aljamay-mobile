@@ -1,10 +1,11 @@
+import { Icon, PressableIcon } from "@/components/Icon"
 import Price from "@/components/product/Price"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { useRouter } from "expo-router"
 import { FC } from "react"
 import { ImageStyle, Pressable, Text, TextStyle, View, ViewStyle } from "react-native"
-import Animated from "react-native-reanimated"
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated"
 import { ProductType } from "types/product.types"
 
 interface ProductProps {
@@ -13,20 +14,46 @@ interface ProductProps {
 }
 const Product: FC<ProductProps> = (props: ProductProps) => {
   const { themed } = useAppTheme()
+  const scale = useSharedValue(1)
+  const animatedStyle = useAnimatedStyle(() => {
+    return { transform: [{ scale: scale.value }] }
+  })
+
   const router = useRouter()
   const {
     product: { image, name, price, discount, id },
   } = props
 
   const goToDetailScreen = () => {
+    scale.value = withSpring(1.6, {
+      damping: 10,
+      stiffness: 200,
+    })
+
     router.push(("/(app)/(tabs)/(products)/product/" + id) as any)
   }
+
+  const addToCart = () => {
+    // implement adding product to shopping cart
+  }
+
   return (
-    <Pressable style={themed($container)} onPress={goToDetailScreen}>
+    <Pressable
+      style={[themed($container), { transform: animatedStyle.transform }]}
+      onPress={goToDetailScreen}
+    >
       <Animated.Image source={image as any} alt={name} style={themed($image)} />
       <View style={themed($footer)}>
         <Text style={themed($name)}>{name}</Text>
-        <Price price={price} discount={discount} />
+        <View style={themed($priceWrapper)}>
+          <Price
+            price={price}
+            discount={discount}
+            containerStyle={{ gap: 2 }}
+            discountWrapperStyle={{ paddingHorizontal: 5 }}
+          />
+          <PressableIcon icon={"cart"} onPress={addToCart} style={themed($cardButton)} />
+        </View>
       </View>
     </Pressable>
   )
@@ -55,6 +82,21 @@ const $name: ThemedStyle<TextStyle> = ({ spacing, colors, typography }) => ({
   color: colors.text,
   fontSize: spacing.sm,
   fontFamily: typography.code?.normal,
+})
+
+const $priceWrapper: ThemedStyle<ViewStyle> = () => ({
+  width: "100%",
+  justifyContent: "space-between",
+  alignItems: "center",
+  flexDirection: "row",
+  gap: 10,
+})
+
+const $cardButton: ThemedStyle<ImageStyle> = ({}) => ({
+  borderWidth: 1,
+  padding: 5,
+  paddingHorizontal: 15,
+  borderRadius: 20,
 })
 
 export default Product

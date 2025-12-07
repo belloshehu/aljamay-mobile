@@ -21,8 +21,12 @@ export const CategoriesScreen: FC = function CategoriesScreen() {
   return (
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
       <View style={themed($topContainer)}>
-        <Text style={themed($CategoriesHeading)}>{productCategories.length} Items</Text>
-        <Text>List of Categoriestions we have for you</Text>
+        <Text
+          style={themed($CategoriesHeading)}
+          tx="categories:numberOfCategories"
+          txOptions={{ count: productCategories.length }}
+        />
+        <Text tx="categories:listDescription" />
         <CategoryCardList categories={productCategories} isLoading={false} />
       </View>
     </Screen>

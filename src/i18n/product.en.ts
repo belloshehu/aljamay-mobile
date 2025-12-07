@@ -11,6 +11,8 @@ const productEn = {
     description: "Various product categories for your refreshment.",
     notFound: "Product category not found",
     itemsInCategory: "Available items in {{name}}",
+    numberOfCategories: "{{count}} categories",
+    listDescription: "We have various categories of products for you.",
   },
   promo: {
     title: "Promos",

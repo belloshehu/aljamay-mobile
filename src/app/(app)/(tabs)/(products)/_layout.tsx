@@ -1,5 +1,3 @@
-import { Icon } from "@/components/Icon"
-import { translate } from "@/i18n/translate"
 import { Stack } from "expo-router"
 
 export default function ProductLayout() {

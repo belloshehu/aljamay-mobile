@@ -21,6 +21,10 @@ export const productCategories: ProductCategory[] = [
     name: "Spices",
     image: require("@assets/images/product/bread.jpg"),
   },
+  {
+    name: "Herbs",
+    image: require("@assets/images/product/bread.jpg"),
+  },
 ]
 
 export const dummyProducts: ProductType[] = [

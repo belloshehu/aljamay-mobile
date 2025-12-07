@@ -1,11 +1,10 @@
 import { FC, useEffect, useState } from "react"
 import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native"
+import { Screen } from "@/components/Screen"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import { useLocalSearchParams, useRouter } from "expo-router"
-
-import ProductDetailHeader from "../ProductScreen/ProductDetailHeader"
 import { ProductType } from "types/product.types"
 import { dummyProducts } from "@/constants"
 import { Card } from "@/components/Card"
@@ -14,8 +13,8 @@ import { Button } from "@/components/Button"
 import { Icon } from "@/components/Icon"
 import Price from "@/components/product/Price"
 
-// @demo replace-next-line export const ProductDetailScreen: FC = function ProductDetailScreen(
-export const ProductDetailScreen: FC = function ProductDetailScreen() {
+// @demo replace-next-line export const CheckoutScreen: FC = function CheckoutScreen(
+export const CheckoutScreen: FC = function CheckoutScreen() {
   const { themed } = useAppTheme()
   const router = useRouter()
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -32,11 +31,10 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
   }, [id])
 
   if (isLoading) return <ActivityIndicator />
-  if (!product) return <Card ContentComponent={<Text tx="productDetail:notFound" />} />
+  if (!product) return <Card ContentComponent={<Text tx="checkout:notFound" />} />
   return (
-    <View style={$styles.flex1}>
+    <Screen preset="auto" contentContainerStyle={$styles.flex1}>
       <View style={themed($container)}>
-        <ProductDetailHeader product={product} />
         <View style={themed($bottmoContainer)}>
           <View style={themed($buttonWrapper)}>
             <Price
@@ -46,7 +44,7 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
               discountStyle={themed($discount)}
             />
             <Button
-              tx="productDetail:cart"
+              tx="checkout:cart"
               LeftAccessory={() => <Icon icon="cart" />}
               style={themed($cartButton)}
               preset="default"
@@ -55,7 +53,7 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
           <View style={themed($buttonWrapper)}>
             <Button
               textStyle={themed($orderButtonText)}
-              tx="productDetail:checkout"
+              tx="checkout:checkout"
               preset="reversed"
               style={themed($orderButton)}
             />
@@ -63,7 +61,7 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
           <Text>{product.description}</Text>
         </View>
       </View>
-    </View>
+    </Screen>
   )
 }
 
@@ -80,7 +78,7 @@ const $discount: ThemedStyle<TextStyle> = ({ spacing, colors, typography }) => (
 
 const $orderButton: ThemedStyle<ViewStyle> = ({ spacing, colors, typography }) => ({
   borderRadius: spacing.xl,
-  backgroundColor: colors.errorBackground,
+  // backgroundColor: colors.separator,
   paddingHorizontal: spacing.xxl,
   width: "100%",
 })
@@ -100,7 +98,7 @@ const $buttonWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors, typography })
   width: "100%",
 })
 
-const $container: ThemedStyle<ViewStyle> = ({}) => ({
+const $container: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   justifyContent: "flex-start",
   alignItems: "flex-start",
   flex: 1,
@@ -114,5 +112,5 @@ const $bottmoContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingHorizontal: spacing.md,
   paddingTop: spacing.lg,
   marginTop: spacing.xl,
-  flex: 0.68,
+  flex: 0.55,
 })

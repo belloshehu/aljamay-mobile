@@ -36,7 +36,12 @@ const ProductCategoryList: FC<ProductCategoryListProps> = (props: ProductCategor
   }
   return (
     <View style={themed($container)}>
-      <ScrollView contentContainerStyle={themed($scroll)} horizontal={true}>
+      <ScrollView
+        contentContainerStyle={themed($scroll)}
+        horizontal={true}
+        bounces
+        showsHorizontalScrollIndicator={false}
+      >
         {categories.map((category) => (
           <CategoryItem
             key={category.name}
@@ -55,11 +60,12 @@ const ProductCategoryList: FC<ProductCategoryListProps> = (props: ProductCategor
 const $scroll: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   gap: 10,
   flexDirection: "row",
-  width: "100%",
+  // width: "100%",
   marginVertical: 10,
   backgroundColor: colors.errorBackground,
   padding: spacing.sm,
   borderRadius: spacing.md,
+  overflowX: "auto",
 })
 
 const $container: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({

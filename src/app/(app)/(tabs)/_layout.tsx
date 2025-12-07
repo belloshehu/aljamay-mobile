@@ -1,7 +1,6 @@
 import React from "react"
 import { Tabs } from "expo-router/tabs"
 import { Icon } from "@/components/Icon"
-
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { colors } from "@/theme/colors"
@@ -9,6 +8,7 @@ import { spacing } from "@/theme/spacing"
 import { typography } from "@/theme/typography"
 import { translate } from "@/i18n/translate"
 import { Header } from "@/components/Header"
+import { useAuth } from "@/context/AuthContext"
 
 export default function Layout() {
   const { bottom } = useSafeAreaInsets()
@@ -35,6 +35,7 @@ export default function Layout() {
           ),
         }}
       />
+
       <Tabs.Screen
         name="categories"
         options={{
@@ -44,27 +45,7 @@ export default function Layout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="shopping-cart"
-        options={{
-          headerShown: false,
-          tabBarAccessibilityLabel: translate("tabNavigator:shoppingCartTab"),
-          tabBarLabel: translate("tabNavigator:shoppingCartTab"),
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="cart" color={focused ? colors.tint : undefined} size={30} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          headerShown: false,
-          tabBarLabel: translate("tabNavigator:profileTab"),
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="user" color={focused ? colors.tint : undefined} size={30} />
-          ),
-        }}
-      />
+
       <Tabs.Screen
         name="promo"
         options={{
@@ -73,6 +54,29 @@ export default function Layout() {
           tabBarLabel: translate("tabNavigator:promo"),
           tabBarIcon: ({ focused }) => (
             <Icon icon="bell" color={focused ? colors.tint : undefined} size={30} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="shopping-cart"
+        options={{
+          tabBarLabel: translate("tabNavigator:shoppingCartTab"),
+          tabBarIcon: ({ focused }) => (
+            <Icon icon="cart" color={focused ? colors.tint : undefined} size={30} />
+          ),
+        }}
+      />
+
+      {/*  Profile, Shopping cart, login and signup screens are grouped here */}
+
+      <Tabs.Screen
+        name="user"
+        options={{
+          headerShown: false,
+          tabBarLabel: translate("tabNavigator:profileTab"),
+          tabBarIcon: ({ focused }) => (
+            <Icon icon="user" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
       />
@@ -90,8 +94,8 @@ const $tabBarItem: ViewStyle = {
 }
 
 const $tabBarLabel: TextStyle = {
-  fontSize: 12,
-  fontFamily: typography.primary.medium,
+  fontSize: 11,
+  fontFamily: typography.primary.normal,
   lineHeight: 16,
   flex: 1,
 }

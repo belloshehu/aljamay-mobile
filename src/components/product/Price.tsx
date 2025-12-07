@@ -11,9 +11,10 @@ interface PriceProps {
   containerStyle?: StyleProp<ViewStyle>
   priceStyle?: StyleProp<TextStyle>
   discountStyle?: StyleProp<TextStyle>
+  discountWrapperStyle?: StyleProp<ViewStyle>
 }
 const Price: FC<PriceProps> = (props: PriceProps) => {
-  const { containerStyle, discountStyle, priceStyle, price, discount } = props
+  const { containerStyle, discountStyle, discountWrapperStyle, priceStyle, price, discount } = props
   const { themed } = useAppTheme()
   return (
     <View style={[themed($priceContainer), containerStyle]}>
@@ -23,10 +24,9 @@ const Price: FC<PriceProps> = (props: PriceProps) => {
       </View>
 
       {discount && discount > 0 && (
-        <View style={themed($discountWrapper)}>
+        <View style={[themed($discountWrapper), discountWrapperStyle]}>
           <Text style={[themed($naira), priceStyle]}>N</Text>
           <Text style={[themed($discount), discountStyle]}>{price + discount}</Text>
-          {/* <Text tx="productDetail:discount" /> */}
         </View>
       )}
     </View>
@@ -46,7 +46,6 @@ const $discountWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   justifyContent: "space-between",
   alignItems: "center",
   width: "auto",
-
   flexDirection: "row",
   backgroundColor: colors.errorBackground,
   paddingHorizontal: spacing.sm,

@@ -12,6 +12,7 @@ import {
 } from "react-native"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
+import { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated"
 
 interface ProductCategoryItemProps {
   image: ImageSourcePropType
@@ -22,14 +23,19 @@ interface ProductCategoryItemProps {
 }
 const ProductCategoryItem: FC<ProductCategoryItemProps> = (props: ProductCategoryItemProps) => {
   const { themed } = useAppTheme()
+  const translateX = useSharedValue(40)
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: withSpring(translateX.value * 2) }],
+  }))
   const { name, image, isSelected, pressHandler, count } = props
 
   const handlePress = () => {
+    translateX.value = +50
     pressHandler(name)
   }
 
   return (
-    <Pressable style={themed($wrapper)} onPress={handlePress}>
+    <Pressable style={[themed($wrapper)]} onPress={handlePress}>
       <Image
         source={image}
         style={themed([$image, isSelected && { borderWidth: 1, height: 50 }])}

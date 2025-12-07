@@ -49,7 +49,7 @@ const $titleWrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   alignItems: "center",
   paddingHorizontal: spacing.sm,
   position: "absolute",
-
+  top: 30,
   zIndex: 10,
 })
 

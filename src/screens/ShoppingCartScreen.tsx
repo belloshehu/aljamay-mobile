@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import { isRTL } from "@/i18n"
@@ -8,13 +8,17 @@ import { $styles } from "@/theme/styles"
 import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 import { TextField } from "@/components/TextField"
 import { Icon } from "@/components/Icon"
+import { useAuth } from "@/context/AuthContext"
+import { push } from "expo-router/build/global-state/routing"
+import { useRouter } from "expo-router"
+import { LoginScreen } from "./LoginScreen/LoginScreen"
 
 // @demo replace-next-line export const ShoppingCartScreen: FC = function ShoppingCartScreen(
 export const ShoppingCartScreen: FC = function ShoppingCartScreen() {
   const { themed, theme } = useAppTheme()
+  const { isAuthenticated } = useAuth()
 
-  const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
-
+  if (!isAuthenticated) return <LoginScreen />
   return (
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
       <View style={themed($topContainer)}>

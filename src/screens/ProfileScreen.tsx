@@ -9,25 +9,25 @@ import { $styles } from "@/theme/styles"
 import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 import { useRouter } from "expo-router"
 import { Text } from "@/components/Text"
+import { Button } from "@/components/Button"
 
 // @demo replace-next-line export const ProfileScreen: FC = function ProfileScreen(
 export const ProfileScreen: FC = function ProfileScreen() {
   const { themed, theme } = useAppTheme()
-  const { logout } = useAuth()
+  const { logout, isAuthenticated, authToken } = useAuth()
   const router = useRouter()
 
   function goNext() {
-    router.push("/login")
+    router.push("/(app)/(tabs)/user/(auth)/login")
   }
 
-  const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
-
   return (
-    <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
+    <Screen preset="auto">
       <View style={themed($topContainer)}>
         <Text tx="profileScreen:title" />
         <Text text="profile:username" />
       </View>
+      <Button text="Log out" onPress={logout} />
     </Screen>
   )
 }

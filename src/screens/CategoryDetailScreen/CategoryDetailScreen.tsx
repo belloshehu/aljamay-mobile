@@ -4,13 +4,12 @@ import { Screen } from "@/components/Screen"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { useLocalSearchParams, useRouter } from "expo-router"
+import { useLocalSearchParams } from "expo-router"
 import { Card } from "@/components/Card"
 import { Text } from "@/components/Text"
 import { ProductCategory, ProductType } from "types/product.types"
-import CategoryDetailHeader from "./ProductDetailHeader"
+import CategoryDetailHeader from "./CategoryDetailHeader"
 import { dummyProducts, productCategories } from "@/constants"
-import { translate } from "@/i18n/translate"
 import ProductList from "../ProductScreen/ProductList"
 
 // @demo replace-next-line export const CategoryDetailScreen: FC = function CategoryDetailScreen(
@@ -48,7 +47,7 @@ export const CategoryDetailScreen: FC = function CategoryDetailScreen() {
   if (isLoading) return <ActivityIndicator />
   if (!category) return <Card ContentComponent={<Text tx="categories:notFound" />} />
   return (
-    <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
+    <View style={$styles.flex1}>
       <View style={themed($container)}>
         <CategoryDetailHeader category={category} />
         <View style={themed($bottmoContainer)}>
@@ -56,7 +55,7 @@ export const CategoryDetailScreen: FC = function CategoryDetailScreen() {
           <ProductList products={products} isLoading={isLoading} />
         </View>
       </View>
-    </Screen>
+    </View>
   )
 }
 
@@ -74,5 +73,5 @@ const $bottmoContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingHorizontal: spacing.md,
   paddingTop: spacing.lg,
   marginTop: spacing.xl,
-  flex: 0.55,
+  flex: 0.68,
 })

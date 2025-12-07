@@ -1,7 +1,8 @@
 const palette = {
   neutral100: "#FFFFFF",
   neutral200: "#F4F2F1",
-  neutral300: "#D7CEC9",
+  // neutral300: "#D7CEC9",
+  neutral300: "#d9e0cc",
   neutral400: "#B6ACA6",
   neutral500: "#978F8A",
   neutral600: "#564E4A",
@@ -13,8 +14,10 @@ const palette = {
   primary200: "#E8C1B4",
   primary300: "#DDA28E",
   primary400: "#D28468",
-  primary500: "#C76542",
-  primary600: "#A54F31",
+  // primary500: "#C76542",
+  primary500: "#9bb166",
+  // primary600: "#A54F31",
+  primary600: "#ADF802",
 
   secondary100: "#DCDDE9",
   secondary200: "#BCC0D6",
@@ -28,7 +31,8 @@ const palette = {
   accent400: "#FBC878",
   accent500: "#FFBB50",
 
-  angry100: "#F2D6CD",
+  // angry100: "#F2D6CD",
+  angry100: "#c0df87",
   angry500: "#C03403",
 
   overlay20: "rgba(25, 16, 21, 0.2)",

@@ -1,7 +1,5 @@
-import { FC, JSX } from "react"
-import { Button } from "@/components/Button"
+import { FC } from "react"
 import {
-  Image,
   ImageBackground,
   ImageSourcePropType,
   ImageStyle,
