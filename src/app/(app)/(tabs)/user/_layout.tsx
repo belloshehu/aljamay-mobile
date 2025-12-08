@@ -15,6 +15,7 @@ export default function UserLayout() {
 
       <Tabs.Protected guard={isAuthenticated}>
         <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)/verification" options={{}} />
       </Tabs.Protected>
 
       <Stack.Protected guard={!isAuthenticated}>

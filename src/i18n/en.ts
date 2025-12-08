@@ -36,6 +36,10 @@ const en = {
   errors: {
     invalidEmail: "Invalid email address.",
   },
+  progress: {
+    wait: "Wait ...",
+    loading: "Loading ...",
+  },
   homeScreen: {
     searchPlaceholder: "Product name, category etc.",
   },
@@ -79,6 +83,14 @@ const en = {
     markettingPolicy: "Accept our marketting policies",
     privacyPolicy: "Accept our privacy policies",
   },
+  verification: {
+    sendVerificationCode: "Verify code",
+    verificationCodeFieldPlaceholder: "Enter verification code",
+    goToVerification: "Verify account",
+    heading: "Verification",
+    detail: "Enter the verification code sent to your email.",
+    resent: "Resent code",
+  },
   tabNavigator: {
     homeTab: "Home",
     categoriesTab: "Categories",
@@ -110,6 +122,7 @@ const en = {
       "Whether it's running a full project or getting teams up to speed with our hands-on training, Infinite Red can help with just about any React Native project.",
     hireUsLink: "Send us a message",
   },
+
   demoShowroomScreen: {
     jumpStart: "Components to jump start your project!",
     lorem2Sentences:

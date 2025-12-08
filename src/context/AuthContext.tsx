@@ -1,5 +1,14 @@
-import { createContext, FC, PropsWithChildren, useCallback, useContext, useMemo } from "react"
+import {
+  createContext,
+  FC,
+  PropsWithChildren,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react"
 import { useMMKVString } from "react-native-mmkv"
+import { UserType } from "types/auth.types"
 
 export type AuthContextType = {
   isAuthenticated: boolean
@@ -9,6 +18,8 @@ export type AuthContextType = {
   setAuthEmail: (email: string) => void
   logout: () => void
   validationError: string
+  user: UserType | null
+  login: (token: string, user: UserType) => void
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null)
@@ -18,11 +29,29 @@ export interface AuthProviderProps {}
 export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({ children }) => {
   const [authToken, setAuthToken] = useMMKVString("AuthProvider.authToken")
   const [authEmail, setAuthEmail] = useMMKVString("AuthProvider.authEmail")
+  const [user, setUser] = useState<UserType | null>(null)
 
   const logout = useCallback(() => {
     setAuthToken(undefined)
     setAuthEmail("")
+    setUser(null)
   }, [setAuthEmail, setAuthToken])
+
+  const login = useCallback(
+    (token: string, user: UserType) => {
+      if (token && user) {
+        setAuthToken(token)
+        setUser(user)
+      } else {
+        if (__DEV__) {
+          console.error("Invalid token or user")
+        }
+      }
+    },
+    [setAuthToken, setUser],
+  )
+
+  const refreshToken = useCallback(() => {}, [])
 
   const validationError = useMemo(() => {
     if (!authEmail || authEmail.length === 0) return "can't be blank"
@@ -39,6 +68,8 @@ export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({ childre
     setAuthEmail,
     logout,
     validationError,
+    login,
+    user,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

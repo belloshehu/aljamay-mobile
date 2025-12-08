@@ -1,5 +1,5 @@
-import { ProfileScreen } from "@/screens/ProfileScreen"
+import { AccountScreen } from "@/screens/AccountScreen/AccountScreen"
 
 export default function Profile() {
-  return <ProfileScreen />
+  return <AccountScreen />
 }

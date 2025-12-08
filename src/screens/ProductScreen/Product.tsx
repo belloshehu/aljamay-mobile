@@ -1,3 +1,4 @@
+import { Button } from "@/components/Button"
 import { Icon, PressableIcon } from "@/components/Icon"
 import Price from "@/components/product/Price"
 import { useAppTheme } from "@/theme/context"
@@ -49,11 +50,17 @@ const Product: FC<ProductProps> = (props: ProductProps) => {
           <Price
             price={price}
             discount={discount}
-            containerStyle={{ gap: 2 }}
-            discountWrapperStyle={{ paddingHorizontal: 5 }}
+            // containerStyle={{ gap: 2 }}
+            // discountWrapperStyle={{ paddingHorizontal: 5 }}
           />
-          <PressableIcon icon={"cart"} onPress={addToCart} style={themed($cardButton)} />
         </View>
+        <Button
+          LeftAccessory={() => <Icon icon="cart" size={20} />}
+          onPress={addToCart}
+          style={themed($cartButton)}
+          textStyle={themed($cartButtonText)}
+          tx="productDetail:cart"
+        />
       </View>
     </Pressable>
   )
@@ -92,11 +99,16 @@ const $priceWrapper: ThemedStyle<ViewStyle> = () => ({
   gap: 10,
 })
 
-const $cardButton: ThemedStyle<ImageStyle> = ({}) => ({
-  borderWidth: 1,
-  padding: 5,
-  paddingHorizontal: 15,
-  borderRadius: 20,
+const $cartButton: ThemedStyle<ImageStyle> = ({ spacing, colors }) => ({
+  padding: 0,
+  marginTop: spacing.sm,
+  gap: spacing.xs,
+  backgroundColor: colors.errorBackground,
+})
+
+const $cartButtonText: ThemedStyle<TextStyle> = ({ spacing }) => ({
+  fontSize: spacing.sm,
+  color: "#fff",
 })
 
 export default Product

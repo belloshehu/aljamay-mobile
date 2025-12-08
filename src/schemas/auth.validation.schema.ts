@@ -44,6 +44,11 @@ export const signupValidationSchema = z
     },
   )
 
+export const accountVerificationValidationSchema = z.object({
+  code: z.string().length(6, "Invalid verification code"),
+})
+
 // Type annotation for the auth schema
 export type SignupSchemaType = z.infer<typeof signupValidationSchema>
 export type LoginSchemaType = z.infer<typeof loginValidationSchema>
+export type AccountVerificationSchemaType = z.infer<typeof accountVerificationValidationSchema>
