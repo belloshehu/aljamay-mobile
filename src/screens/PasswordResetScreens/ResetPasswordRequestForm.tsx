@@ -5,22 +5,22 @@ import { View, ViewStyle } from "react-native"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
-  VerificationSchemaType,
-  verificationValidationSchema,
+  resetPasswordRequestValidationSchema,
+  ResetPasswordRequestSchemaType,
 } from "@/schemas/auth.validation.schema"
 import { TextField } from "@/components/TextField"
 import { Button } from "@/components/Button"
-import { useVerifyEmail } from "@/hooks/service-hooks/auth.service.hook"
+import { usePasswordResetRequest } from "@/hooks/service-hooks/auth.service.hook"
 import { useAxios } from "@/hooks/use-axios"
 
-interface AccountVerificationFormProps {
+interface ResetPasswordRequestFormProps {
   setError: Dispatch<SetStateAction<string>>
 }
 
-const AccountVerificationForm: FC<AccountVerificationFormProps> = (
-  props: AccountVerificationFormProps,
+const ResetPasswordRequestForm: FC<ResetPasswordRequestFormProps> = (
+  props: ResetPasswordRequestFormProps,
 ) => {
-  const { mutateAsync, isPending, error: verificationError } = useVerifyEmail()
+  const { mutateAsync, isPending, error: verificationError } = usePasswordResetRequest()
   const { protectedRequest } = useAxios()
 
   const { themed } = useAppTheme()
@@ -28,11 +28,11 @@ const AccountVerificationForm: FC<AccountVerificationFormProps> = (
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<VerificationSchemaType>({
-    resolver: zodResolver(verificationValidationSchema),
+  } = useForm<ResetPasswordRequestSchemaType>({
+    resolver: zodResolver(resetPasswordRequestValidationSchema),
   })
 
-  const onSubmit = (data: VerificationSchemaType) => {
+  const onSubmit = (data: ResetPasswordRequestSchemaType) => {
     mutateAsync({ payload: data, protectedRequest }).then(() => {
       props.setError("")
     })
@@ -50,7 +50,7 @@ const AccountVerificationForm: FC<AccountVerificationFormProps> = (
     <View style={themed($formContainer)}>
       <Controller
         control={control}
-        name="code"
+        name="email"
         render={({ field: { value, onChange, ref } }) => (
           <TextField
             value={value}
@@ -61,9 +61,9 @@ const AccountVerificationForm: FC<AccountVerificationFormProps> = (
             autoComplete="email"
             autoCorrect={false}
             keyboardType="email-address"
-            placeholderTx="verification:verificationCodeFieldPlaceholder"
-            helper={errors.code?.message}
-            status={errors.code ? "error" : undefined}
+            placeholderTx="loginScreen:emailFieldPlaceholder"
+            helper={errors.email?.message}
+            status={errors.email ? "error" : undefined}
             returnKeyType="done"
             onSubmitEditing={handleSubmit(onSubmit)}
           />
@@ -72,7 +72,7 @@ const AccountVerificationForm: FC<AccountVerificationFormProps> = (
 
       <Button
         testID="verifcation-button"
-        tx={isPending ? "loginScreen:loginProgress" : "verification:sendVerificationCode"}
+        tx={isPending ? "loginScreen:loginProgress" : "verification:forgotPassword.send"}
         style={themed($tapButton)}
         preset="reversed"
         onPress={handleSubmit(onSubmit)}
@@ -93,4 +93,4 @@ const $tapButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   backgroundColor: colors.errorBackground,
 })
 
-export default AccountVerificationForm
+export default ResetPasswordRequestForm

@@ -26,6 +26,9 @@ export interface RefreshTokenType {
   token: string
 }
 
+export interface VerificationType {
+  expiresIn: number
+}
 export type LoginResponseType = ResponseType<UserAuthType & RefreshTokenType>
 
 export type RegisterResponseType = ResponseType<UserAuthType>
@@ -33,5 +36,6 @@ export type LogoutResponseType = ResponseType<UserAuthType>
 
 export type GetUsersResponseType = ResponseType<UserType[]>
 export type GetUserResponseType = ResponseType<UserType>
+export type EmailVerificationCodeResponse = ResponseType<VerificationType>
 
 export type UserRole = "ADMIN" | "USER"

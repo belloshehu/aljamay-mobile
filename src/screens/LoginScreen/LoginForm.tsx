@@ -1,7 +1,7 @@
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { ComponentType, Dispatch, FC, SetStateAction, useEffect, useMemo, useState } from "react"
-import { View, ViewStyle } from "react-native"
+import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginValidationSchema, LoginSchemaType } from "@/schemas/auth.validation.schema"
@@ -11,6 +11,8 @@ import { colors } from "@/theme/colors"
 import { Button } from "@/components/Button"
 import { useLogin } from "@/hooks/service-hooks/auth.service.hook"
 import { useAxios } from "@/hooks/use-axios"
+import { Text } from "@/components/Text"
+import { useRouter } from "expo-router"
 
 interface LoginFormProps {
   setError: Dispatch<SetStateAction<string>>
@@ -20,6 +22,7 @@ const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
   const [isAuthPasswordHidden, setIsAuthPasswordHidden] = useState(true)
   const { mutateAsync, isPending, error: loginError, data, isSuccess } = useLogin()
   const { publicRequest } = useAxios()
+  const router = useRouter()
 
   const { themed } = useAppTheme()
   const {
@@ -105,6 +108,14 @@ const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
           />
         )}
       />
+      <Pressable
+        onPress={() => {
+          router.push("/(app)/(tabs)/user/(auth)/password-reset-request")
+        }}
+      >
+        <Text text="Forgot password" style={themed($forgotPasswordButtonText)} />
+      </Pressable>
+
       <Button
         testID="login-button"
         tx={isPending ? "loginScreen:loginProgress" : "loginScreen:tapToLogIn"}
@@ -124,8 +135,12 @@ const $textField: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 })
 
 const $tapButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  marginTop: spacing.xs,
+  marginTop: spacing.md,
   backgroundColor: colors.errorBackground,
+})
+
+const $forgotPasswordButtonText: ThemedStyle<TextStyle> = ({ colors }) => ({
+  color: colors.errorBackground,
 })
 
 export default LoginForm

@@ -44,11 +44,47 @@ export const signupValidationSchema = z
     },
   )
 
-export const accountVerificationValidationSchema = z.object({
+export const verificationValidationSchema = z.object({
   code: z.string().length(6, "Invalid verification code"),
 })
 
+export const resetPasswordRequestValidationSchema = z.object({
+  email: z.email("Invalid email address"),
+})
+
+//validation schema for password reset form
+export const resetPasswordValidationSchema = z
+  .object({
+    password: z
+      .string()
+      .regex(
+        /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/,
+        "Password must contain atleat: 1 lower case, 1 upper case, 1 special character ",
+      )
+
+      .min(8)
+      .max(16),
+    passwordRepeat: z
+      .string()
+      .regex(
+        /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/,
+        "Password must contain atleat: 1 lower case, 1 upper case, 1 special character ",
+      )
+      .min(8)
+      .max(16),
+  })
+  .refine(
+    (data) => {
+      return data.password === data.passwordRepeat
+    },
+    {
+      message: "Passwords do not match",
+      path: ["passwordRepeat"],
+    },
+  )
 // Type annotation for the auth schema
 export type SignupSchemaType = z.infer<typeof signupValidationSchema>
 export type LoginSchemaType = z.infer<typeof loginValidationSchema>
-export type AccountVerificationSchemaType = z.infer<typeof accountVerificationValidationSchema>
+export type VerificationSchemaType = z.infer<typeof verificationValidationSchema>
+export type ResetPasswordRequestSchemaType = z.infer<typeof resetPasswordRequestValidationSchema>
+export type ResetPasswordSchemaType = z.infer<typeof resetPasswordValidationSchema>

@@ -7,11 +7,11 @@ import { useAppTheme } from "@/theme/context"
 import { useRouter } from "expo-router"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
-import AccountVerificationForm from "./AccountVerificationForm"
 import { useRequestEmailVerificationCode } from "@/hooks/service-hooks/auth.service.hook"
+import ForgotPasswordVerificationForm from "./ResetPasswordForm"
 
 // @demo replace-next-line export const AccountVerificationScreen: FC = function AccountVerificationScreen(
-export const AccountVerificationScreen: FC = function AccountVerificationScreen() {
+export const ForgotPasswordVerificationScreen: FC = function ForgotPasswordVerificationScreen() {
   const { themed } = useAppTheme()
   const [verificationError, setverificationError] = useState("")
   const [enableCodeRequest, setEnableCodeRequest] = useState(false)
@@ -43,7 +43,7 @@ export const AccountVerificationScreen: FC = function AccountVerificationScreen(
         )}
       </View>
 
-      <AccountVerificationForm setError={setverificationError} />
+      <ForgotPasswordVerificationForm setError={setverificationError} />
       <Button
         tx={isFetching || isRefetching ? "progress:wait" : "verification:resent"}
         onPress={requestCode}

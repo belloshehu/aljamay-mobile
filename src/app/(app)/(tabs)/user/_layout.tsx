@@ -21,6 +21,10 @@ export default function UserLayout() {
       <Stack.Protected guard={!isAuthenticated}>
         <Stack.Screen name="(auth)/login" />
         <Stack.Screen name="(auth)/signup" />
+        <Stack.Screen name="(auth)/password-reset" />
+        <Stack.Screen name="(auth)/password-reset-request" />
+        <Stack.Screen name="(auth)/password-reset-verification" />
+        <Stack.Screen name="(auth)/password-reset-request-success" />
       </Stack.Protected>
     </Stack>
   )

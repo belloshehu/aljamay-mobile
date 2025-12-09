@@ -90,6 +90,17 @@ const en = {
     heading: "Verification",
     detail: "Enter the verification code sent to your email.",
     resent: "Resent code",
+    forgotPassword: {
+      confirm: "Enter your email address to receive link to reset password",
+      ok: "Reset password",
+      heading: "Password Reset",
+      send: "Send",
+      linkRequestSuccess: {
+        heading: "Link Success",
+        detail: "Reset link was sent to your email address. Kindly click the link to continue.",
+        okButton: "Ok",
+      },
+    },
   },
   tabNavigator: {
     homeTab: "Home",

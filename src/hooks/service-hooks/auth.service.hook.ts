@@ -3,10 +3,11 @@ import AuthServiceAPI from "@/services/api/auth.service.api"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useRouter } from "expo-router"
 import { useAxios } from "../use-axios"
+import { AxiosError } from "axios"
 // import { Toast } from "toastify-react-native"
 
 export const useLogin = () => {
-  const { setAuthToken, authToken, login } = useAuth()
+  const { login } = useAuth()
 
   return useMutation({
     mutationFn: AuthServiceAPI.login,
@@ -46,13 +47,12 @@ export const useSignup = () => {
   })
 }
 
-// Handle account verification request
-export const useVerifyAccount = () => {
+// Handle email verification request
+export const useVerifyEmail = () => {
   const router = useRouter()
   const { logout } = useAuth()
   return useMutation({
     mutationFn: AuthServiceAPI.verifyAccount,
-
     onSuccess: () => {
       logout()
       router.push("/(app)/(tabs)/user/(auth)/login")
@@ -69,12 +69,79 @@ export const useVerifyAccount = () => {
   })
 }
 
-export const useRequestVerificationCode = (enabled: boolean = false) => {
+export const useRequestEmailVerificationCode = (enabled: boolean = false) => {
   const { protectedRequest } = useAxios()
   return useQuery({
     queryFn: async () => AuthServiceAPI.requestVerificationCode({ protectedRequest }),
-    queryKey: ["verification"],
+    queryKey: ["email-verification"],
     enabled,
     refetchOnMount: false,
+  })
+}
+
+/* PASSWORD RESET HOOKS: */
+
+// Get verification code
+export const usePasswordResetRequest = () => {
+  const router = useRouter()
+  return useMutation({
+    mutationFn: AuthServiceAPI.requestPasswordReset,
+    onSuccess: () => {
+      router.push("/user/password-reset-request-success")
+      if (__DEV__) {
+        //console.log("Verified successfully", data.response)
+      }
+    },
+    onError: (error: any) => {
+      // Toast.error(error.response.data)
+      if (__DEV__) {
+        // console.log("Failed to verify account:", error.response.data)
+      }
+    },
+  })
+}
+
+// Confirm verification code recieved via email and sent it back to the server
+export const usePasswordResetVerification = () => {
+  const router = useRouter()
+  const { logout } = useAuth()
+  return useMutation({
+    mutationFn: AuthServiceAPI.verifyPasswordReset,
+    onSuccess: () => {
+      logout()
+      router.push("/user/password-reset")
+      if (__DEV__) {
+        //console.log("Verified successfully", data.response)
+      }
+    },
+    onError: (error: any) => {
+      // Toast.error(error.response.data)
+      if (__DEV__) {
+        // console.log("Failed to verify account:", error.response.data)
+      }
+    },
+  })
+}
+
+// Set the new user password
+export const usePasswordReset = () => {
+  const router = useRouter()
+  const { logout } = useAuth()
+  return useMutation({
+    mutationFn: AuthServiceAPI.passwordReset,
+    onSuccess: () => {
+      logout()
+      // use should login after successful password reset
+      router.push("/user/login")
+      if (__DEV__) {
+        //console.log("Verified successfully", data.response)
+      }
+    },
+    onError: (error: AxiosError) => {
+      // Toast.error(error.response.data)
+      if (__DEV__) {
+        // console.log("Failed to verify account:", error.response.data)
+      }
+    },
   })
 }

@@ -1,6 +1,7 @@
 import { SignupSchemaType } from "@/schemas/auth.validation.schema"
 import { AxiosInstance } from "axios"
-import { LoginPayload, LoginResponseType } from "types/auth.types"
+import { EmailVerificationCodeResponse, LoginPayload, LoginResponseType } from "types/auth.types"
+
 class AuthServiceAPI {
   static async login({
     publicRequest,
@@ -24,6 +25,7 @@ class AuthServiceAPI {
     return data
   }
 
+  /* EMAIL VERIFICATION: */
   static async verifyAccount({
     protectedRequest,
     payload,
@@ -36,7 +38,50 @@ class AuthServiceAPI {
   }
 
   static async requestVerificationCode({ protectedRequest }: { protectedRequest: AxiosInstance }) {
-    const { data } = await protectedRequest.get("/protected/send-code")
+    const { data } =
+      await protectedRequest.get<EmailVerificationCodeResponse>("/protected/send-code")
+    return data
+  }
+
+  /* PASS RESET: */
+
+  // Send request for password request with a registered email:
+  static async requestPasswordReset({
+    protectedRequest,
+    payload,
+  }: {
+    protectedRequest: AxiosInstance
+    payload: { email: string }
+  }) {
+    const { data } = await protectedRequest.post<EmailVerificationCodeResponse>(
+      "/protected/password-reset/send-reset-link",
+      payload,
+    )
+    return data
+  }
+
+  // Verify the code received via email before proceeding to enter new password:
+  static async verifyPasswordReset({ protectedRequest }: { protectedRequest: AxiosInstance }) {
+    const { data } = await protectedRequest.get<EmailVerificationCodeResponse>(
+      "/protected/password-reset/verify-password-reset",
+    )
+    return data
+  }
+
+  // Send post request to set new password for the user:
+  static async passwordReset({
+    protectedRequest,
+    payload,
+    token,
+  }: {
+    protectedRequest: AxiosInstance
+    payload: { password: string; passwordRepeat: string }
+    token: string
+  }) {
+    const { data } = await protectedRequest.post<EmailVerificationCodeResponse>(
+      "/protected/password-reset/reset?token=" + token,
+      payload,
+    )
     return data
   }
 }

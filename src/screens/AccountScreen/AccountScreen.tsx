@@ -11,17 +11,17 @@ import { useRouter } from "expo-router"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
 import styles from "toastify-react-native/components/styles"
-import { useRequestVerificationCode } from "@/hooks/service-hooks/auth.service.hook"
+import { useRequestEmailVerificationCode } from "@/hooks/service-hooks/auth.service.hook"
 
 const defaultProfileImage = require("@assets/images/users/man.png")
 // @demo replace-next-line export const AccountScreen: FC = function AccountScreen(
 export const AccountScreen: FC = function AccountScreen() {
   const { themed, theme } = useAppTheme()
-  const { logout, isAuthenticated, authToken, user } = useAuth()
+  const { logout, user } = useAuth()
   const router = useRouter()
   const [enableCodeRequest, setEnableCodeRequest] = useState(false)
   const { refetch, error, isSuccess, isRefetching, isFetching } =
-    useRequestVerificationCode(enableCodeRequest)
+    useRequestEmailVerificationCode(enableCodeRequest)
 
   function verifyAccount() {
     // reguest verification code
@@ -30,7 +30,7 @@ export const AccountScreen: FC = function AccountScreen() {
       refetch()
     }
     if (isSuccess) {
-      router.push("/(app)/(tabs)/user/(auth)/verification")
+      router.push("/(app)/(tabs)/user/(auth)/email-verification")
     }
   }
 
