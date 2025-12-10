@@ -1,5 +1,32 @@
 import { ProductCategory, ProductType } from "types/product.types"
+import { PromoItemType } from "types/promo.types"
 
+export const dummyPromo: PromoItemType[] = [
+  {
+    id: "i349893894894",
+    title: "New Year sale",
+    images: [
+      require("@assets/images/product/bread.jpg"),
+      require("@assets/images/product/bread.jpg"),
+    ],
+    description:
+      "Exlusive discount to mark the end of our business year of 2025. There will be price slashes across all our products",
+    startDate: new Date(),
+    stopDate: new Date(),
+  },
+  {
+    id: "i34989384475798224",
+    title: "Ramadan Sale",
+    images: [
+      require("@assets/images/product/bread.jpg"),
+      require("@assets/images/product/bread.jpg"),
+    ],
+    description:
+      "Exlusive discount for our Muslim customers who are observing Ramadan fasting. It a time of blessing, sharing and dedication.",
+    startDate: new Date(),
+    stopDate: new Date(),
+  },
+]
 export const productCategories: ProductCategory[] = [
   {
     name: "All",

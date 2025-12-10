@@ -18,7 +18,7 @@ export const HomeScreen: FC = function HomeScreen() {
   const router = useRouter()
 
   function goNext() {
-    router.push("/login")
+    router.push("/user/login")
   }
 
   // @demo remove-block-end

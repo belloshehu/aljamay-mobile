@@ -7,4 +7,5 @@
  */
 export default {
   API_URL: "https://aljamay.com/api",
+  MAX_CART_ITEM: 20, // Maximum allowable cart items
 }

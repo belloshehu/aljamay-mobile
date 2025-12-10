@@ -33,13 +33,14 @@ class AuthServiceAPI {
     protectedRequest: AxiosInstance
     payload: { code: string }
   }) {
-    const { data } = await protectedRequest.post("/protected/verify-code", payload)
+    const { data } = await protectedRequest.post("/native/protected/verify-code", payload)
     return data
   }
 
   static async requestVerificationCode({ protectedRequest }: { protectedRequest: AxiosInstance }) {
-    const { data } =
-      await protectedRequest.get<EmailVerificationCodeResponse>("/protected/send-code")
+    const { data } = await protectedRequest.get<EmailVerificationCodeResponse>(
+      "/native/protected/send-code",
+    )
     return data
   }
 
@@ -54,7 +55,7 @@ class AuthServiceAPI {
     payload: { email: string }
   }) {
     const { data } = await protectedRequest.post<EmailVerificationCodeResponse>(
-      "/protected/password-reset/send-reset-link",
+      "/native/password-reset/send-reset-link",
       payload,
     )
     return data
@@ -63,7 +64,7 @@ class AuthServiceAPI {
   // Verify the code received via email before proceeding to enter new password:
   static async verifyPasswordReset({ protectedRequest }: { protectedRequest: AxiosInstance }) {
     const { data } = await protectedRequest.get<EmailVerificationCodeResponse>(
-      "/protected/password-reset/verify-password-reset",
+      "/native/password-reset/verify-password-reset",
     )
     return data
   }
@@ -79,7 +80,7 @@ class AuthServiceAPI {
     token: string
   }) {
     const { data } = await protectedRequest.post<EmailVerificationCodeResponse>(
-      "/protected/password-reset/reset?token=" + token,
+      "/native/password-reset/reset?token=" + token,
       payload,
     )
     return data

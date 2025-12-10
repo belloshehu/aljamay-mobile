@@ -8,24 +8,22 @@ import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 import { useRouter } from "expo-router"
-import { Text } from "@/components/Text"
+import PromoList from "./PromoList"
+import { dummyPromo } from "@/constants"
 
 // @demo replace-next-line export const PromoScreen: FC = function PromoScreen(
 export const PromoScreen: FC = function PromoScreen() {
-  const { themed, theme } = useAppTheme()
-  const { logout } = useAuth()
+  const { themed } = useAppTheme()
   const router = useRouter()
 
   function goNext() {
-    router.push("/login")
+    router.push("/user/login")
   }
-
-  const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
 
   return (
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
       <View style={themed($topContainer)}>
-        <Text>List of promotions we have for you</Text>
+        <PromoList promos={dummyPromo} isLoading={false} />
       </View>
     </Screen>
   )

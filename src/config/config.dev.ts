@@ -7,4 +7,5 @@
  */
 export default {
   API_URL: "http://192.168.51.212:3000/api",
+  MAX_CART_ITEM: 20, // Maximum allowable cart items
 }

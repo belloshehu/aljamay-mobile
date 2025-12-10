@@ -49,9 +49,7 @@ export default function Layout() {
       <Tabs.Screen
         name="promo"
         options={{
-          headerShown: true,
-          header: (props) => <Header leftTx="promo:title" {...props} />,
-          tabBarLabel: translate("tabNavigator:promo"),
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <Icon icon="bell" color={focused ? colors.tint : undefined} size={30} />
           ),

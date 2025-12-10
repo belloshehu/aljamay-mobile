@@ -17,6 +17,15 @@ const productEn = {
   promo: {
     title: "Promos",
     description: "Various promotion plans to make your refreshment more affordable.",
+    notFound: "Promo not found",
+    countDown: "{{days}} days to go",
+    productList: "Products in the promo ({{count}})",
+  },
+  cart: {
+    loading: "Loading cart items",
+    noItems: "No cart items.",
+    title: "Cart Items {{count}}",
+    add: "Add a product",
   },
 }
 

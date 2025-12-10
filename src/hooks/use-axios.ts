@@ -4,7 +4,7 @@ import axios from "axios"
 import { useRouter } from "expo-router"
 
 export const useAxios = () => {
-  const { isAuthenticated, authToken, logout } = useAuth()
+  const { authToken, logout } = useAuth()
   const router = useRouter()
   const protectedRequest = axios.create({
     baseURL: Config.API_URL,
@@ -30,7 +30,7 @@ export const useAxios = () => {
       if (error?.response?.status === 401) {
         // logout when unauthenitcated error occurs
         logout()
-        router.push("/login")
+        router.push("/user/login")
       }
       return Promise.reject(error)
     },

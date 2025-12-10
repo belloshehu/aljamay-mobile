@@ -31,7 +31,7 @@ const Product: FC<ProductProps> = (props: ProductProps) => {
       stiffness: 200,
     })
 
-    router.push(("/(app)/(tabs)/(products)/product/" + id) as any)
+    router.push(("/product/" + id) as any)
   }
 
   const addToCart = () => {
