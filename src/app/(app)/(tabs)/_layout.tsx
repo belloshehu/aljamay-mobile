@@ -57,7 +57,7 @@ export default function Layout() {
       />
 
       <Tabs.Screen
-        name="shopping-cart"
+        name="shopping"
         options={{
           tabBarLabel: translate("tabNavigator:shoppingCartTab"),
           tabBarIcon: ({ focused }) => (

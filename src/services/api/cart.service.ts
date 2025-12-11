@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios"
+import axios, { AxiosError, AxiosInstance } from "axios"
 import { CartItemResponseType } from "types/cart.types"
 
 class CartServiceAPI {
@@ -8,7 +8,7 @@ class CartServiceAPI {
   }
 
   static async addToCart({ productId, quantity }: { productId: string; quantity: number }) {
-    const { data } = await axios.post("/api/cart", {
+    const { data } = await axios.post("/cart", {
       productId,
       quantity,
     })
@@ -17,12 +17,12 @@ class CartServiceAPI {
 
   static async removeFromCart({
     protectedRequest,
-    productId,
+    cartItemId,
   }: {
     protectedRequest: AxiosInstance
-    productId: string
+    cartItemId: string
   }) {
-    const { data } = await protectedRequest.delete(`/api/cart/${productId}`)
+    const { data } = await protectedRequest.delete(`/cart/${cartItemId}`)
     return data.data
   }
 
@@ -35,14 +35,14 @@ class CartServiceAPI {
     cartItemId: string
     quantity: number
   }) {
-    const { data } = await protectedRequest.patch(`/api/cart/${cartItemId}`, {
+    const { data } = await protectedRequest.patch(`/cart/${cartItemId}`, {
       quantity,
     })
     return data.data
   }
 
   static async clearCart() {
-    const { data } = await axios.delete("/api/cart")
+    const { data } = await axios.delete("/ cart")
     return data.data
   }
 }

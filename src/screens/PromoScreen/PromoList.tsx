@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, JSX, ReactNode } from "react"
 import { ActivityIndicator, FlatList, View, ViewStyle } from "react-native"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"

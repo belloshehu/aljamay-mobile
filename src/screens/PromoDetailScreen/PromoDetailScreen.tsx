@@ -18,6 +18,7 @@ export const PromoDetailScreen: FC = () => {
   const { id } = useLocalSearchParams<{ id: string }>()
   const [promo, setPromo] = useState<PromoItemType | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [showDescription, setShowhowDescription] = useState(true)
 
   useEffect(() => {
     setIsLoading(true)
@@ -35,14 +36,25 @@ export const PromoDetailScreen: FC = () => {
       <View style={themed($container)}>
         <PromoDetailHeader promo={promo} />
         <View style={themed($bottmoContainer)}>
-          <Text>{promo.description}</Text>
+          {showDescription && <Text>{promo.description}</Text>}
           <View>
-            <Text
-              tx="promo:productList"
-              txOptions={{ count: dummyProducts.length }}
-              style={themed($titleText)}
+            <ProductList
+              products={dummyProducts}
+              isLoading={false}
+              productListHeader={
+                <Text
+                  tx="promo:productList"
+                  txOptions={{ count: dummyProducts.length }}
+                  style={themed($titleText)}
+                />
+              }
+              onProductScoll={() => {
+                setShowhowDescription(false)
+              }}
+              onScrollEnd={() => {
+                setShowhowDescription(true)
+              }}
             />
-            <ProductList products={dummyProducts} isLoading={false} />
           </View>
         </View>
       </View>

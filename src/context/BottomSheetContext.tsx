@@ -23,7 +23,7 @@ type CustomBottomSheetContextType = {
   setBottomChildren: Dispatch<SetStateAction<ReactNode>>
 }
 
-const snapPoints = ["55%"]
+const _snapPoints = ["55%"]
 
 type CustomBottomSheetConextProviderType = {
   children: ReactNode
@@ -36,6 +36,7 @@ export const CustomBottomSheetContextProvider: FC<CustomBottomSheetConextProvide
 }) => {
   const [bottomChildren, setBottomChildren] = useState<ReactNode | null>(null)
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  // const [snapPoints, setSnapPoints] = useState<[]>(_snapPoints)
 
   const handleModalPreset = useCallback(() => bottomSheetModalRef.current?.present(), [])
 
@@ -50,10 +51,11 @@ export const CustomBottomSheetContextProvider: FC<CustomBottomSheetConextProvide
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
-          snapPoints={snapPoints}
+          snapPoints={_snapPoints}
           onDismiss={() => {
             setBottomChildren(null)
           }}
+          enableDynamicSizing
           backgroundStyle={{ backgroundColor: "rgba(250, 250, 250, 1)" }}
         >
           <BottomSheetScrollView contentContainerStyle={styles.bottomSheetView}>

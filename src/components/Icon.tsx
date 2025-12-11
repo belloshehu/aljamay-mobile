@@ -54,7 +54,7 @@ export function PressableIcon(props: PressableIconProps) {
   const {
     icon,
     color,
-    size,
+    size = 20,
     style: $imageStyleOverride,
     containerStyle: $containerStyleOverride,
     ...pressableProps
@@ -87,7 +87,7 @@ export function Icon(props: IconProps) {
   const {
     icon,
     color,
-    size,
+    size = 20,
     style: $imageStyleOverride,
     containerStyle: $containerStyleOverride,
     ...viewProps
@@ -137,6 +137,7 @@ export const iconRegistry = {
   cart: require("@assets/icons/cart.png"),
   user: require("@assets/icons/user.png"),
   delete: require("@assets/icons/delete.png"),
+  plus: require("@assets/icons/plus.png"),
 }
 
 const $imageStyleBase: ImageStyle = {

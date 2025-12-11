@@ -1,7 +1,7 @@
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { FC } from "react"
-import { Image, ImageStyle, View, ViewStyle } from "react-native"
+import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { CartItemType } from "types/cart.types"
 import { Text } from "../Text"
 import Price from "../product/Price"
@@ -22,7 +22,7 @@ export const CartItem: FC<CartItemProps> = (props: CartItemProps) => {
   const { mutate, isPending } = useRemoveFromCart()
   const { mutate: updateQuantity, isPending: isUpdating } = useUpdateCartItemQuantity()
   const {
-    product: { image, name, price, discount, id },
+    product: { image, name, price, discount },
     quantity,
     id: cartItemId,
   } = props
@@ -38,7 +38,7 @@ export const CartItem: FC<CartItemProps> = (props: CartItemProps) => {
 
   const { protectedRequest } = useAxios()
   const handleDelete = () => {
-    mutate({ productId: id, protectedRequest })
+    mutate({ cartItemId, protectedRequest })
   }
 
   const increase = () => {
@@ -52,40 +52,61 @@ export const CartItem: FC<CartItemProps> = (props: CartItemProps) => {
     }
     stepDecrease()
   }
-
   return (
-    <View style={themed($wrapper)}>
+    <View style={themed($mainContainer)}>
+      <View style={themed($wrapper)}>
+        <Image src={image as any} alt={name} style={themed($image)} />
+        <View>
+          <Text text={name} style={themed($name)} />
+          <Price price={price * count} discount={discount * count} />
+        </View>
+      </View>
+      <Counter onDecrese={decrease} onIncrease={increase} count={count} />
       <PressableIcon
         icon="delete"
-        style={themed($deleteButton)}
+        containerStyle={themed($deleteButton)}
         disabled={isPending}
         onPress={handleDelete}
+        color="black"
+        size={24}
       />
-      <Image source={image as any} alt={name} style={themed($image)} />
-      <View>
-        <Text text={name} />
-        <Price price={price * count} discount={discount} />
-        <Counter onDecrese={decrease} onIncrease={increase} count={count} />
-      </View>
     </View>
   )
 }
 
 const $deleteButton: ThemedStyle<ImageStyle> = ({}) => ({
   position: "absolute",
-  right: 10,
   top: 10,
+  right: 10,
 })
 
-const $wrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
+  width: "100%",
+  padding: spacing.xs,
+  backgroundColor: "#fff",
+  borderRadius: spacing.md,
+  paddingBottom: spacing.sm,
+  height: "auto",
+})
+
+const $wrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   width: "100%",
   gap: spacing.sm,
   flexDirection: "row",
+  position: "relative",
+  alignItems: "center",
 })
 
 const $image: ThemedStyle<ImageStyle> = ({ spacing }) => ({
   borderTopLeftRadius: spacing.md,
   borderTopRightRadius: spacing.md,
-  width: "100%",
-  height: 150,
+  width: 150,
+  height: 120,
+  resizeMode: "contain",
+})
+
+const $name: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
+  fontSize: spacing.md,
+  fontWeight: "600",
+  color: colors.errorBackground,
 })

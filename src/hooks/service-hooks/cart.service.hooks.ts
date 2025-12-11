@@ -2,6 +2,7 @@ import CartServiceAPI from "@/services/api/cart.service"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Toast from "react-native-toast-message"
 import { useAxios } from "../use-axios"
+import { AxiosError } from "axios"
 
 export const useGetCartItems = () => {
   const { protectedRequest } = useAxios()
@@ -26,7 +27,7 @@ export const useAddToCart = () => {
       })
       queryClient.invalidateQueries({ queryKey: ["cartItems"] })
     },
-    onError: (error) => {
+    onError: (error: AxiosError<{ error: string }>) => {
       Toast.show({
         type: "error",
         text1: `Error adding to cart: ${error instanceof Error ? error.message : "Unknown error"}`,
@@ -47,7 +48,7 @@ export const useRemoveFromCart = () => {
       })
       queryClient.invalidateQueries({ queryKey: ["cartItems"] })
     },
-    onError: (error) => {
+    onError: (error: AxiosError<{ error: string }>) => {
       Toast.show({
         type: "error",
         text1: `Error removing from cart: ${error instanceof Error ? error.message : "Unknown error"}`,
@@ -62,18 +63,13 @@ export const useUpdateCartItemQuantity = () => {
   return useMutation({
     mutationFn: CartServiceAPI.updateCartItemQuantity,
     onSuccess: () => {
-      Toast.show({
-        type: "error",
-        text1: "Cart item quantity updated",
-      })
       queryClient.invalidateQueries({ queryKey: ["cartItems"] })
     },
-    onError: (error) => {
+    onError: (error: AxiosError<{ error: string }>) => {
       Toast.show({
         type: "error",
-        text1: `Error updating cart item quantity: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`,
+        text1: `Error updating cart item quantity: `,
+        text2: error.response?.data.error,
       })
     },
   })

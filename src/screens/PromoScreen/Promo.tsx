@@ -51,8 +51,6 @@ const $content: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   width: "100%",
   padding: spacing.xl,
   alignItems: "center",
-  elevation: 1,
-  shadowRadius: 1,
 })
 
 export const $dateWrapper: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
