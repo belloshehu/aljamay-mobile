@@ -5,6 +5,7 @@ const productEn = {
     cart: "Add to cart",
     discount: "Off",
     empty: "No products yet",
+    goToList: "Check other products",
   },
   categories: {
     title: "Product Categories ",
@@ -43,6 +44,15 @@ const productEn = {
       loading: "Loading address",
       empty: "No addresses",
     },
+  },
+  order: {
+    title: "Orders ({{count}})",
+    loadingMany: "Loading orders",
+    loadingOne: "Loading order",
+    emptyMany: "No orders",
+    emptyOne: "No order",
+    goToCart: "Go to cart",
+    orderHeading: "Ordered on, {{date}}",
   },
 }
 

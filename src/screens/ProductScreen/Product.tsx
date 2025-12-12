@@ -5,7 +5,7 @@ import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { useRouter } from "expo-router"
 import { FC } from "react"
-import { ImageStyle, Pressable, Text, TextStyle, View, ViewStyle } from "react-native"
+import { Image, ImageStyle, Pressable, Text, TextStyle, View, ViewStyle } from "react-native"
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated"
 import { ProductType } from "types/product.types"
 
@@ -43,7 +43,7 @@ const Product: FC<ProductProps> = (props: ProductProps) => {
       style={[themed($container), { transform: animatedStyle.transform }]}
       onPress={goToDetailScreen}
     >
-      <Animated.Image source={image as any} alt={name} style={themed($image)} />
+      <Image src={image as any} alt={name} style={themed($image)} />
       <View style={themed($footer)}>
         <Text style={themed($name)}>{name}</Text>
         <View style={themed($priceWrapper)}>
@@ -78,6 +78,7 @@ const $image: ThemedStyle<ImageStyle> = ({ spacing }) => ({
   borderTopRightRadius: spacing.md,
   width: "100%",
   height: 150,
+  resizeMode: "contain",
 })
 
 const $footer: ThemedStyle<ViewStyle> = ({ spacing }) => ({

@@ -6,6 +6,7 @@ import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import ProductList from "../../screens/ProductScreen/ProductList"
 import { dummyProducts } from "@/constants"
+import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
 
 interface ProductCategoryListProps {
   categories: ProductCategory[]
@@ -15,6 +16,7 @@ const ProductCategoryList: FC<ProductCategoryListProps> = (props: ProductCategor
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [products, setProducts] = useState<ProductType[] | null>(dummyProducts)
   const { categories } = props
+  const { isLoading, data } = useGetProducts({})
 
   const handleItemClick = (name: string) => {
     if (name) {
@@ -52,7 +54,7 @@ const ProductCategoryList: FC<ProductCategoryListProps> = (props: ProductCategor
           />
         ))}
       </ScrollView>
-      <ProductList products={products} isLoading={false} />
+      <ProductList products={data!} isLoading={isLoading} />
     </View>
   )
 }

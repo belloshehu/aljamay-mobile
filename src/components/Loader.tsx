@@ -12,7 +12,7 @@ const Loader: FC<LoaderProps> = (props: LoaderProps) => {
   return (
     <View style={themed($wrapper)}>
       <ActivityIndicator size={"large"} />
-      <Text text={props.loadingText || "Loading..."} />
+      <Text tx={props.loadingText || "common:loading"} />
     </View>
   )
 }

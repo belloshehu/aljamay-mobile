@@ -14,7 +14,6 @@ import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import { useAuth } from "@/context/AuthContext"
-import { LoginScreen } from "@/screens/LoginScreen/LoginScreen"
 import { useGetCartItems } from "@/hooks/service-hooks/cart.service.hooks"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
@@ -28,37 +27,40 @@ import { useGetDefaultShippingAddress } from "@/hooks/service-hooks/shipping.ser
 import { ShippingAddress } from "./ShippingAddress"
 import Loader from "@/components/Loader"
 import { PaymentButton } from "@/screens/CheckoutScreen/PaymentButton"
+import { LoginScreen } from "../LoginScreen/LoginScreen"
+import { UserType } from "types/auth.types"
 
 // @demo replace-next-line export const CheckoutScreen: FC = function CheckoutScreen(
-export const CheckoutScreen: FC = function CheckoutScreen() {
+export const CheckoutScreen: FC = () => {
   const { themed } = useAppTheme()
-  const { isAuthenticated } = useAuth()
-  const { isLoading, data } = useGetCartItems()
+  const { isAuthenticated, user } = useAuth()
+  const { isLoading, data: cartItems } = useGetCartItems()
   const { setBottomChildren, handleModalPreset } = useBottomSheetContext()
   const { data: defaultAddress, isLoading: loadingDefaultAddress } = useGetDefaultShippingAddress()
 
   useEffect(() => {
-    if (!data || data.length === 0) {
+    if (!cartItems || cartItems.length === 0) {
       replace("/shopping")
     }
   })
+
   const addProduct = () => {
     replace("/")
   }
 
   const totalPrice = useMemo(() => {
-    if (data) {
-      return data?.reduce((prev, next) => prev + next.product.price * next.quantity, 0)
+    if (cartItems) {
+      return cartItems?.reduce((prev, next) => prev + next.product.price * next.quantity, 0)
     }
     return 0
-  }, [data])
+  }, [cartItems])
 
   const totalDiscount = useMemo(() => {
-    if (data) {
-      return data?.reduce((prev, next) => prev + next.product.discount * next.quantity, 0)
+    if (cartItems) {
+      return cartItems?.reduce((prev, next) => prev + next.product.discount * next.quantity, 0)
     }
     return 0
-  }, [data])
+  }, [cartItems])
 
   const showAddressBottomSheet = () => {
     setBottomChildren(<ShippingAddressBottomSheetChildren />)
@@ -86,7 +88,7 @@ export const CheckoutScreen: FC = function CheckoutScreen() {
       </Screen>
     )
 
-  if (!data || data.length === 0)
+  if (!cartItems || cartItems.length === 0)
     return (
       <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
         <View
@@ -96,7 +98,7 @@ export const CheckoutScreen: FC = function CheckoutScreen() {
             source={require("@assets/images/cart.png")}
             width={50}
             height={50}
-            style={themed($Checkout)}
+            style={themed($checkout)}
           />
           <Text tx="cart:noItems" />
           <Button
@@ -112,15 +114,19 @@ export const CheckoutScreen: FC = function CheckoutScreen() {
     <Screen preset="fixed" contentContainerStyle={{ ...$styles.flex1, padding: 0, margin: 0 }}>
       <View style={themed($container)}>
         <View style={themed($header)}>
-          <Text tx="checkout:title" txOptions={{ count: data.length }} style={themed($titleText)} />
+          <Text
+            tx="checkout:title"
+            txOptions={{ count: cartItems.length }}
+            style={themed($titleText)}
+          />
           <Price price={totalPrice} priceStyle={themed($priceText)} discount={totalDiscount} />
         </View>
         <View style={{ flex: 0.5 }}>
-          <Text tx="checkout:productSection.count" txOptions={{ count: data.length }} />
+          <Text tx="checkout:productSection.count" txOptions={{ count: cartItems.length }} />
           <FlatList
             contentContainerStyle={themed($horizontalScroll)}
             horizontal={true}
-            data={data}
+            data={cartItems}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <CartItem {...item} key={item.id} />}
           />
@@ -156,22 +162,16 @@ export const CheckoutScreen: FC = function CheckoutScreen() {
             <Text tx="checkout:shippingAddress.empty" />
           )}
         </View>
-        <PaymentButton
-          amount={totalPrice}
-          onClose={() => {}}
-          onSuccess={(data) => {
-            console.log(data)
-          }}
-          publicKey={"ueeuiriur"}
-          disabled={!totalPrice}
-        />
-
-        {/* <Button
-          textStyle={themed($orderButtonText)}
-          tx="checkout:proceedToPayment"
-          preset="reversed"
-          style={themed($orderButton)}
-        /> */}
+        {defaultAddress && (
+          <PaymentButton
+            shippingAddress={defaultAddress![0]}
+            cartItems={cartItems}
+            totalAmount={totalPrice + 0}
+            onClose={() => {}}
+            user={user as UserType}
+            disabled={!totalPrice || isLoading || loadingDefaultAddress}
+          />
+        )}
       </View>
     </Screen>
   )
@@ -192,21 +192,10 @@ const $header: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   marginBottom: spacing.xs,
 })
 
-const $orderButtonText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.background,
-})
-
 const $icon: ThemedStyle<ImageStyle> = ({ spacing, colors }) => ({
   borderRadius: spacing.xl,
   backgroundColor: colors.errorBackground,
   width: 20,
-})
-
-const $orderButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  borderRadius: spacing.xl,
-  backgroundColor: colors.errorBackground,
-  paddingHorizontal: spacing.xxl,
-  width: "100%",
 })
 
 const $container: ThemedStyle<ViewStyle> = ({ spacing }) => ({
@@ -218,7 +207,7 @@ const $container: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flex: 1,
 })
 
-const $Checkout: ThemedStyle<ImageStyle> = ({ spacing }) => ({
+const $checkout: ThemedStyle<ImageStyle> = ({ spacing }) => ({
   height: 300,
   width: 300,
   transform: [{ scaleX: isRTL ? -1 : 1 }],

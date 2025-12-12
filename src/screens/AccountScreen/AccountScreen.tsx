@@ -1,22 +1,22 @@
 import { FC, useState } from "react"
-import { ActivityIndicator, Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import { useAuth } from "@/context/AuthContext" // @demo remove-current-line
 import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 import { useRouter } from "expo-router"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
-import styles from "toastify-react-native/components/styles"
 import { useRequestEmailVerificationCode } from "@/hooks/service-hooks/auth.service.hook"
+import { AccountItem } from "./AccountItem"
+import { push } from "expo-router/build/global-state/routing"
 
 const defaultProfileImage = require("@assets/images/users/man.png")
 // @demo replace-next-line export const AccountScreen: FC = function AccountScreen(
 export const AccountScreen: FC = function AccountScreen() {
-  const { themed, theme } = useAppTheme()
+  const { themed } = useAppTheme()
   const { logout, user } = useAuth()
   const router = useRouter()
   const [enableCodeRequest, setEnableCodeRequest] = useState(false)
@@ -34,6 +34,18 @@ export const AccountScreen: FC = function AccountScreen() {
     }
   }
 
+  const goToOrders = () => {
+    push("/user/orders")
+  }
+
+  const goToMessages = () => {
+    push("/user/messages")
+  }
+
+  const goToReviews = () => {
+    push("/user/orders")
+  }
+
   return (
     <Screen preset="auto" contentContainerStyle={$styles.flex1}>
       <View style={themed($mainContainer)}>
@@ -41,6 +53,26 @@ export const AccountScreen: FC = function AccountScreen() {
           <Image source={defaultProfileImage} style={themed($profileFace)} />
           <Text text={user?.firstName + " " + user?.lastName} style={themed($names)} />
           <Text text={user?.email} />
+        </View>
+        <View style={{ gap: 5, flex: 0.4 }}>
+          <AccountItem
+            icon="order"
+            title="profileScreen:accountItem.orders"
+            count={0}
+            onPress={goToOrders}
+          />
+          <AccountItem
+            icon="message"
+            title="profileScreen:accountItem.messages"
+            count={0}
+            onPress={goToMessages}
+          />
+          <AccountItem
+            icon="review"
+            title="profileScreen:accountItem.reviews"
+            count={0}
+            onPress={goToReviews}
+          />
         </View>
 
         {error && <Text text={error.message} />}
@@ -74,19 +106,8 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingHorizontal: spacing.lg,
   paddingTop: spacing.md,
   width: "100%",
-  flex: 0.92,
+  flex: 0.7,
   gap: spacing.xs,
-})
-
-const $bottomContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  flexShrink: 1,
-  flexGrow: 0,
-  flexBasis: "43%",
-  backgroundColor: colors.palette.neutral100,
-  borderTopLeftRadius: 16,
-  borderTopRightRadius: 16,
-  paddingHorizontal: spacing.lg,
-  justifyContent: "space-around",
 })
 
 const $profileFace: ImageStyle = {
@@ -95,10 +116,6 @@ const $profileFace: ImageStyle = {
   transform: [{ scaleX: isRTL ? -1 : 1 }],
   resizeMode: "contain",
 }
-
-const $ProfileHeading: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  marginBottom: spacing.md,
-})
 
 const $names: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
   fontWeight: "bold",

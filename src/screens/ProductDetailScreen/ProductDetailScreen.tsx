@@ -15,6 +15,8 @@ import { Icon } from "@/components/Icon"
 import Price from "@/components/product/Price"
 import { useBottomSheetContext } from "@/context/BottomSheetContext"
 import AddProductToCart from "@/components/shoppingCart/AddProductToCart"
+import { Screen } from "@/components/Screen"
+import { push } from "expo-router/build/global-state/routing"
 
 // @demo replace-next-line export const ProductDetailScreen: FC = function ProductDetailScreen(
 export const ProductDetailScreen: FC = function ProductDetailScreen() {
@@ -40,9 +42,26 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
     )
     handleModalPreset()
   }
-
+  const goToList = () => {
+    push("/")
+  }
   if (isLoading) return <ActivityIndicator />
-  if (!product) return <Card ContentComponent={<Text tx="productDetail:notFound" />} />
+  if (!product)
+    return (
+      <Screen style={[$styles.container, { gap: 15 }]}>
+        <View style={themed($container)}>
+          <Card
+            ContentComponent={<Text tx="productDetail:notFound" style={{ textAlign: "center" }} />}
+          />
+          <Button
+            tx="productDetail:goToList"
+            preset="filled"
+            style={{ width: "100%" }}
+            onPress={goToList}
+          />
+        </View>
+      </Screen>
+    )
   return (
     <View style={$styles.flex1}>
       <View style={themed($container)}>

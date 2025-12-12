@@ -10,6 +10,7 @@ const en = {
     cancel: "Cancel",
     back: "Back",
     logOut: "Log Out", // @demo remove-current-line
+    loading: "Loading ...",
   },
   welcomeScreen: {
     postscript:
@@ -45,6 +46,19 @@ const en = {
   },
   profileScreen: {
     title: "My profile",
+    accountItem: {
+      orders: "Your orders ({{count}})",
+      messages: "Messages ({{count}})",
+      reviews: "Reviews ({{count}})",
+    },
+  },
+  messageScreen: {
+    title: "Messages ({{count}})",
+    loadingMany: "Loading messages ...",
+    loadingOne: "Loading message ...",
+    emptyOne: "No message",
+    emptyMany: "No messages",
+    goToProfile: "Go to profile",
   },
   shoppingCartScreen: {
     searchPlaceholder: "Product name, category etc.",
