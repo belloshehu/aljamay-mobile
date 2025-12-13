@@ -9,6 +9,8 @@ import Price from "../product/Price"
 import Config from "@/config"
 import { useStepChange } from "@/hooks/useCount"
 import { Counter } from "../Counter"
+import { useAddToCart } from "@/hooks/service-hooks/cart.service.hooks"
+import { useAxios } from "@/hooks/use-axios"
 
 /*
   Component with - and + buttons to add certain number of product to shopping cart
@@ -23,13 +25,16 @@ interface AddProductToCartProps extends BottomSheetChildrenProps {
 const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProps) => {
   const { themed } = useAppTheme()
   const { handleBottomSheetClose, product } = props
+  const { mutateAsync, isPending } = useAddToCart()
+  const { protectedRequest } = useAxios()
   const {
     stepDecrease,
     stepIncrease,
     step: count,
   } = useStepChange({ defaultValue: 1, lowerLimit: 1, upperLimit: Config.MAX_CART_ITEM })
 
-  const addToCart = () => {
+  const addToCart = async () => {
+    await mutateAsync({ productId: product.id, quantity: count, protectedRequest })
     handleBottomSheetClose && handleBottomSheetClose()
   }
 
@@ -42,6 +47,7 @@ const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProp
         onPress={addToCart}
         preset="filled"
         style={{ width: "100%" }}
+        disabled={isPending}
       />
     </View>
   )
@@ -53,20 +59,6 @@ const $container: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   width: "100%",
   justifyContent: "center",
   alignItems: "center",
-})
-
-const $countButton: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingHorizontal: spacing.xl,
-})
-
-const $countBtnTextStyle: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  fontWeight: "500",
-  fontSize: spacing.lg,
-})
-
-const $countTextStyle: ThemedStyle<TextStyle> = ({}) => ({
-  fontWeight: "500",
-  textAlign: "center",
 })
 
 const $priceTextStyle: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({

@@ -2,7 +2,6 @@ import { Icon } from "@/components/Icon"
 import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
-import { useRouter } from "expo-router"
 import { goBack } from "expo-router/build/global-state/routing"
 import { FC } from "react"
 import { Pressable, ViewStyle, View, TextStyle, Image, ImageStyle } from "react-native"
@@ -16,7 +15,6 @@ const ProductDetailHeader: FC<ProductDetailHeaderProps> = (props: ProductDetailH
     product: { name, image },
   } = props
   const { themed } = useAppTheme()
-  const router = useRouter()
   return (
     <View style={themed($header)}>
       <View style={themed($titleWrapper)}>
@@ -25,7 +23,7 @@ const ProductDetailHeader: FC<ProductDetailHeaderProps> = (props: ProductDetailH
         </Pressable>
         <Text text={name} style={themed($titleText)} />
       </View>
-      <Image source={image as any} style={themed($image)} />
+      <Image src={image as any} style={themed($image)} />
     </View>
   )
 }

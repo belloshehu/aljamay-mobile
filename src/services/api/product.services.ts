@@ -19,13 +19,27 @@ class ProductServiceAPI {
     return data.data
   }
 
-  static async getSingleProduct({ productId }: { productId: string }) {
-    const { data } = await axios.get<SingleProductResponseType>("/api/product/" + productId)
+  static async getSingleProduct({
+    publicRequest,
+    productId,
+  }: {
+    productId: string
+    publicRequest: AxiosInstance
+  }) {
+    const { data } = await publicRequest.get<SingleProductResponseType>("/product/" + productId)
     return data.data
   }
 
-  static async deleteProductById({ productId }: { productId: string }) {
-    const { data } = await axios.delete<SingleProductResponseType>("/api/product/" + productId)
+  static async deleteProductById({
+    protectedRequest,
+    productId,
+  }: {
+    productId: string
+    protectedRequest: AxiosInstance
+  }) {
+    const { data } = await protectedRequest.delete<SingleProductResponseType>(
+      "/product/" + productId,
+    )
     return data.data
   }
 }

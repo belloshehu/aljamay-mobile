@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { FC } from "react"
 import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
@@ -6,8 +6,6 @@ import { $styles } from "@/theme/styles"
 import { useLocalSearchParams } from "expo-router"
 
 import ProductDetailHeader from "../ProductScreen/ProductDetailHeader"
-import { ProductType } from "types/product.types"
-import { dummyProducts } from "@/constants"
 import { Card } from "@/components/Card"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
@@ -17,23 +15,14 @@ import { useBottomSheetContext } from "@/context/BottomSheetContext"
 import AddProductToCart from "@/components/shoppingCart/AddProductToCart"
 import { Screen } from "@/components/Screen"
 import { push } from "expo-router/build/global-state/routing"
+import { useGetProductById } from "@/hooks/service-hooks/product.service.hooks"
 
 // @demo replace-next-line export const ProductDetailScreen: FC = function ProductDetailScreen(
 export const ProductDetailScreen: FC = function ProductDetailScreen() {
-  const { themed } = useAppTheme()
+  const { themed, theme } = useAppTheme()
   const { id } = useLocalSearchParams<{ id: string }>()
-  const [product, setProduct] = useState<ProductType | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
   const { handleModalDismiss, setBottomChildren, handleModalPreset } = useBottomSheetContext()
-
-  useEffect(() => {
-    setIsLoading(true)
-    const filteredProduct = dummyProducts.find((product) => product.id === id)
-    if (filteredProduct) {
-      setProduct(filteredProduct)
-    }
-    setIsLoading(false)
-  }, [id])
+  const { data: product, isLoading } = useGetProductById(id)
 
   // Press handle that triggers a bottomsheet to add product
   const showAddToCartBottomSheet = () => {
@@ -75,19 +64,22 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
               discountStyle={themed($discount)}
             />
             <Button
-              tx="productDetail:cart"
+              // tx="productDetail:cart"
               LeftAccessory={() => <Icon icon="cart" />}
               style={themed($cartButton)}
-              preset="default"
               onPress={showAddToCartBottomSheet}
+              textStyle={{ color: "#fff" }}
             />
           </View>
+          <Text text={product.quantity + " in stock"} style={themed($quantity)} />
+
           <View style={themed($buttonWrapper)}>
             <Button
               textStyle={themed($orderButtonText)}
               tx="productDetail:checkout"
               preset="reversed"
               style={themed($orderButton)}
+              onPress={() => push("/shopping/checkout")}
             />
           </View>
           <Text>{product.description}</Text>
@@ -106,6 +98,14 @@ const $price: ThemedStyle<TextStyle> = ({ spacing, colors, typography }) => ({
 
 const $discount: ThemedStyle<TextStyle> = ({ spacing }) => ({
   fontSize: spacing.md,
+})
+
+const $quantity: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
+  fontSize: spacing.md,
+  padding: spacing.xs,
+  borderRadius: spacing.sm,
+  borderColor: colors.errorBackground,
+  borderWidth: 1,
 })
 
 const $orderButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
@@ -140,7 +140,7 @@ const $container: ThemedStyle<ViewStyle> = ({}) => ({
 const $bottmoContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   justifyContent: "flex-start",
   alignItems: "flex-start",
-  gap: 20,
+  gap: 10,
   paddingHorizontal: spacing.md,
   paddingTop: spacing.lg,
   marginTop: spacing.xl,

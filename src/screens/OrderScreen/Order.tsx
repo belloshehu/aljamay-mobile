@@ -22,7 +22,7 @@ export const Order: FC<OrderProps> = (props: OrderProps) => {
   return (
     <View style={themed($mainContainer)}>
       <View style={themed($header)}>
-        <Text tx="order:orderHeading" txOptions={{ date: formatDate(createdAt.toString()) }} />
+        <Text tx="order:orderHeading" txOptions={{ date: formatDate(createdAt?.toString()!) }} />
         <Price price={totalAmount} />
       </View>
       <View style={themed($wrapper)}>
@@ -34,7 +34,7 @@ export const Order: FC<OrderProps> = (props: OrderProps) => {
   )
 }
 
-const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
+const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   width: "100%",
   padding: spacing.xs,
   backgroundColor: "#fff",
@@ -43,7 +43,7 @@ const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   height: "auto",
 })
 
-const $wrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
+const $wrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   width: "100%",
   gap: spacing.sm,
   flexDirection: "row",

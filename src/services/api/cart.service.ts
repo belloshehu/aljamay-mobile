@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from "axios"
+import axios, { AxiosInstance } from "axios"
 import { CartItemResponseType } from "types/cart.types"
 
 class CartServiceAPI {
@@ -7,8 +7,16 @@ class CartServiceAPI {
     return data.data
   }
 
-  static async addToCart({ productId, quantity }: { productId: string; quantity: number }) {
-    const { data } = await axios.post("/cart", {
+  static async addToCart({
+    protectedRequest,
+    productId,
+    quantity,
+  }: {
+    productId: string
+    quantity: number
+    protectedRequest: AxiosInstance
+  }) {
+    const { data } = await protectedRequest.post("/cart", {
       productId,
       quantity,
     })

@@ -36,6 +36,7 @@ const Product: FC<ProductProps> = (props: ProductProps) => {
 
   const addToCart = () => {
     // implement adding product to shopping cart
+    router.push(("/product/" + id) as any)
   }
 
   return (
@@ -74,8 +75,6 @@ const $container: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
 })
 
 const $image: ThemedStyle<ImageStyle> = ({ spacing }) => ({
-  borderTopLeftRadius: spacing.md,
-  borderTopRightRadius: spacing.md,
   width: "100%",
   height: 150,
   resizeMode: "contain",

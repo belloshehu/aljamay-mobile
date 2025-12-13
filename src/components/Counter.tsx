@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { StyleProp, TextStyle, View, ViewStyle } from "react-native"
+import { Pressable, StyleProp, TextStyle, View, ViewStyle } from "react-native"
 import { Button } from "./Button"
 import { Text } from "./Text"
 import { useAppTheme } from "@/theme/context"
@@ -36,34 +36,44 @@ export const Counter: FC<CounterProps> = (props: CounterProps) => {
   } = props
   return (
     <View style={themed([$countWrapper, wrapperStyle])}>
-      <Button
-        text={decreaseButtonText || "-"}
+      <Pressable
         onPress={onDecrese}
         style={themed([$countButton, buttonStyle, decreaseButtonStyle])}
-        textStyle={themed([$countBtnTextStyle, buttonTextStyle])}
-      />
+      >
+        <Text style={themed([$countBtnTextStyle, buttonTextStyle])}>
+          {decreaseButtonText || "-"}
+        </Text>
+      </Pressable>
       <Text text={count.toString()} style={themed([$countTextStyle, countTextStyle])} />
-      <Button
-        text={increaseButtonText || "+"}
+      <Pressable
         onPress={onIncrease}
         style={themed([$countButton, buttonStyle, increaseButtonStyle])}
-        textStyle={themed([$countBtnTextStyle, buttonTextStyle])}
-      />
+      >
+        <Text style={themed([$countBtnTextStyle, buttonTextStyle])}>
+          {increaseButtonText || "+"}
+        </Text>
+      </Pressable>
     </View>
   )
 }
 
-const $countButton: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingHorizontal: spacing.xl,
+const $countButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
+  padding: spacing.xs,
+  paddingHorizontal: spacing.lg,
+  borderWidth: 1,
+  borderRadius: spacing.md,
+  borderColor: colors.errorBackground,
 })
 
-const $countBtnTextStyle: ThemedStyle<TextStyle> = ({ spacing }) => ({
+const $countBtnTextStyle: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   fontWeight: "500",
-  fontSize: spacing.lg,
+  fontSize: spacing.xl,
+  color: colors.errorBackground,
+  textAlign: "center",
 })
 
 const $countTextStyle: ThemedStyle<TextStyle> = ({}) => ({
-  fontWeight: "500",
+  fontWeight: "bold",
   textAlign: "center",
 })
 

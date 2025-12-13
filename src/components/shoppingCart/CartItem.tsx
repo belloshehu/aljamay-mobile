@@ -87,6 +87,7 @@ const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   borderRadius: spacing.md,
   paddingBottom: spacing.sm,
   height: "auto",
+  gap: spacing.xs,
 })
 
 const $wrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({

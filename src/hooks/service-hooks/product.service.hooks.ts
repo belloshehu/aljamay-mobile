@@ -11,15 +11,15 @@ export const useGetProducts = ({ limit = 20, offset = 0, search = "" }) => {
 }
 
 export const useGetProductById = (productId: string) => {
+  const { publicRequest } = useAxios()
   return useQuery({
     queryKey: ["product", productId],
-    queryFn: async () => ProductServiceAPI.getSingleProduct({ productId }),
+    queryFn: async () => ProductServiceAPI.getSingleProduct({ productId, publicRequest }),
   })
 }
 
 export const useDeleteProduct = (productId: string) => {
   const queryClient = useQueryClient()
-
   // Ensure that the productId is provided
   if (!productId) {
     throw new Error("Product ID is required for deletion")

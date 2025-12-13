@@ -11,8 +11,6 @@ export const useGetCartItems = () => {
     queryFn: async () => {
       return CartServiceAPI.getCartItems({ protectedRequest })
     },
-    refetchOnWindowFocus: true, // Optional: Prevent refetching on window focus
-    // staleTime: 1000 * 60 * 5, // Optional: Cache for 5 minutes
   })
 }
 

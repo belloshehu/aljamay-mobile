@@ -1,7 +1,7 @@
 const productEn = {
   productDetail: {
     notFound: "Product not found",
-    checkout: "Place order",
+    checkout: "Checkout",
     cart: "Add to cart",
     discount: "Off",
     empty: "No products yet",

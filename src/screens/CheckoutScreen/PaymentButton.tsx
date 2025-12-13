@@ -1,12 +1,12 @@
 import { PayWithFlutterwave } from "flutterwave-react-native"
 import { Button } from "@/components/Button"
 import { useAppTheme } from "@/theme/context"
-import { FC, useEffect } from "react"
+import { FC } from "react"
 import { UserType } from "types/auth.types"
 import Config from "@/config"
 import { TextStyle, ViewStyle } from "react-native"
 import { ThemedStyle } from "@/theme/types"
-import { push, replace } from "expo-router/build/global-state/routing"
+import { replace } from "expo-router/build/global-state/routing"
 import Toast from "react-native-toast-message"
 import { CustomButtonProps } from "flutterwave-react-native/dist/PaywithFlutterwaveBase"
 import { RedirectParams } from "flutterwave-react-native/dist/PayWithFlutterwave"
@@ -60,6 +60,9 @@ export const PaymentButton: FC<PaymentButtonProps> = (props: PaymentButtonProps)
             protectedRequest,
           })
 
+          if (!success) return
+
+          // Create the order if payment verification is successful
           createOrder({
             cartItems: cartItems?.map((item) => item.id)!,
             shippingAddressId: shippingAddress?.id!,

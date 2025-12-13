@@ -10,7 +10,7 @@ export const useCreateOrder = () => {
     mutationFn: OrderServiceAPI.createOrder,
     onSuccess: () => {
       Toast.show({ type: "success", text2: "Order created" })
-      queryClient.invalidateQueries({ queryKey: ["orders"] })
+      queryClient.invalidateQueries({ queryKey: ["orders", "cartItems"] })
       replace("/user/orders")
     },
     onError: () => {
