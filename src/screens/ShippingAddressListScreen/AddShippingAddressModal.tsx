@@ -29,11 +29,6 @@ const $screenContentContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingHorizontal: spacing.lg,
 })
 
-const $signUp: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
-  marginBottom: spacing.sm,
-  color: colors.palette.primary500,
-})
-
 const $error: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
   color: colors.error,
   marginBottom: spacing.md,
