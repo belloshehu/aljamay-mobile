@@ -54,6 +54,7 @@ const en = {
       addresses: "Shipping Addresses ({{count}})",
     },
     shipping: {
+      selection: "Select a shipping address for your order.",
       address: {
         form: {
           firstNameFieldLabel: "First name",

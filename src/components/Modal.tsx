@@ -1,13 +1,22 @@
 // A self-contained modal with trigger and the actual Component rendered when triggered.
 
-import { FC, JSX, ReactNode, useState } from "react"
+import React, { FC, JSX, ReactNode, useState } from "react"
 import { Button } from "./Button"
-import { Pressable, PressableProps, Modal as RNModal, View, ViewStyle } from "react-native"
+import {
+  Pressable,
+  PressableProps,
+  Modal as RNModal,
+  StyleProp,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { $styles } from "@/theme/styles"
 import { Icon, PressableIcon } from "./Icon"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
+import { Text } from "./Text"
 
 interface DefaultTriggerComponentProps {
   toggle: () => void
@@ -38,12 +47,15 @@ interface ModalProps {
   TriggerComponent?: FC<PressableProps>
   renderedModalChildren?: ReactNode
   triggerText?: string
+  title?: string
+  titleStyle?: StyleProp<TextStyle>
+  headerStyle?: StyleProp<ViewStyle>
 }
 
 const Modal: FC<ModalProps> = (props: ModalProps) => {
   const [visible, setVisible] = useState(false)
-
-  const { TriggerComponent, renderedModalChildren } = props
+  const { themed } = useAppTheme()
+  const { TriggerComponent, renderedModalChildren, title, titleStyle, headerStyle } = props
 
   const toggleModal = () => {
     setVisible((prev) => !prev)
@@ -55,15 +67,19 @@ const Modal: FC<ModalProps> = (props: ModalProps) => {
       <RNModal visible={visible}>
         <SafeAreaView style={$styles.flex1}>
           {renderedModalChildren ? (
-            <>
-              <PressableIcon
-                icon="caretLeft"
-                onPress={toggleModal}
-                style={{ margin: 10 }}
-                size={24}
-              />
+            <React.Fragment>
+              <View style={themed([$header, headerStyle])}>
+                <PressableIcon
+                  icon="caretLeft"
+                  onPress={toggleModal}
+                  style={{ margin: 10 }}
+                  size={24}
+                />
+                <Text style={themed([titleStyle])}>{title && title}</Text>
+              </View>
+
               {renderedModalChildren}
-            </>
+            </React.Fragment>
           ) : (
             <DefaultRenderedModalChildren toggle={toggleModal} />
           )}
@@ -81,11 +97,11 @@ const $textFieldWrapper: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   alignItems: "center",
 })
 
-const $container: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+const $header: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   gap: 2,
-  flex: 1,
+  flexDirection: "row",
   width: "100%",
-  padding: spacing.sm,
+  alignItems: "center",
 })
 
 export default Modal

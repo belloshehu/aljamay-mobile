@@ -56,7 +56,11 @@ export const CustomBottomSheetContextProvider: FC<CustomBottomSheetConextProvide
             setBottomChildren(null)
           }}
           enableDynamicSizing
-          backgroundStyle={{ backgroundColor: "rgba(250, 250, 250, 1)" }}
+          backgroundStyle={{
+            backgroundColor: "rgba(250, 250, 250, 1)",
+            borderWidth: 1,
+            borderColor: "#aaa",
+          }}
         >
           <BottomSheetScrollView contentContainerStyle={styles.bottomSheetView}>
             {bottomChildren}

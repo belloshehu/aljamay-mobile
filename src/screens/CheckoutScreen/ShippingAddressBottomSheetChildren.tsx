@@ -5,7 +5,10 @@ import { View, ViewStyle } from "react-native"
 import { Text } from "@/components/Text"
 import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
 import { ShippingAddressList } from "./ShippingAddressList"
+import { Button } from "@/components/Button"
 import { PressableIcon } from "@/components/Icon"
+import Modal from "@/components/Modal"
+import { AddShippingAddressModal } from "../ShippingAddressListScreen/AddShippingAddressModal"
 
 interface ShippingAddressBottomSheetChildrenProps {}
 export const ShippingAddressBottomSheetChildren: FC<ShippingAddressBottomSheetChildrenProps> = (
@@ -17,15 +20,24 @@ export const ShippingAddressBottomSheetChildren: FC<ShippingAddressBottomSheetCh
     <View style={themed($wrapper)}>
       <View style={themed($header)}>
         <Text text="Shipping Address" preset="subheading" />
-        <PressableIcon icon="plus" size={30} color={theme.colors.errorBackground} />
+        <Modal
+          title="Add shipping Address"
+          TriggerComponent={({ onPress }) => (
+            <PressableIcon
+              icon="plus"
+              size={30}
+              color={theme.colors.errorBackground}
+              onPress={onPress!}
+            />
+          )}
+          renderedModalChildren={<AddShippingAddressModal />}
+        />
       </View>
+      <Text
+        tx="profileScreen:shipping.selection"
+        style={{ backgroundColor: "#eee", padding: 10, fontSize: 12 }}
+      />
       <ShippingAddressList addresses={data} isLoading={isPending} selectable />
-      {/* <Button
-        // textStyle={themed($orderButtonText)}
-        tx="checkout:shippingAddress.addAddress"
-        preset="reversed"
-        // style={themed($orderButton)}
-      /> */}
     </View>
   )
 }

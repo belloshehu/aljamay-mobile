@@ -122,8 +122,8 @@ export const CheckoutScreen: FC = () => {
           />
           <Price price={totalPrice} priceStyle={themed($priceText)} discount={totalDiscount} />
         </View>
-        <View style={{ height: 200 }}>
-          <Text tx="checkout:productSection.count" txOptions={{ count: cartItems.length }} />
+        <View style={{ height: 180 }}>
+          {/* <Text tx="checkout:productSection.count" txOptions={{ count: cartItems.length }} /> */}
           <FlatList
             contentContainerStyle={themed($horizontalScroll)}
             horizontal={true}
@@ -148,7 +148,7 @@ export const CheckoutScreen: FC = () => {
         {/* Shipping Address section to allow user enter shipping address */}
         <View style={{ flex: 1, width: "100%" }}>
           <View style={themed($header)}>
-            <Text tx="checkout:shippingAddress.title" />
+            <Text tx="checkout:shippingAddress.title" style={{ fontSize: 13 }} />
             <PressableIcon
               icon="caretRight"
               onPress={showAddressBottomSheet}

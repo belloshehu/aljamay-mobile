@@ -17,13 +17,6 @@ export const AddShippingAddressModal: FC = () => {
       contentContainerStyle={themed($screenContentContainer)}
       //   safeAreaEdges={["top", "bottom"]}
     >
-      <Text
-        testID="shipping-address-heading"
-        tx="shippingAddressScreen:formHeading"
-        preset="subheading"
-        style={themed($signUp)}
-        aria-label="shipping address form"
-      />
       {err && <Text text={err} style={themed($error)} />}
 
       <ShippingAddressForm setError={setErr} />
