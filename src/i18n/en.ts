@@ -11,6 +11,7 @@ const en = {
     back: "Back",
     logOut: "Log Out", // @demo remove-current-line
     loading: "Loading ...",
+    submit: "Submit",
   },
   welcomeScreen: {
     postscript:
@@ -50,7 +51,37 @@ const en = {
       orders: "Your orders ({{count}})",
       messages: "Messages ({{count}})",
       reviews: "Reviews ({{count}})",
+      addresses: "Shipping Addresses ({{count}})",
     },
+    shipping: {
+      address: {
+        form: {
+          firstNameFieldLabel: "First name",
+          firstNameFieldPlaceholder: "Enter first name",
+          lastNameFieldLabel: "Last name",
+          lastNameFieldPlaceholder: "Enter last name",
+          phoneNumberFieldLabel: "Phone number",
+          phoneNumberFieldPlaceholder: "Enter phone number",
+          streetAddressLabel: "Street Address",
+          streetAddressFieldPlaceholder: "Name of the street",
+          cityLabel: "City",
+          cityFieldPlaceholder: "City of the address",
+          stateLabel: "State",
+          stateFieldPlaceholder: "State of the address",
+          countryLabel: "Country",
+          countryFieldPlaceholder: "Country of the address",
+          postalCodeLabel: "Postal code",
+          postalCodeFieldPlaceholder: "E.g.: 330102",
+          isActiveLabel: "Set as active",
+          isDefaultLabel: "Set as default address",
+        },
+      },
+    },
+  },
+  shippingAddressScreen: {
+    title: "Addresses ({{count}})",
+    addAddress: "Add address",
+    formHeading: "Shipping address",
   },
   messageScreen: {
     title: "Messages ({{count}})",

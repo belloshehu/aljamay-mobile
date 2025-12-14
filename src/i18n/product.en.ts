@@ -53,6 +53,7 @@ const productEn = {
     emptyOne: "No order",
     goToCart: "Go to cart",
     orderHeading: "Ordered on, {{date}}",
+    itemsCount: "Product/Items ({{count}})",
   },
 }
 

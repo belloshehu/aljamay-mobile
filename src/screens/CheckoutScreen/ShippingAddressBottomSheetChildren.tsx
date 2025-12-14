@@ -5,7 +5,6 @@ import { View, ViewStyle } from "react-native"
 import { Text } from "@/components/Text"
 import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
 import { ShippingAddressList } from "./ShippingAddressList"
-import { Button } from "@/components/Button"
 import { PressableIcon } from "@/components/Icon"
 
 interface ShippingAddressBottomSheetChildrenProps {}
@@ -20,7 +19,7 @@ export const ShippingAddressBottomSheetChildren: FC<ShippingAddressBottomSheetCh
         <Text text="Shipping Address" preset="subheading" />
         <PressableIcon icon="plus" size={30} color={theme.colors.errorBackground} />
       </View>
-      <ShippingAddressList addresses={data} isLoading={isPending} />
+      <ShippingAddressList addresses={data} isLoading={isPending} selectable />
       {/* <Button
         // textStyle={themed($orderButtonText)}
         tx="checkout:shippingAddress.addAddress"

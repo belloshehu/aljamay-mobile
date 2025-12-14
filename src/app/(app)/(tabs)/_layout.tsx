@@ -7,18 +7,25 @@ import { colors } from "@/theme/colors"
 import { spacing } from "@/theme/spacing"
 import { typography } from "@/theme/typography"
 import { translate } from "@/i18n/translate"
-import { Header } from "@/components/Header"
-import { useAuth } from "@/context/AuthContext"
+import { useSegments, Route } from "expo-router"
 
 export default function Layout() {
   const { bottom } = useSafeAreaInsets()
+  const segments = useSegments<Route>()
+
+  const hideTabBar =
+    segments.includes("product" as never) ||
+    segments.includes("user" as never) ||
+    segments.includes("promo" as never) ||
+    segments.includes("categories" as never) ||
+    segments.includes("shopping" as never)
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        tabBarStyle: [$tabBar, { height: bottom + 70 }],
+        tabBarStyle: [$tabBar, { height: bottom + 70, display: hideTabBar ? "none" : "flex" }],
         tabBarActiveTintColor: colors.text,
         tabBarInactiveTintColor: colors.text,
         tabBarLabelStyle: $tabBarLabel,

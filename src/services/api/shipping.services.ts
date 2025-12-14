@@ -1,5 +1,4 @@
-import { ShippingValidationSchemaType } from "@/schemas/shipping.validation.schemas"
-
+import { ShippingAddressValidationSchemaType } from "@/schemas/shipping-address.validation.schemas"
 import { AxiosInstance } from "axios"
 import {
   ShippingAddressResponseType,
@@ -46,7 +45,7 @@ class ShippingServiceAPI {
     payload,
     protectedRequest,
   }: {
-    payload: ShippingValidationSchemaType
+    payload: ShippingAddressValidationSchemaType
     protectedRequest: AxiosInstance
   }) {
     const { data } = await protectedRequest.post<SingleShippingAddressResponseType>(
@@ -63,7 +62,7 @@ class ShippingServiceAPI {
     protectedRequest,
   }: {
     protectedRequest: AxiosInstance
-    payload: ShippingValidationSchemaType
+    payload: ShippingAddressValidationSchemaType
     shippingAddressId: string
   }) {
     const { data } = await protectedRequest.patch<SingleShippingAddressResponseType>(

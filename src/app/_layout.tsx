@@ -14,6 +14,7 @@ import { AuthProvider } from "@/context/AuthContext"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { CustomBottomSheetContextProvider } from "@/context/BottomSheetContext"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
+import { CheckoutProvider } from "@/context/CheckoutProvider"
 
 SplashScreen.preventAutoHideAsync()
 LogBox.ignoreAllLogs() // ⚠ hides ALL yellow warnings (optional)
@@ -59,12 +60,14 @@ export default function Root() {
         <AuthProvider>
           <QueryClientProvider client={queryClient}>
             <ThemeProvider>
-              <CustomBottomSheetContextProvider>
-                <KeyboardProvider>
-                  <Slot />
-                  <Toast />
-                </KeyboardProvider>
-              </CustomBottomSheetContextProvider>
+              <CheckoutProvider>
+                <CustomBottomSheetContextProvider>
+                  <KeyboardProvider>
+                    <Slot />
+                    <Toast />
+                  </KeyboardProvider>
+                </CustomBottomSheetContextProvider>
+              </CheckoutProvider>
             </ThemeProvider>
           </QueryClientProvider>
         </AuthProvider>

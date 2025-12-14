@@ -46,6 +46,10 @@ export const AccountScreen: FC = function AccountScreen() {
     push("/user/orders")
   }
 
+  const goToAddresses = () => {
+    push("/user/shipping-addresses")
+  }
+
   return (
     <Screen preset="auto" contentContainerStyle={$styles.flex1}>
       <View style={themed($mainContainer)}>
@@ -54,7 +58,7 @@ export const AccountScreen: FC = function AccountScreen() {
           <Text text={user?.firstName + " " + user?.lastName} style={themed($names)} />
           <Text text={user?.email} />
         </View>
-        <View style={{ gap: 5, flex: 0.4 }}>
+        <View style={{ gap: 5, flex: 0.7, justifyContent: "flex-start" }}>
           <AccountItem
             icon="order"
             title="profileScreen:accountItem.orders"
@@ -72,6 +76,12 @@ export const AccountScreen: FC = function AccountScreen() {
             title="profileScreen:accountItem.reviews"
             count={0}
             onPress={goToReviews}
+          />
+          <AccountItem
+            icon="location"
+            title="profileScreen:accountItem.addresses"
+            count={0}
+            onPress={goToAddresses}
           />
         </View>
 

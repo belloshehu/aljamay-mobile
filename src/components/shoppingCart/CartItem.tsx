@@ -86,7 +86,6 @@ const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   backgroundColor: "#fff",
   borderRadius: spacing.md,
   paddingBottom: spacing.sm,
-  height: "auto",
   gap: spacing.xs,
 })
 
@@ -98,12 +97,12 @@ const $wrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   alignItems: "center",
 })
 
-const $image: ThemedStyle<ImageStyle> = ({ spacing }) => ({
-  borderTopLeftRadius: spacing.md,
-  borderTopRightRadius: spacing.md,
+const $image: ThemedStyle<ImageStyle> = ({ spacing, colors }) => ({
   width: 150,
-  height: 120,
-  resizeMode: "contain",
+  height: 80,
+  flex: 0.4,
+  resizeMode: "cover",
+  backgroundColor: colors.errorBackground,
 })
 
 const $name: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({

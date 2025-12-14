@@ -23,26 +23,36 @@ import Price from "@/components/product/Price"
 import { PressableIcon } from "@/components/Icon"
 import { useBottomSheetContext } from "@/context/BottomSheetContext"
 import { ShippingAddressBottomSheetChildren } from "./ShippingAddressBottomSheetChildren"
-import { useGetDefaultShippingAddress } from "@/hooks/service-hooks/shipping.service.hooks"
+import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
 import { ShippingAddress } from "./ShippingAddress"
 import Loader from "@/components/Loader"
 import { PaymentButton } from "@/screens/CheckoutScreen/PaymentButton"
 import { LoginScreen } from "../LoginScreen/LoginScreen"
 import { UserType } from "types/auth.types"
+import { useCheckoutContext } from "@/context/CheckoutProvider"
 
-// @demo replace-next-line export const CheckoutScreen: FC = function CheckoutScreen(
 export const CheckoutScreen: FC = () => {
   const { themed } = useAppTheme()
   const { isAuthenticated, user } = useAuth()
   const { isLoading, data: cartItems } = useGetCartItems()
   const { setBottomChildren, handleModalPreset } = useBottomSheetContext()
-  const { data: defaultAddress, isLoading: loadingDefaultAddress } = useGetDefaultShippingAddress()
-
+  const { data: addressList, isLoading: loadingDefaultAddress } = useGetAllShippingAdressesByUser()
+  const { setAddress, address } = useCheckoutContext()
   useEffect(() => {
     if (!cartItems || cartItems.length === 0) {
       replace("/shopping")
     }
   })
+
+  useEffect(() => {
+    if (!address && addressList && addressList.length > 0) {
+      // Get users default address
+      const defaultAddress = addressList.filter(
+        (address) => address.isActive && address.isDefault,
+      )[0]
+      setAddress(defaultAddress)
+    }
+  }, [addressList])
 
   const addProduct = () => {
     replace("/")
@@ -64,15 +74,6 @@ export const CheckoutScreen: FC = () => {
 
   const showAddressBottomSheet = () => {
     setBottomChildren(<ShippingAddressBottomSheetChildren />)
-    handleModalPreset()
-  }
-
-  const showShippingMethodBottomSheet = () => {
-    setBottomChildren(
-      <View>
-        <Text text="Shipping Methods" preset="subheading" />
-      </View>,
-    )
     handleModalPreset()
   }
 
@@ -121,7 +122,7 @@ export const CheckoutScreen: FC = () => {
           />
           <Price price={totalPrice} priceStyle={themed($priceText)} discount={totalDiscount} />
         </View>
-        <View style={{ flex: 0.5 }}>
+        <View style={{ height: 200 }}>
           <Text tx="checkout:productSection.count" txOptions={{ count: cartItems.length }} />
           <FlatList
             contentContainerStyle={themed($horizontalScroll)}
@@ -133,7 +134,7 @@ export const CheckoutScreen: FC = () => {
         </View>
 
         {/* Shipping Method section to allow user select a desired method of shipping */}
-        <View style={{ flex: 0.3 }}>
+        {/* <View style={{ flex: 0.3 }}>
           <View style={themed($header)}>
             <Text tx="checkout:shippinMethod.title" />
             <PressableIcon
@@ -142,10 +143,10 @@ export const CheckoutScreen: FC = () => {
               style={themed($icon)}
             />
           </View>
-        </View>
+        </View> */}
 
         {/* Shipping Address section to allow user enter shipping address */}
-        <View style={{ flex: 0.3, width: "100%" }}>
+        <View style={{ flex: 1, width: "100%" }}>
           <View style={themed($header)}>
             <Text tx="checkout:shippingAddress.title" />
             <PressableIcon
@@ -156,15 +157,15 @@ export const CheckoutScreen: FC = () => {
           </View>
           {loadingDefaultAddress ? (
             <Loader loadingText="checkout:shippingAddress.loading" />
-          ) : defaultAddress && defaultAddress.length > 0 ? (
-            <ShippingAddress shippingData={defaultAddress![0]} minimum />
+          ) : address ? (
+            <ShippingAddress shippingData={address} minimum />
           ) : (
             <Text tx="checkout:shippingAddress.empty" />
           )}
         </View>
-        {defaultAddress && (
+        {address && (
           <PaymentButton
-            shippingAddress={defaultAddress![0]}
+            shippingAddress={address}
             cartItems={cartItems}
             totalAmount={totalPrice + 0}
             onClose={() => {}}

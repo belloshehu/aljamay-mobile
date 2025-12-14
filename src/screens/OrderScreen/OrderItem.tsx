@@ -22,7 +22,6 @@ export const OrderItem: FC<OrderItemProps> = (props: OrderItemProps) => {
     },
   } = props
 
-  console.log(id)
   const goToDetailScreen = () => {
     push(("/product/" + id) as any)
   }

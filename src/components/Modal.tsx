@@ -2,10 +2,10 @@
 
 import { FC, JSX, ReactNode, useState } from "react"
 import { Button } from "./Button"
-import { Pressable, Modal as RNModal, View, ViewStyle } from "react-native"
+import { Pressable, PressableProps, Modal as RNModal, View, ViewStyle } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { $styles } from "@/theme/styles"
-import { Icon } from "./Icon"
+import { Icon, PressableIcon } from "./Icon"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 
@@ -28,16 +28,14 @@ const DefaultRenderedModalChildren: FC<DefaultRenderedModalChildrenProps> = (
 
   return (
     <View style={themed($textFieldWrapper)}>
-      <Pressable onPress={props.toggle}>
-        <Icon icon="caretLeft" size={30} />
-      </Pressable>
+      <PressableIcon icon="caretLeft" onPress={props.toggle} style={{ margin: 10 }} size={24} />
       <View style={{ width: "87%" }}>Hello modal</View>
     </View>
   )
 }
 
 interface ModalProps {
-  TriggerComponent?: FC<any>
+  TriggerComponent?: FC<PressableProps>
   renderedModalChildren?: ReactNode
   triggerText?: string
 }
@@ -46,17 +44,26 @@ const Modal: FC<ModalProps> = (props: ModalProps) => {
   const [visible, setVisible] = useState(false)
 
   const { TriggerComponent, renderedModalChildren } = props
+
   const toggleModal = () => {
     setVisible((prev) => !prev)
   }
-  if (!visible && TriggerComponent) return <TriggerComponent />
+  if (!visible && TriggerComponent) return <TriggerComponent onPress={toggleModal} />
   else if (!visible) return <DefaultTriggerComponent toggle={toggleModal} />
   else
     return (
       <RNModal visible={visible}>
         <SafeAreaView style={$styles.flex1}>
           {renderedModalChildren ? (
-            renderedModalChildren
+            <>
+              <PressableIcon
+                icon="caretLeft"
+                onPress={toggleModal}
+                style={{ margin: 10 }}
+                size={24}
+              />
+              {renderedModalChildren}
+            </>
           ) : (
             <DefaultRenderedModalChildren toggle={toggleModal} />
           )}

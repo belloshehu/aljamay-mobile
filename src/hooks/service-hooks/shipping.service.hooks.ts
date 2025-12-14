@@ -41,7 +41,7 @@ export const useCreateShippingAddress = () => {
 
       queryClient.invalidateQueries({ queryKey: ["shipping-address"] })
     },
-    onError: (error: AxiosError) => {
+    onError: (error: any) => {
       Toast.show({
         type: "error",
         text1: error.message || "Failed to add shipping address",

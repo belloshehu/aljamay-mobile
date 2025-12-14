@@ -1,7 +1,7 @@
 import { PayWithFlutterwave } from "flutterwave-react-native"
 import { Button } from "@/components/Button"
 import { useAppTheme } from "@/theme/context"
-import { FC } from "react"
+import { FC, useState } from "react"
 import { UserType } from "types/auth.types"
 import Config from "@/config"
 import { TextStyle, ViewStyle } from "react-native"
@@ -33,7 +33,9 @@ export const PaymentButton: FC<PaymentButtonProps> = (props: PaymentButtonProps)
   const { mutateAsync: verifyPayment, isPending: isVerifying } = useVerifyPayment()
   const { protectedRequest } = useAxios()
   const { mutateAsync: createOrder, isPending: isCreatingOrder } = useCreateOrder()
+  const [paymentInitiated, setPaymentInitiated] = useState(false)
   const { totalAmount, cartItems, shippingAddress, onClose, disabled = false } = props
+
   /* An example function to generate a random transaction reference */
   const generateTransactionRef = (length: number) => {
     var result = ""
@@ -94,25 +96,26 @@ export const PaymentButton: FC<PaymentButtonProps> = (props: PaymentButtonProps)
       customButton={(props: CustomButtonProps) => (
         <Button
           textStyle={themed($orderButtonText)}
-          tx="checkout:proceedToPayment"
-          preset="reversed"
-          style={themed($orderButton)}
+          tx={paymentInitiated ? "common:loading" : "checkout:proceedToPayment"}
+          preset="filled"
+          style={themed($button)}
           onPress={() => {
+            setPaymentInitiated(true)
             props.onPress()
           }}
-          //   loading={props.isInitializing}
-          // disabled={props.disabled || disabled}
+          pressedStyle={{ backgroundColor: "#000" }}
+          disabled={paymentInitiated}
         />
       )}
     />
   )
 }
 
-const $orderButtonText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.background,
+const $orderButtonText: ThemedStyle<TextStyle> = ({}) => ({
+  width: "100%",
 })
 
-const $orderButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
+const $button: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   borderRadius: spacing.xl,
   backgroundColor: colors.errorBackground,
   paddingHorizontal: spacing.xxl,

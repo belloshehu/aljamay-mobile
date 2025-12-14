@@ -11,18 +11,19 @@ import { $separator } from "../ProductScreen/ProductList"
 interface ShippingAddressListProps {
   addresses: ShippingAddressType[] | null | undefined
   isLoading: boolean
+  selectable?: boolean
 }
 export const ShippingAddressList: FC<ShippingAddressListProps> = (
   props: ShippingAddressListProps,
 ) => {
-  const { addresses, isLoading } = props
+  const { addresses, isLoading, selectable } = props
   const { themed } = useAppTheme()
   if (isLoading) return <Loader loadingText="checkout:shippingAddress.loading" />
   if (!addresses || addresses.length === 0) return <Text tx="checkout:shippingAddress.empty" />
   return (
     <View style={themed($wrapper)}>
       {addresses.map((address) => (
-        <ShippingAddress shippingData={address} key={address.id} />
+        <ShippingAddress shippingData={address} key={address.id} selectable={selectable} />
       ))}
     </View>
   )
@@ -30,6 +31,5 @@ export const ShippingAddressList: FC<ShippingAddressListProps> = (
 
 const $wrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   width: "100%",
-  gap: spacing.xs,
-  backgroundColor: "#fff",
+  gap: spacing.sm,
 })
