@@ -13,12 +13,10 @@ import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { useAuth } from "@/context/AuthContext"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
 import { push, replace } from "expo-router/build/global-state/routing"
 import Price from "@/components/product/Price"
-import { LoginScreen } from "../LoginScreen/LoginScreen"
 import { $separator } from "../ProductScreen/ProductList"
 import { useGetOrderById } from "@/hooks/service-hooks/order.service.hooks"
 import { useLocalSearchParams } from "expo-router"
@@ -31,12 +29,9 @@ import { colors } from "@/theme/colors"
 export const OrderDetailScreen: FC = () => {
   const { orderId } = useLocalSearchParams<{ orderId: string }>()
   const { themed, theme } = useAppTheme()
-  const { isAuthenticated } = useAuth()
   const { isLoading, data: order } = useGetOrderById(orderId)
 
   if (!orderId) replace("/user/orders")
-
-  if (!isAuthenticated) return <LoginScreen />
 
   if (isLoading)
     return (

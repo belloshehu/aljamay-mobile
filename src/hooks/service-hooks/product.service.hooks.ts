@@ -1,6 +1,23 @@
 import ProductServiceAPI from "@/services/api/product.services"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useAxios } from "../use-axios"
+import Toast from "react-native-toast-message"
+
+// Create a new product
+export const useCreateProduct = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationKey: ["createProduct"],
+    mutationFn: ProductServiceAPI.createProduct,
+    onSuccess: () => {
+      Toast.show({ type: "success", text2: "Prodiuct created" })
+      queryClient.invalidateQueries({ queryKey: ["products"] })
+    },
+    onError: (error: any) => {
+      Toast.show({ type: "error", text2: "Error creating product" })
+    },
+  })
+}
 
 export const useGetProducts = ({ limit = 20, offset = 0, search = "" }) => {
   const { publicRequest } = useAxios()

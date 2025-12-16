@@ -1,5 +1,5 @@
 import { Button } from "@/components/Button"
-import { Icon, PressableIcon } from "@/components/Icon"
+import { Icon } from "@/components/Icon"
 import Price from "@/components/product/Price"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
@@ -12,6 +12,7 @@ import { ProductType } from "types/product.types"
 interface ProductProps {
   product: ProductType
   deleteHandler?: (id: string) => void
+  minimum?: boolean // to render a smaller version of the product card especially for the admin product list
 }
 const Product: FC<ProductProps> = (props: ProductProps) => {
   const { themed } = useAppTheme()
@@ -23,6 +24,7 @@ const Product: FC<ProductProps> = (props: ProductProps) => {
   const router = useRouter()
   const {
     product: { image, name, price, discount, id },
+    minimum = false,
   } = props
 
   const goToDetailScreen = () => {
@@ -55,13 +57,15 @@ const Product: FC<ProductProps> = (props: ProductProps) => {
             // discountWrapperStyle={{ paddingHorizontal: 5 }}
           />
         </View>
-        <Button
-          LeftAccessory={() => <Icon icon="cart" size={20} />}
-          onPress={addToCart}
-          style={themed($cartButton)}
-          textStyle={themed($cartButtonText)}
-          tx="productDetail:cart"
-        />
+        {!minimum && (
+          <Button
+            LeftAccessory={() => <Icon icon="cart" size={20} />}
+            onPress={addToCart}
+            style={themed($cartButton)}
+            textStyle={themed($cartButtonText)}
+            tx="productDetail:cart"
+          />
+        )}
       </View>
     </Pressable>
   )

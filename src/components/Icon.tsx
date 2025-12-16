@@ -144,6 +144,11 @@ export const iconRegistry = {
   order: require("@assets/icons/order.png"),
   minus: require("@assets/icons/minus.png"),
   location: require("@assets/icons/location.png"),
+  tea: require("@assets/icons/tea.png"),
+  spices: require("@assets/icons/spices.png"),
+  bread: require("@assets/icons/bread.png"),
+  camera: require("@assets/icons/camera.png"),
+  promo: require("@assets/icons/promo.png"),
 }
 
 const $imageStyleBase: ImageStyle = {

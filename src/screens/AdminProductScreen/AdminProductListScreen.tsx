@@ -1,30 +1,28 @@
 import { FC } from "react"
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  ImageStyle,
-  TextStyle,
-  View,
-  ViewStyle,
-} from "react-native"
+import { ActivityIndicator, Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
+import { useAuth } from "@/context/AuthContext"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
 import { push } from "expo-router/build/global-state/routing"
-import { $separator } from "../ProductScreen/ProductList"
-import { Message } from "./Message"
-import withAuth from "@/components/HOC/withAuth"
+import { LoginScreen } from "../LoginScreen/LoginScreen"
+import ProductList from "../ProductScreen/ProductList"
+import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
+import Modal from "@/components/Modal"
+import { AddProductModal } from "./AddProductModal"
+import { translate } from "@/i18n/translate"
 
 // @demo replace-next-line export const ShoppingCartScreen: FC = function ShoppingCartScreen(
-const MessageListScreen: FC = () => {
+export const AdminProductListScreen: FC = () => {
   const { themed } = useAppTheme()
-  const isLoading = false
-  const data: any[] | null = []
+  const { isAuthenticated } = useAuth()
+  const { data, isLoading } = useGetProducts({})
+
+  if (!isAuthenticated) return <LoginScreen />
 
   if (isLoading)
     return (
@@ -51,7 +49,7 @@ const MessageListScreen: FC = () => {
             height={50}
             style={themed($shoppingCart)}
           />
-          <Text tx="messageScreen:emptyMany" />
+          <Text tx="profileScreen:accountItem.admin.emptyProducts" />
           <Button
             tx="messageScreen:goToProfile"
             preset="filled"
@@ -66,18 +64,21 @@ const MessageListScreen: FC = () => {
       <View style={themed($topContainer)}>
         <View style={themed($header)}>
           <Text
-            tx="messageScreen:title"
+            tx="productList:title"
             txOptions={{ count: data.length }}
             style={themed($titleText)}
             preset="subheading"
           />
+          <Modal
+            title={translate("productList:addProduct")}
+            TriggerComponent={({ onPress }) => (
+              <Button tx="productList:addProduct" preset="filled" onPress={onPress} />
+            )}
+            renderedModalChildren={<AddProductModal />}
+            // renderedModalChildren={<AddProductModal />}
+          />
         </View>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Message {...item} key={item.id} />}
-          ItemSeparatorComponent={() => <View style={themed($separator)} />}
-        />
+        <ProductList products={data} isLoading={isLoading} minimum />
       </View>
     </Screen>
   )
@@ -112,5 +113,3 @@ const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   fontSize: 20,
   fontWeight: "500",
 })
-
-export default withAuth(MessageListScreen)

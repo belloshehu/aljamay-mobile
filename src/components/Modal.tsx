@@ -37,7 +37,7 @@ const DefaultRenderedModalChildren: FC<DefaultRenderedModalChildrenProps> = (
 
   return (
     <View style={themed($textFieldWrapper)}>
-      <PressableIcon icon="caretLeft" onPress={props.toggle} style={{ margin: 10 }} size={24} />
+      {/* <PressableIcon icon="caretLeft" onPress={props.toggle} style={{ margin: 10 }} size={24} /> */}
       <View style={{ width: "87%" }}>Hello modal</View>
     </View>
   )
@@ -66,20 +66,17 @@ const Modal: FC<ModalProps> = (props: ModalProps) => {
     return (
       <RNModal visible={visible}>
         <SafeAreaView style={$styles.flex1}>
+          <View style={themed([$header, headerStyle])}>
+            <PressableIcon
+              icon="caretLeft"
+              onPress={toggleModal}
+              style={{ margin: 10 }}
+              size={24}
+            />
+            <Text style={themed([titleStyle])}>{title ? title : "Title"}</Text>
+          </View>
           {renderedModalChildren ? (
-            <React.Fragment>
-              <View style={themed([$header, headerStyle])}>
-                <PressableIcon
-                  icon="caretLeft"
-                  onPress={toggleModal}
-                  style={{ margin: 10 }}
-                  size={24}
-                />
-                <Text style={themed([titleStyle])}>{title && title}</Text>
-              </View>
-
-              {renderedModalChildren}
-            </React.Fragment>
+            <React.Fragment>{renderedModalChildren}</React.Fragment>
           ) : (
             <DefaultRenderedModalChildren toggle={toggleModal} />
           )}

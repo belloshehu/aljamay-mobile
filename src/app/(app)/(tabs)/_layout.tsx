@@ -48,7 +48,7 @@ export default function Layout() {
         options={{
           tabBarLabel: translate("tabNavigator:categoriesTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="menu" color={focused ? colors.tint : undefined} size={30} />
+            <Icon icon="category" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
       />

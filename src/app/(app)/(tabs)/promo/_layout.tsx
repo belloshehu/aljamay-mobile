@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header"
 import { Stack } from "expo-router"
+import { goBack } from "expo-router/build/global-state/routing"
 
 export default function CategoryLayout() {
   return (
@@ -14,12 +15,14 @@ export default function CategoryLayout() {
         name="index"
         options={{
           headerShown: true,
-          header: (props) => <Header leftTx="promo:title" {...props} />,
+          header: (props) => (
+            <Header {...props} titleTx="promo:title" leftIcon="caretLeft" onLeftPress={goBack} />
+          ),
           // tabBarLabel: translate("tabNavigator:promo"),
         }}
       />
       {/* Digital monitors */}
-      <Stack.Screen name="[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="[id]" />
     </Stack>
   )
 }

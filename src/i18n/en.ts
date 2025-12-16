@@ -48,11 +48,24 @@ const en = {
   profileScreen: {
     title: "My profile",
     accountItem: {
-      orders: "Your orders ({{count}})",
-      messages: "Messages ({{count}})",
-      reviews: "Reviews ({{count}})",
-      addresses: "Shipping Addresses ({{count}})",
+      user: {
+        orders: "Your orders ({{count}})",
+        messages: "Messages ({{count}})",
+        reviews: "Reviews ({{count}})",
+        addresses: "Shipping Addresses ({{count}})",
+        admin: "Admin Panel",
+      },
+      admin: {
+        heading: "Admin Panel",
+        products: "Manage Products",
+        categories: "Manage Categories",
+        promos: "Manage Promos",
+        orders: "Manage Orders",
+        emptyProducts: "No products available",
+        reviews: "Manage Reviews",
+      },
     },
+
     shipping: {
       selection: "Select a shipping address for your order.",
       address: {

@@ -21,6 +21,7 @@ const ProductSearchModal: FC = (props) => {
         onFocus={toggleModal}
         onBlur={toggleModal}
         placeholderTx={"homeScreen:searchPlaceholder"}
+        keyboardType="web-search"
         RightAccessory={() => (
           <Icon
             icon="search"

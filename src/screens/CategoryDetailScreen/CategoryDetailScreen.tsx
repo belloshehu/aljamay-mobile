@@ -7,10 +7,11 @@ import { $styles } from "@/theme/styles"
 import { useLocalSearchParams } from "expo-router"
 import { Card } from "@/components/Card"
 import { Text } from "@/components/Text"
-import { ProductCategory, ProductType } from "types/product.types"
+import { ProductCategory } from "types/product.types"
 import CategoryDetailHeader from "./CategoryDetailHeader"
-import { dummyProducts, productCategories } from "@/constants"
+import { productCategories } from "@/constants"
 import ProductList from "../ProductScreen/ProductList"
+import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
 
 // @demo replace-next-line export const CategoryDetailScreen: FC = function CategoryDetailScreen(
 export const CategoryDetailScreen: FC = function CategoryDetailScreen() {
@@ -18,41 +19,40 @@ export const CategoryDetailScreen: FC = function CategoryDetailScreen() {
   const { name } = useLocalSearchParams<{ name: string }>()
   const [category, setCategory] = useState<ProductCategory | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [products, setProducts] = useState<ProductType[] | null>(dummyProducts)
+  const { data: products, isLoading: loadingProducts, refetch } = useGetProducts({ search: name })
 
   useEffect(() => {
     setIsLoading(true)
-    const filteredCategory = productCategories.find((category) => category.name === name)
+    const filteredCategory = productCategories.find(
+      (category) => category?.name.toLocaleLowerCase() === name.toLocaleLowerCase(),
+    )
     if (filteredCategory) {
       setCategory(filteredCategory)
     }
     setIsLoading(false)
-    filterProductsByCategory(name)
   }, [name])
 
-  const filterProductsByCategory = (categoryName: string) => {
-    if (categoryName.toLocaleLowerCase() === "all") {
-      setProducts(dummyProducts)
-    }
-
-    const filtered = products?.filter(function (product) {
-      return categoryName.toLocaleLowerCase().includes(product.name.toLocaleLowerCase())
-    })
-
-    if (filtered && filtered.length > 0) {
-      setProducts(filtered)
-    }
-  }
-
   if (isLoading) return <ActivityIndicator />
-  if (!category) return <Card ContentComponent={<Text tx="categories:notFound" />} />
+  if (!category)
+    return (
+      <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
+        <View
+          style={themed([
+            $container,
+            { justifyContent: "center", alignItems: "center", gap: 5, padding: 20 },
+          ])}
+        >
+          <Card ContentComponent={<Text tx="categories:notFound" />} />
+        </View>
+      </Screen>
+    )
   return (
     <View style={$styles.flex1}>
       <View style={themed($container)}>
         <CategoryDetailHeader category={category} />
         <View style={themed($bottmoContainer)}>
           <Text tx="categories:itemsInCategory" txOptions={{ name }} />
-          <ProductList products={products} isLoading={isLoading} />
+          <ProductList products={products!} isLoading={loadingProducts} reLoad={refetch} />
         </View>
       </View>
     </View>

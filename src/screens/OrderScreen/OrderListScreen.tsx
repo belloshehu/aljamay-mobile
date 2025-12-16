@@ -13,20 +13,17 @@ import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { useAuth } from "@/context/AuthContext"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
 import { push } from "expo-router/build/global-state/routing"
 import Price from "@/components/product/Price"
-import { LoginScreen } from "../LoginScreen/LoginScreen"
 import { $separator } from "../ProductScreen/ProductList"
 import { useGetOrders } from "@/hooks/service-hooks/order.service.hooks"
 import { Order } from "./Order"
+import withAuth from "@/components/HOC/withAuth"
 
-// @demo replace-next-line export const ShoppingCartScreen: FC = function ShoppingCartScreen(
-export const OrderListScreen: FC = () => {
+const OrderListScreen: FC = () => {
   const { themed } = useAppTheme()
-  const { isAuthenticated } = useAuth()
   const { isLoading, data } = useGetOrders()
 
   const totalAmount = useMemo(() => {
@@ -35,8 +32,6 @@ export const OrderListScreen: FC = () => {
     }
     return 0
   }, [data])
-
-  if (!isAuthenticated) return <LoginScreen />
 
   if (isLoading)
     return (
@@ -130,3 +125,5 @@ const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   fontSize: 20,
   fontWeight: "500",
 })
+
+export default withAuth(OrderListScreen)

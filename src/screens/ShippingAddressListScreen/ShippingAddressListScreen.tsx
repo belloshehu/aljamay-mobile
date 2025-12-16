@@ -1,32 +1,22 @@
-import { FC, useState } from "react"
+import { FC } from "react"
 import { ActivityIndicator, Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
-import { useAuth } from "@/context/AuthContext" // @demo remove-current-line
 import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { useRouter } from "expo-router"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
 import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
-import { LoginScreen } from "../LoginScreen/LoginScreen"
 import { ShippingAddressList } from "../CheckoutScreen/ShippingAddressList"
 import { PressableIcon } from "@/components/Icon"
 import Modal from "@/components/Modal"
-import ShippingAddressForm from "./ShippingAddressForm"
 import { AddShippingAddressModal } from "./AddShippingAddressModal"
-
-const defaultProfileImage = require("@assets/images/users/man.png")
 
 export const ShippingAddressListScreen: FC = function AccountScreen() {
   const { themed, theme } = useAppTheme()
-  const { isAuthenticated } = useAuth()
-  const [visible, setVisible] = useState(false)
 
   const { isLoading, data: addresses } = useGetAllShippingAdressesByUser()
-
-  if (!isAuthenticated) return <LoginScreen />
 
   if (isLoading)
     return (

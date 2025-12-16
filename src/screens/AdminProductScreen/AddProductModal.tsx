@@ -1,25 +1,26 @@
 import { FC, useState } from "react"
 // eslint-disable-next-line no-restricted-imports
-import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
+import { ScrollView, TextStyle, ViewStyle } from "react-native"
 import { Text } from "@/components/Text"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
-import ShippingAddressForm from "./ShippingAddressForm"
+import ProductForm from "../ProductScreen/ProductForm"
+import { Screen } from "@/components/Screen"
 
-export const AddShippingAddressModal: FC = () => {
+export const AddProductModal: FC = () => {
   const [err, setErr] = useState("")
   const { themed } = useAppTheme()
 
   return (
-    <ScrollView
-      //   preset="auto"
+    <Screen
+      preset="auto"
       contentContainerStyle={themed($screenContentContainer)}
       //   safeAreaEdges={["top", "bottom"]}
     >
       {err && <Text text={err} style={themed($error)} />}
 
-      <ShippingAddressForm setError={setErr} />
-    </ScrollView>
+      <ProductForm setError={setErr} />
+    </Screen>
   )
 }
 

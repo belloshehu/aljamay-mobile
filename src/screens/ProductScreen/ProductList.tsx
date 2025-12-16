@@ -4,8 +4,7 @@ import { ProductType } from "types/product.types"
 import Product from "./Product"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
-import { Card } from "@/components/Card"
-import { Text } from "@/components/Text"
+import { ProductListEmptyState } from "@/components/product/ProductEmptyState"
 
 interface ProductListProps {
   products: ProductType[] | null
@@ -13,18 +12,23 @@ interface ProductListProps {
   productListHeader?: JSX.Element
   onProductScoll?: () => void
   onScrollEnd?: () => void
+  minimum?: boolean
+  reLoad?: () => void
 }
 
 const ProductList: FC<ProductListProps> = (props: ProductListProps) => {
   const { themed } = useAppTheme()
 
-  const { products, isLoading } = props
+  const { products, isLoading, minimum, reLoad } = props
   if (isLoading) return <ActivityIndicator />
-  if (!products) return <Card ContentComponent={<Text tx="productDetail:empty" />} />
+  if (!products || products.length === 0) return <ProductListEmptyState buttonOnPress={reLoad} />
+
   return (
     <FlatList
       ListHeaderComponent={props.productListHeader || null}
-      renderItem={({ item: product }) => <Product product={product} key={product.id} />}
+      renderItem={({ item: product }) => (
+        <Product minimum={minimum} product={product} key={product.id} />
+      )}
       data={products}
       numColumns={2}
       horizontal={false}

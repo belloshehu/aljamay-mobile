@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react"
-import { useMMKVString } from "react-native-mmkv"
+import { useMMKVObject, useMMKVString } from "react-native-mmkv"
 import { UserType } from "types/auth.types"
 
 export type AuthContextType = {
@@ -18,7 +18,7 @@ export type AuthContextType = {
   setAuthEmail: (email: string) => void
   logout: () => void
   validationError: string
-  user: UserType | null
+  user: UserType | null | undefined
   login: (token: string, user: UserType) => void
 }
 
@@ -29,7 +29,7 @@ export interface AuthProviderProps {}
 export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({ children }) => {
   const [authToken, setAuthToken] = useMMKVString("AuthProvider.authToken")
   const [authEmail, setAuthEmail] = useMMKVString("AuthProvider.authEmail")
-  const [user, setUser] = useState<UserType | null>(null)
+  const [user, setUser] = useMMKVObject<UserType | null>("AuthProvider.user")
 
   const logout = useCallback(() => {
     setAuthToken(undefined)

@@ -10,7 +10,7 @@ import { Text } from "@/components/Text"
 import { PromoItemType } from "types/promo.types"
 import PromoDetailHeader from "./PromoDetailHeader"
 import ProductList from "../ProductScreen/ProductList"
-import { Screen } from "@/components/Screen"
+import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
 
 // @demo replace-next-line export const promoDetailScreen: FC = function promoDetailScreen(
 export const PromoDetailScreen: FC = () => {
@@ -19,6 +19,7 @@ export const PromoDetailScreen: FC = () => {
   const [promo, setPromo] = useState<PromoItemType | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [showDescription, setShowhowDescription] = useState(true)
+  const { data: products, isLoading: loadingProduct } = useGetProducts({ search: id })
 
   useEffect(() => {
     setIsLoading(true)
@@ -39,8 +40,8 @@ export const PromoDetailScreen: FC = () => {
           {showDescription && <Text>{promo.description}</Text>}
           <View>
             <ProductList
-              products={dummyProducts}
-              isLoading={false}
+              products={products!}
+              isLoading={loadingProduct}
               productListHeader={
                 <Text
                   tx="promo:productList"

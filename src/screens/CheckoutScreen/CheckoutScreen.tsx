@@ -27,13 +27,13 @@ import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.
 import { ShippingAddress } from "./ShippingAddress"
 import Loader from "@/components/Loader"
 import { PaymentButton } from "@/screens/CheckoutScreen/PaymentButton"
-import { LoginScreen } from "../LoginScreen/LoginScreen"
 import { UserType } from "types/auth.types"
 import { useCheckoutContext } from "@/context/CheckoutProvider"
+import withAuth from "@/components/HOC/withAuth"
 
-export const CheckoutScreen: FC = () => {
+const CheckoutScreen: FC = () => {
   const { themed } = useAppTheme()
-  const { isAuthenticated, user } = useAuth()
+  const { user } = useAuth()
   const { isLoading, data: cartItems } = useGetCartItems()
   const { setBottomChildren, handleModalPreset } = useBottomSheetContext()
   const { data: addressList, isLoading: loadingDefaultAddress } = useGetAllShippingAdressesByUser()
@@ -76,8 +76,6 @@ export const CheckoutScreen: FC = () => {
     setBottomChildren(<ShippingAddressBottomSheetChildren />)
     handleModalPreset()
   }
-
-  if (!isAuthenticated) return <LoginScreen />
 
   if (isLoading)
     return (
@@ -225,3 +223,5 @@ const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   fontSize: 20,
   fontWeight: "500",
 })
+
+export default withAuth(CheckoutScreen)

@@ -1,11 +1,10 @@
 import { FC, useState } from "react"
 import { ScrollView, View, ViewStyle } from "react-native"
-import { ProductCategory, ProductType } from "types/product.types"
+import { ProductCategory } from "types/product.types"
 import CategoryItem from "./ProductCategoryItem"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import ProductList from "../../screens/ProductScreen/ProductList"
-import { dummyProducts } from "@/constants"
 import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
 
 interface ProductCategoryListProps {
@@ -14,28 +13,15 @@ interface ProductCategoryListProps {
 const ProductCategoryList: FC<ProductCategoryListProps> = (props: ProductCategoryListProps) => {
   const { themed } = useAppTheme()
   const [selectedCategory, setSelectedCategory] = useState("All")
-  const [products, setProducts] = useState<ProductType[] | null>(dummyProducts)
   const { categories } = props
-  const { isLoading, data } = useGetProducts({})
+  const { isLoading, data: products, refetch } = useGetProducts({ search: selectedCategory })
 
   const handleItemClick = (name: string) => {
     if (name) {
       setSelectedCategory(name)
-      filterProductsByCategory(name)
     }
   }
 
-  const filterProductsByCategory = (categoryName: string) => {
-    if (categoryName.toLocaleLowerCase() === "all") {
-      setProducts(dummyProducts)
-    }
-    const filtered = products?.filter((product) =>
-      product.name.includes(categoryName.toLocaleLowerCase()),
-    )
-    if (filtered && filtered.length > 0) {
-      setProducts(filtered)
-    }
-  }
   return (
     <View style={themed($container)}>
       <ScrollView
@@ -54,7 +40,7 @@ const ProductCategoryList: FC<ProductCategoryListProps> = (props: ProductCategor
           />
         ))}
       </ScrollView>
-      <ProductList products={data!} isLoading={isLoading} />
+      <ProductList products={products!} isLoading={isLoading} reLoad={refetch} />
     </View>
   )
 }
@@ -62,7 +48,6 @@ const ProductCategoryList: FC<ProductCategoryListProps> = (props: ProductCategor
 const $scroll: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   gap: 10,
   flexDirection: "row",
-  // width: "100%",
   marginVertical: 10,
   backgroundColor: colors.errorBackground,
   padding: spacing.sm,

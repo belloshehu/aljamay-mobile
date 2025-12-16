@@ -1,5 +1,5 @@
 {
-  "name": "aljamay",
+  "name": "Aljamay",
   "slug": "aljamay",
   "scheme": "aljamay",
   "version": "1.0.0",
@@ -17,11 +17,12 @@
     "package": "com.aljamaymobile",
     "adaptiveIcon": {
       "foregroundImage": "./assets/images/app-icon-android-adaptive-foreground.png",
-      "backgroundImage": "./assets/images/app-icon-android-adaptive-background.png"
+      // "backgroundImage": "./assets/images/app-icon-android-adaptive-background.png",
+      "backgroundColor": "#FFFFFF"
     },
     "splash": {
       "image": "./assets/images/splash-icon.png",
-      "resizeMode": "center",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "allowBackup": false,
@@ -37,6 +38,13 @@
     "bundler": "metro"
   },
   "plugins": [
+    [
+      "expo-image-picker",
+      {
+        "photosPermission": "Allow access to your photos",
+        "cameraPermission": "Allow access to your camera"
+      }
+    ],
     "expo-localization",
     "expo-font",
     "expo-router",

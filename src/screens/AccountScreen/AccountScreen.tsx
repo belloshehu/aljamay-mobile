@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useMemo, useState } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import { useAuth } from "@/context/AuthContext" // @demo remove-current-line
@@ -11,11 +11,12 @@ import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
 import { useRequestEmailVerificationCode } from "@/hooks/service-hooks/auth.service.hook"
 import { AccountItem } from "./AccountItem"
-import { push } from "expo-router/build/global-state/routing"
+import { adminAccountItem, userAccountItem } from "@/constants"
+import withAuth from "@/components/HOC/withAuth"
 
 const defaultProfileImage = require("@assets/images/users/man.png")
 // @demo replace-next-line export const AccountScreen: FC = function AccountScreen(
-export const AccountScreen: FC = function AccountScreen() {
+const AccountScreen: FC = function AccountScreen() {
   const { themed } = useAppTheme()
   const { logout, user } = useAuth()
   const router = useRouter()
@@ -23,6 +24,31 @@ export const AccountScreen: FC = function AccountScreen() {
   const { refetch, error, isSuccess, isRefetching, isFetching } =
     useRequestEmailVerificationCode(enableCodeRequest)
 
+  const renderAccountItems = useMemo(() => {
+    if (user?.role === "ADMIN") {
+      return adminAccountItem.map((item, index) => (
+        <AccountItem
+          key={index}
+          icon={item.icon}
+          title={item.title}
+          count={item.count}
+          onPress={item.onPress}
+        />
+      ))
+    } else if (user?.role === "USER") {
+      return userAccountItem.map((item, index) => (
+        <AccountItem
+          key={index}
+          icon={item.icon}
+          title={item.title}
+          count={item.count}
+          onPress={item.onPress}
+        />
+      ))
+    } else {
+      return <Text text="No account items available" />
+    }
+  }, [])
   function verifyAccount() {
     // reguest verification code
     setEnableCodeRequest(true)
@@ -30,24 +56,8 @@ export const AccountScreen: FC = function AccountScreen() {
       refetch()
     }
     if (isSuccess) {
-      router.push("/(app)/(tabs)/user/(auth)/email-verification")
+      router.push("/user/email-verification")
     }
-  }
-
-  const goToOrders = () => {
-    push("/user/orders")
-  }
-
-  const goToMessages = () => {
-    push("/user/messages")
-  }
-
-  const goToReviews = () => {
-    push("/user/orders")
-  }
-
-  const goToAddresses = () => {
-    push("/user/shipping-addresses")
   }
 
   return (
@@ -58,32 +68,7 @@ export const AccountScreen: FC = function AccountScreen() {
           <Text text={user?.firstName + " " + user?.lastName} style={themed($names)} />
           <Text text={user?.email} />
         </View>
-        <View style={{ gap: 5, flex: 0.7, justifyContent: "flex-start" }}>
-          <AccountItem
-            icon="order"
-            title="profileScreen:accountItem.orders"
-            count={0}
-            onPress={goToOrders}
-          />
-          <AccountItem
-            icon="message"
-            title="profileScreen:accountItem.messages"
-            count={0}
-            onPress={goToMessages}
-          />
-          <AccountItem
-            icon="review"
-            title="profileScreen:accountItem.reviews"
-            count={0}
-            onPress={goToReviews}
-          />
-          <AccountItem
-            icon="location"
-            title="profileScreen:accountItem.addresses"
-            count={0}
-            onPress={goToAddresses}
-          />
-        </View>
+        <View style={{ gap: 5, flex: 1, justifyContent: "flex-start" }}>{renderAccountItems}</View>
 
         {error && <Text text={error.message} />}
         {!user?.verified && (
@@ -138,3 +123,5 @@ const $tapButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   backgroundColor: colors.errorBackground,
   width: "100%",
 })
+
+export default withAuth(AccountScreen)

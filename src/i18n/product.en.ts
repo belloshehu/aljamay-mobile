@@ -1,4 +1,14 @@
 const productEn = {
+  emptyState: {
+    one: {
+      heading: "Oops! Empty product",
+      content: "No product found yet. Try clicking the button to refresh or reload the app",
+    },
+    many: {
+      heading: "Oops! Empty products",
+      content: "No products found yet. Try clicking the button to refresh or reload the app",
+    },
+  },
   productDetail: {
     notFound: "Product not found",
     checkout: "Checkout",
@@ -6,6 +16,10 @@ const productEn = {
     discount: "Off",
     empty: "No products yet",
     goToList: "Check other products",
+  },
+  productList: {
+    title: "Products ({{count}}) ",
+    addProduct: "Add Product",
   },
   categories: {
     title: "Product Categories ",
@@ -54,6 +68,25 @@ const productEn = {
     goToCart: "Go to cart",
     orderHeading: "Ordered on, {{date}}",
     itemsCount: "Product/Items ({{count}})",
+  },
+  productForm: {
+    createTitle: "Create Product",
+    editTitle: "Edit Product",
+    nameLabel: "Product Name",
+    namePlaceholder: "Enter product name",
+    descriptionLabel: "Product Description",
+    descriptionPlaceholder: "Enter product description",
+    priceLabel: "Product Price",
+    pricePlaceholder: "Enter product price",
+    discountLabel: "Product Discount (Naira)",
+    discountPlaceholder: "Enter product discount",
+    categoryLabel: "Product Category",
+    categoryPlaceholder: "Enter product category",
+    quantityLabel: "Product Quantity",
+    quantityPlaceholder: "Enter product quantity",
+    imageLabel: "Product Image",
+    submitButtonCreate: "Create Product",
+    submitButtonEdit: "Update Product",
   },
 }
 

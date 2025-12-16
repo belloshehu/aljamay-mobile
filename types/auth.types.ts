@@ -3,7 +3,9 @@ export interface LoginPayload {
   password: string
 }
 
+import { IconTypes } from "@/components/Icon"
 import { ResponseType } from "./response.types"
+import { TxKeyPath } from "@/i18n"
 
 export interface UserType {
   email: string
@@ -39,3 +41,10 @@ export type GetUserResponseType = ResponseType<UserType>
 export type EmailVerificationCodeResponse = ResponseType<VerificationType>
 
 export type UserRole = "ADMIN" | "USER"
+
+export interface AccountItem {
+  icon: IconTypes
+  title: TxKeyPath
+  count?: number
+  onPress: () => void
+}

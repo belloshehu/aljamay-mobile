@@ -5,18 +5,13 @@ import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
-import { useRouter } from "expo-router"
 import { Text } from "@/components/Text"
 import CategoryCardList from "./CategoryCardList"
 import { productCategories } from "@/constants"
 
 // @demo replace-next-line export const CategoriesScreen: FC = function CategoriesScreen(
-export const CategoriesScreen: FC = function CategoriesScreen() {
+const CategoriesScreen: FC = function CategoriesScreen() {
   const { themed, theme } = useAppTheme()
-  const router = useRouter()
-
-  const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
 
   return (
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
@@ -54,3 +49,5 @@ const $CategoriesHeading: ThemedStyle<TextStyle> = ({ spacing }) => ({
   marginBottom: spacing.md,
   fontWeight: "bold",
 })
+
+export default CategoriesScreen

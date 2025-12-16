@@ -17,6 +17,10 @@ export default function UserLayout() {
         <Stack.Screen name="index" />
         {/* <Stack.Screen name="(auth)/verification" options={{}} /> */}
         <Stack.Screen name="shipping-addresses" options={{}} />
+        <Stack.Screen name="admin-reviews" options={{}} />
+        <Stack.Screen name="admin-products" options={{}} />
+        <Stack.Screen name="admin-promos" options={{}} />
+        <Stack.Screen name="admin-orders" options={{}} />
       </Tabs.Protected>
 
       <Stack.Protected guard={!isAuthenticated}>
