@@ -1,6 +1,6 @@
 import { useAuth } from "@/context/AuthContext"
-import { LoginScreen } from "@/screens/LoginScreen/LoginScreen"
-import { ComponentProps, JSX } from "react"
+import { push } from "expo-router/build/global-state/routing"
+import { ComponentProps, JSX, useEffect } from "react"
 
 /*
  *  Higher Order Function (HOC) for protected screens
@@ -8,7 +8,10 @@ import { ComponentProps, JSX } from "react"
 export default function withAuth(Component: JSX.ElementType) {
   return (props: ComponentProps<any>) => {
     const { isAuthenticated } = useAuth()
-    if (!isAuthenticated) return <LoginScreen />
+    useEffect(() => {
+      if (!isAuthenticated) push("/user/login")
+    }, [])
+
     return <Component {...props} />
   }
 }

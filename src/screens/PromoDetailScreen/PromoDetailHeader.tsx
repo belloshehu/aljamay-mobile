@@ -4,15 +4,7 @@ import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { goBack } from "expo-router/build/global-state/routing"
 import { FC } from "react"
-import {
-  Pressable,
-  ViewStyle,
-  View,
-  TextStyle,
-  Image,
-  ImageStyle,
-  ImageBackground,
-} from "react-native"
+import { Pressable, ViewStyle, View, TextStyle, ImageStyle, ImageBackground } from "react-native"
 import { PromoItemType } from "types/promo.types"
 import { PromoDate } from "../PromoScreen/PromoDate"
 import { PromoCountDown } from "../PromoScreen/PromoCountDown"
@@ -77,13 +69,17 @@ const $titleWrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   alignItems: "center",
   paddingHorizontal: spacing.sm,
   position: "absolute",
-  top: 30,
+  top: 40,
   zIndex: 10,
 })
 
-const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  fontSize: spacing.lg,
+const $titleText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
+  fontSize: spacing.md,
   fontWeight: "500",
+  backgroundColor: colors.errorBackground,
+  padding: spacing.xxs,
+  paddingHorizontal: spacing.md,
+  borderRadius: spacing.md,
 })
 
 const $bgImageContainer: ThemedStyle<ImageStyle> = ({ spacing }) => ({

@@ -47,10 +47,11 @@ const $container: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
 
 const $content: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   gap: 5,
-  borderRadius: spacing.xxs,
   width: "100%",
   padding: spacing.xl,
   alignItems: "center",
+  backgroundColor: "rgba(0, 0, 0, 0.4)",
+  borderRadius: spacing.md,
 })
 
 export const $dateWrapper: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
@@ -76,8 +77,7 @@ const $image: ThemedStyle<ImageStyle> = ({ spacing, colors }) => ({
 const $title: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
   fontWeight: "bold",
   color: "#fff",
-  fontSize: spacing.lg,
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  fontSize: spacing.md,
   width: "100%",
   textAlign: "center",
   borderRadius: spacing.lg,

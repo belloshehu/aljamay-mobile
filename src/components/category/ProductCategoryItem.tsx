@@ -1,5 +1,4 @@
-import { FC, JSX } from "react"
-import { Button } from "../Button"
+import { FC } from "react"
 import {
   Image,
   ImageSourcePropType,
@@ -43,7 +42,7 @@ const ProductCategoryItem: FC<ProductCategoryItemProps> = (props: ProductCategor
       <Text style={themed([$text, isSelected && { fontWeight: "bold" }])}>{name}</Text>
       {isSelected && (
         <View style={themed($badge)}>
-          <Text style={themed($BadText)}>{count || 0}</Text>
+          <Text style={themed($badgeText)}>{count || 0}</Text>
         </View>
       )}
     </Pressable>
@@ -75,16 +74,19 @@ const $badge: ThemedStyle<ImageStyle> = ({ colors }) => ({
   justifyContent: "center",
 })
 
-const $BadText: ThemedStyle<TextStyle> = ({ colors }) => ({
+const $badgeText: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.text,
   fontSize: 11,
   textAlign: "center",
 })
 
-const $text: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
+const $text: ThemedStyle<TextStyle> = ({ colors, typography, spacing }) => ({
   color: colors.text,
-  fontSize: 12,
+  fontSize: 10,
   fontFamily: typography.code?.normal,
+  backgroundColor: colors.palette.neutral200,
+  paddingHorizontal: spacing.xs,
+  borderRadius: spacing.md,
 })
 
 export default ProductCategoryItem

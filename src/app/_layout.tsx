@@ -52,7 +52,14 @@ export default function Root() {
     return null
   }
 
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        retryDelay: 2,
+      },
+    },
+  })
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       {/* <ToastManager> */}

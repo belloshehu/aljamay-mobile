@@ -105,6 +105,14 @@ const en = {
     emptyMany: "No messages",
     goToProfile: "Go to profile",
   },
+  reviewScreen: {
+    title: "Reviews ({{count}})",
+    loadingMany: "Loading reviews ...",
+    loadingOne: "Loading review ...",
+    emptyOne: "No review",
+    emptyMany: "No reviews",
+    goToProfile: "Go to profile",
+  },
   shoppingCartScreen: {
     searchPlaceholder: "Product name, category etc.",
   },

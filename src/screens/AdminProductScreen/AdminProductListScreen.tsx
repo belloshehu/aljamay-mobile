@@ -56,6 +56,14 @@ export const AdminProductListScreen: FC = () => {
             style={{ width: "100%", marginTop: 10 }}
             onPress={() => push("/user")}
           />
+          <Modal
+            title={translate("productList:addProduct")}
+            TriggerComponent={({ onPress }) => (
+              <Button tx="productList:addProduct" preset="filled" onPress={onPress} />
+            )}
+            renderedModalChildren={<AddProductModal />}
+            // renderedModalChildren={<AddProductModal />}
+          />
         </View>
       </Screen>
     )

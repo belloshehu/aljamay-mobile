@@ -8,10 +8,18 @@ import { spacing } from "@/theme/spacing"
 import { typography } from "@/theme/typography"
 import { translate } from "@/i18n/translate"
 import { useSegments, Route } from "expo-router"
+import { dummyPromo, productCategories } from "@/constants"
+import { useCartStore } from "@/store/cartStore"
+import { useUserStore } from "@/store/userStore"
+import { ThemedStyle } from "@/theme/types"
+import { useAppTheme } from "@/theme/context"
 
 export default function Layout() {
   const { bottom } = useSafeAreaInsets()
   const segments = useSegments<Route>()
+  const { items } = useCartStore()
+  const { messages } = useUserStore()
+  const { themed } = useAppTheme()
 
   const hideTabBar =
     segments.includes("product" as never) ||
@@ -30,6 +38,7 @@ export default function Layout() {
         tabBarInactiveTintColor: colors.text,
         tabBarLabelStyle: $tabBarLabel,
         tabBarItemStyle: $tabBarItem,
+        tabBarBadgeStyle: themed($tabBarBadgeStyle),
       }}
     >
       <Tabs.Screen
@@ -50,6 +59,7 @@ export default function Layout() {
           tabBarIcon: ({ focused }) => (
             <Icon icon="category" color={focused ? colors.tint : undefined} size={30} />
           ),
+          tabBarBadge: productCategories.length,
         }}
       />
 
@@ -60,6 +70,7 @@ export default function Layout() {
           tabBarIcon: ({ focused }) => (
             <Icon icon="bell" color={focused ? colors.tint : undefined} size={30} />
           ),
+          tabBarBadge: dummyPromo.length,
         }}
       />
 
@@ -70,6 +81,7 @@ export default function Layout() {
           tabBarIcon: ({ focused }) => (
             <Icon icon="cart" color={focused ? colors.tint : undefined} size={30} />
           ),
+          tabBarBadge: items, // count of items in the cart
         }}
       />
 
@@ -83,6 +95,7 @@ export default function Layout() {
           tabBarIcon: ({ focused }) => (
             <Icon icon="user" color={focused ? colors.tint : undefined} size={30} />
           ),
+          tabBarBadge: messages.length,
         }}
       />
     </Tabs>
@@ -104,3 +117,8 @@ const $tabBarLabel: TextStyle = {
   lineHeight: 16,
   flex: 1,
 }
+
+const $tabBarBadgeStyle: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
+  color: "#fff",
+  backgroundColor: colors.errorBackground,
+})

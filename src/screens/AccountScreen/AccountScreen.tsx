@@ -61,7 +61,7 @@ const AccountScreen: FC = function AccountScreen() {
   }
 
   return (
-    <Screen preset="auto" contentContainerStyle={$styles.flex1}>
+    <Screen preset="auto" contentContainerStyle={[$styles.flex1]}>
       <View style={themed($mainContainer)}>
         <View style={themed($topContainer)}>
           <Image source={defaultProfileImage} style={themed($profileFace)} />

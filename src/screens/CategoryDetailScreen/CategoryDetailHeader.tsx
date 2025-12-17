@@ -21,7 +21,11 @@ const CategoryDetailHeader: FC<CategoryDetailHeaderProps> = (props: CategoryDeta
         <Pressable style={themed($backButton)} onPress={goBack}>
           <Icon icon="caretLeft" size={30} />
         </Pressable>
-        <Text text={name} style={themed($titleText)} />
+        <Text
+          tx="categories:categoryDetailHeading"
+          txOptions={{ name }}
+          style={themed($titleText)}
+        />
       </View>
       <Image source={image as any} style={themed($image)} />
     </View>
@@ -47,13 +51,17 @@ const $titleWrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   alignItems: "center",
   paddingHorizontal: spacing.sm,
   position: "absolute",
-  top: 30,
+  top: 40,
   zIndex: 10,
 })
 
-const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({
+const $titleText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   fontSize: spacing.lg,
   fontWeight: "500",
+  backgroundColor: colors.errorBackground,
+  padding: spacing.xxs,
+  paddingHorizontal: spacing.md,
+  borderRadius: spacing.md,
 })
 
 const $image: ThemedStyle<ImageStyle> = ({ spacing }) => ({

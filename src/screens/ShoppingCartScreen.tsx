@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from "react"
+import { FC, useMemo } from "react"
 import {
   ActivityIndicator,
   FlatList,
@@ -13,8 +13,6 @@ import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { useAuth } from "@/context/AuthContext"
-import { LoginScreen } from "./LoginScreen/LoginScreen"
 import { useGetCartItems } from "@/hooks/service-hooks/cart.service.hooks"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
@@ -22,11 +20,10 @@ import { push, replace } from "expo-router/build/global-state/routing"
 import { CartItem } from "@/components/shoppingCart/CartItem"
 import Price from "@/components/product/Price"
 import { $separator } from "./ProductScreen/ProductList"
+import withAuth from "@/components/HOC/withAuth"
 
-// @demo replace-next-line export const ShoppingCartScreen: FC = function ShoppingCartScreen(
-export const ShoppingCartScreen: FC = function ShoppingCartScreen() {
+const ShoppingCartScreen: FC = function ShoppingCartScreen() {
   const { themed } = useAppTheme()
-  const { isAuthenticated } = useAuth()
   const { isLoading, data } = useGetCartItems()
 
   const addProduct = () => {
@@ -50,8 +47,6 @@ export const ShoppingCartScreen: FC = function ShoppingCartScreen() {
   const goToCheckout = () => {
     push("/shopping/checkout")
   }
-
-  if (!isAuthenticated) return <LoginScreen />
 
   if (isLoading)
     return (
@@ -154,7 +149,9 @@ const $priceText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   fontWeight: "500",
 })
 
-const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({
+const $titleText: ThemedStyle<TextStyle> = ({}) => ({
   fontSize: 20,
   fontWeight: "500",
 })
+
+export default withAuth(ShoppingCartScreen)

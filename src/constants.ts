@@ -93,7 +93,7 @@ export const productCategories: ProductCategory[] = [
   },
   {
     name: "Cake",
-    image: require("@assets/images/product/bread.jpg"),
+    image: require("@assets/images/product/cake.jpg"),
   },
   {
     name: "Tea",
@@ -101,7 +101,7 @@ export const productCategories: ProductCategory[] = [
   },
   {
     name: "Spices",
-    image: require("@assets/images/product/bread.jpg"),
+    image: require("@assets/images/product/spices.jpg"),
   },
   // {
   //   name: "Herbs",

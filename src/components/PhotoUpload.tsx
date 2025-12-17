@@ -7,16 +7,18 @@ import { ImagePreview } from "./ImagePreview"
 
 interface PhotoUploadProps {
   customStyle?: object
-  setFile: (name: string | any, file: ImagePicker.ImagePickerAsset) => void
+  setFile?: (name: string | any, file: ImagePicker.ImagePickerAsset) => void
   file?: ImagePicker.ImagePickerAsset
   // setFile: (name: string | any, file: string) => void
   // file: string
   name: string
   buttonText?: string
   withPreview?: boolean
+  value?: ImagePicker.ImagePickerAsset
+  onChange?: (file: any) => void
 }
 export default function PhotoUpload(props: PhotoUploadProps) {
-  const { customStyle, setFile, name, buttonText } = props
+  const { customStyle, setFile, name, buttonText, onChange } = props
   // Function to pick an image from
   //the device's media library
   const pickImage = async () => {
@@ -40,12 +42,13 @@ export default function PhotoUpload(props: PhotoUploadProps) {
       if (!result.canceled) {
         // If an image is selected (not cancelled),
         // update the file state variable
-        setFile(name, result.assets[0])
+        setFile && setFile(name, result.assets[0])
+        onChange && onChange(result.assets[0])
       }
     }
   }
-  if (props.withPreview && props.file) {
-    return <ImagePreview uri={props.file.uri} />
+  if (props.withPreview && props.value) {
+    return <ImagePreview uri={props.value?.uri} onPress={pickImage} />
   }
   return (
     <Button onPress={pickImage} style={customStyle} LeftAccessory={() => <Icon icon="camera" />}>

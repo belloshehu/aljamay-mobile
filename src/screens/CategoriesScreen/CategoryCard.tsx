@@ -39,7 +39,7 @@ const CategoryCard: FC<CategoryCardProps> = (props: CategoryCardProps) => {
       <Text style={themed([$text, isSelected && { fontWeight: "bold" }])}>{name}</Text>
 
       <View style={themed($badge)}>
-        <Text style={themed($BadText)}>{count || 0}</Text>
+        <Text style={themed($badgeText)}>{count || 0}</Text>
       </View>
     </Pressable>
   )
@@ -67,26 +67,32 @@ const $image: ThemedStyle<ImageStyle> = ({ spacing, colors }) => ({
 
 const $badge: ThemedStyle<ImageStyle> = ({ colors }) => ({
   width: 40,
-  height: 40,
+  height: 20,
   borderRadius: 20,
-  backgroundColor: colors.separator,
+  backgroundColor: colors.errorBackground,
   position: "absolute",
   justifyContent: "center",
-  left: 0,
-  top: 10,
+  left: 10,
+  bottom: 10,
 })
 
-const $BadText: ThemedStyle<TextStyle> = ({ colors }) => ({
+const $badgeText: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.text,
   fontSize: 11,
   textAlign: "center",
 })
 
-const $text: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
-  color: colors.text,
+const $text: ThemedStyle<TextStyle> = ({ colors, typography, spacing }) => ({
+  color: "#fff",
   fontSize: 14,
   fontWeight: "bold",
   fontFamily: typography.code?.normal,
+  position: "absolute",
+  left: 10,
+  top: 10,
+  backgroundColor: colors.errorBackground,
+  paddingHorizontal: spacing.md,
+  borderRadius: spacing.sm,
 })
 
 export default CategoryCard

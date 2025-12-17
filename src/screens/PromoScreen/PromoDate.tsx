@@ -23,10 +23,10 @@ export const PromoDate: FC<PromoDateProps> = (props: PromoDateProps) => {
 export const $dateWrapper: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   gap: 2,
   borderRadius: spacing.xxxl,
-  width: "auto",
+  width: "100%",
   padding: spacing.xxs,
   paddingHorizontal: spacing.sm,
-  backgroundColor: "rgba(0, 0, 0, 1)",
+  backgroundColor: colors.errorBackground,
   flexDirection: "row",
   justifyContent: "center",
   borderWidth: 0,

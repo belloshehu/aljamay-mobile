@@ -11,17 +11,17 @@ import { productCategories } from "@/constants"
 
 // @demo replace-next-line export const CategoriesScreen: FC = function CategoriesScreen(
 const CategoriesScreen: FC = function CategoriesScreen() {
-  const { themed, theme } = useAppTheme()
+  const { themed } = useAppTheme()
 
   return (
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
       <View style={themed($topContainer)}>
-        <Text
+        {/* <Text
           style={themed($CategoriesHeading)}
           tx="categories:numberOfCategories"
           txOptions={{ count: productCategories.length }}
         />
-        <Text tx="categories:listDescription" />
+        <Text tx="categories:listDescription" /> */}
         <CategoryCardList categories={productCategories} isLoading={false} />
       </View>
     </Screen>
@@ -35,15 +35,6 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   justifyContent: "flex-start",
   paddingHorizontal: spacing.lg,
 })
-
-const $CategoriesFace: ImageStyle = {
-  height: 169,
-  width: 269,
-  position: "absolute",
-  bottom: -47,
-  right: -80,
-  transform: [{ scaleX: isRTL ? -1 : 1 }],
-}
 
 const $CategoriesHeading: ThemedStyle<TextStyle> = ({ spacing }) => ({
   marginBottom: spacing.md,

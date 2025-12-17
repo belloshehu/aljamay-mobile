@@ -1,27 +1,24 @@
-import { View, Text, Image, StyleSheet } from "react-native"
-import { Button } from "./Button"
-import { PressableIcon } from "./Icon"
-import { useAppTheme } from "@/theme/context"
+import { View, Text, Image, StyleSheet, Pressable } from "react-native"
 
 interface ImagePreviewProps {
   uri?: string
   previewText?: string
+  onPress?: () => void
 }
 export const ImagePreview = (props: ImagePreviewProps) => {
-  const { themed } = useAppTheme()
-  const { uri, previewText = "Image Preview" } = props
+  const { uri, previewText = "Image Preview", onPress } = props
   if (uri)
     return (
-      <View style={styles.imageContainer}>
+      <Pressable style={styles.imageContainer} onPress={onPress}>
         <Image source={{ uri }} style={styles.image} />
-        <PressableIcon icon="camera" style={styles.button} onPress={() => {}} />
-      </View>
+        <Text style={styles.previewText}>Tap to replace</Text>
+      </Pressable>
     )
 
   return (
-    <View style={styles.empty}>
+    <Pressable style={styles.empty} onPress={onPress}>
       <Text style={styles.previewText}>{previewText}</Text>
-    </View>
+    </Pressable>
   )
 }
 
@@ -31,6 +28,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 8,
     resizeMode: "cover",
+    position: "relative",
   },
   errorText: {
     color: "red",
@@ -49,8 +47,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   previewText: {
-    fontSize: 20,
+    fontSize: 16,
     color: "#fff",
+    position: "absolute",
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   imageContainer: {
     display: "flex",
@@ -61,7 +63,8 @@ const styles = StyleSheet.create({
   },
   button: {
     position: "absolute",
-    top: 50,
+    top: 10,
     color: "#fff",
+    zIndex: 10,
   },
 })

@@ -22,15 +22,16 @@ const productEn = {
     addProduct: "Add Product",
   },
   categories: {
-    title: "Product Categories ",
+    title: "Product Categories ({{count}})",
     description: "Various product categories for your refreshment.",
     notFound: "Product category not found",
     itemsInCategory: "Available items in {{name}}",
     numberOfCategories: "{{count}} categories",
     listDescription: "We have various categories of products for you.",
+    categoryDetailHeading: "{{name}} category",
   },
   promo: {
-    title: "Promos",
+    title: "Promos ({{count}})",
     description: "Various promotion plans to make your refreshment more affordable.",
     notFound: "Promo not found",
     countDown: "{{days}} days to go",

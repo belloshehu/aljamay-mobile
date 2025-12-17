@@ -22,10 +22,10 @@ const ProductSearchModal: FC = (props) => {
         onBlur={toggleModal}
         placeholderTx={"homeScreen:searchPlaceholder"}
         keyboardType="web-search"
-        RightAccessory={() => (
+        LeftAccessory={() => (
           <Icon
             icon="search"
-            style={{ marginVertical: "auto", top: 10, right: 5 }}
+            style={{ marginVertical: "auto", top: 10, left: 8 }}
             color={theme.colors.text}
           />
         )}

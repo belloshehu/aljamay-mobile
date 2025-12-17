@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header"
+import { productCategories } from "@/constants"
 import { Stack } from "expo-router"
 import { goBack } from "expo-router/build/global-state/routing"
 
@@ -10,7 +11,13 @@ export default function CategoryLayout() {
         headerShown: true,
         headerStyle: { backgroundColor: "#000" },
         header: (props) => (
-          <Header titleTx="categories:title" leftIcon="caretLeft" onLeftPress={goBack} {...props} />
+          <Header
+            titleTx="categories:title"
+            titleTxOptions={{ count: productCategories.length }}
+            leftIcon="caretLeft"
+            onLeftPress={goBack}
+            {...props}
+          />
         ),
       }}
     >

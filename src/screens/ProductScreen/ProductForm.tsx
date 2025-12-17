@@ -1,13 +1,11 @@
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, FC, SetStateAction, useEffect } from "react"
 import { View, ViewStyle } from "react-native"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { TextField } from "@/components/TextField"
 import { Button } from "@/components/Button"
-import { Picker } from "@react-native-picker/picker"
-
 import { useAxios } from "@/hooks/use-axios"
 import {
   productCreateValidationSchema,
@@ -32,10 +30,9 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     setFocus,
     setValue,
-    getValues,
     watch,
   } = useForm({
     resolver: zodResolver(productCreateValidationSchema),
@@ -43,7 +40,7 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
   })
 
   const onSubmit = (data: ProductCreateValidationSchemaType) => {
-    console.log(data)
+    console.log("Data: ", data)
     mutateAsync({ payload: data, protectedRequest })
   }
 
@@ -52,9 +49,6 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
       setError(error?.response?.data?.error || "Failed to Add address")
     }
   }, [error])
-
-  console.log(getValues())
-  console.log(watch())
 
   return (
     <View style={themed($formContainer)}>
@@ -190,12 +184,12 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
       <Controller
         control={control}
         name="image"
-        render={({ field: { name, value }, fieldState: { error } }) => (
+        render={({ field: { name, value, onChange }, fieldState: { error } }) => (
           <View>
             <PhotoUpload
               name={name}
-              setFile={setValue}
-              file={value}
+              onChange={onChange}
+              value={value as any}
               buttonText="Upload product image"
               withPreview
             />
@@ -203,7 +197,6 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
           </View>
         )}
       />
-
       <Button
         testID="login-button"
         tx={isPending ? "progress:wait" : "common:submit"}
