@@ -8,6 +8,8 @@ import { Pressable, ViewStyle, View, TextStyle, ImageStyle, ImageBackground } fr
 import { PromoItemType } from "types/promo.types"
 import { PromoDate } from "../PromoScreen/PromoDate"
 import { PromoCountDown } from "../PromoScreen/PromoCountDown"
+import Animated from "react-native-reanimated"
+import { animationStyles } from "@/styles/animation.style"
 
 interface PromoDetailHeaderProps {
   promo: PromoItemType
@@ -26,7 +28,9 @@ const PromoDetailHeader: FC<PromoDetailHeaderProps> = (props: PromoDetailHeaderP
         <Pressable style={themed($backButton)} onPress={goBack}>
           <Icon icon="caretLeft" size={30} />
         </Pressable>
-        <Text text={title} style={themed($titleText)} />
+        <Animated.Text style={[themed($titleText), animationStyles.slideInAmination]}>
+          {title}
+        </Animated.Text>
       </View>
       <ImageBackground
         source={images![0] as any}

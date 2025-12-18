@@ -13,6 +13,9 @@ import { useLogin } from "@/hooks/service-hooks/auth.service.hook"
 import { useAxios } from "@/hooks/use-axios"
 import { Text } from "@/components/Text"
 import { useRouter } from "expo-router"
+import Animated from "react-native-reanimated"
+import { animationStyles } from "@/styles/animation.style"
+import { GlowWrapper } from "@/components/GlowWrapper"
 
 interface LoginFormProps {
   setError: Dispatch<SetStateAction<string>>
@@ -116,14 +119,15 @@ const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
         <Text text="Forgot password" style={themed($forgotPasswordButtonText)} />
       </Pressable>
 
-      <Button
-        testID="login-button"
-        tx={isPending ? "loginScreen:loginProgress" : "loginScreen:tapToLogIn"}
-        style={themed($tapButton)}
-        preset="reversed"
-        onPress={handleSubmit(onSubmit)}
-        disabled={isPending}
-      />
+      <GlowWrapper style={{ marginTop: 20 }}>
+        <Button
+          testID="login-button"
+          tx={isPending ? "loginScreen:loginProgress" : "loginScreen:tapToLogIn"}
+          preset="filled"
+          onPress={handleSubmit(onSubmit)}
+          disabled={isPending}
+        />
+      </GlowWrapper>
     </View>
   )
 }
@@ -132,11 +136,6 @@ const $formContainer: ThemedStyle<ViewStyle> = ({}) => ({})
 
 const $textField: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   marginBottom: spacing.lg,
-})
-
-const $tapButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  marginTop: spacing.md,
-  backgroundColor: colors.errorBackground,
 })
 
 const $forgotPasswordButtonText: ThemedStyle<TextStyle> = ({ colors }) => ({

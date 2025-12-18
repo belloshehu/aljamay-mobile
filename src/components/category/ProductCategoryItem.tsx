@@ -11,7 +11,9 @@ import {
 } from "react-native"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
-import { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated"
+import { css, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated"
+import Animated from "react-native-reanimated"
+import { GlowWrapper } from "../GlowWrapper"
 
 interface ProductCategoryItemProps {
   image: ImageSourcePropType
@@ -33,11 +35,28 @@ const ProductCategoryItem: FC<ProductCategoryItemProps> = (props: ProductCategor
     pressHandler(name)
   }
 
+  if (isSelected)
+    return (
+      <GlowWrapper>
+        <Pressable style={[themed($wrapper)]} onPress={handlePress}>
+          <Animated.Image
+            source={image}
+            style={themed([$image, isSelected && (animationStyle.animation as any)])}
+          />
+          <Text style={themed([$text, isSelected && { fontWeight: "bold" }])}>{name}</Text>
+          {isSelected && (
+            <View style={themed($badge)}>
+              <Text style={themed($badgeText)}>{count || 0}</Text>
+            </View>
+          )}
+        </Pressable>
+      </GlowWrapper>
+    )
   return (
     <Pressable style={[themed($wrapper)]} onPress={handlePress}>
-      <Image
+      <Animated.Image
         source={image}
-        style={themed([$image, isSelected && { borderWidth: 1, height: 50 }])}
+        style={themed([$image, isSelected && (animationStyle.animation as any)])}
       />
       <Text style={themed([$text, isSelected && { fontWeight: "bold" }])}>{name}</Text>
       {isSelected && (
@@ -87,6 +106,34 @@ const $text: ThemedStyle<TextStyle> = ({ colors, typography, spacing }) => ({
   backgroundColor: colors.palette.neutral200,
   paddingHorizontal: spacing.xs,
   borderRadius: spacing.md,
+})
+
+const pulse = css.keyframes({
+  "0%": {
+    transform: "scale(0.1)",
+  },
+  "25%": {
+    transform: "scale(0.25)",
+  },
+  "50%": {
+    transform: "scale(0.5)",
+  },
+  "75%": {
+    transform: "scale(0.75)",
+  },
+  "100%": {
+    transform: "scale(1)",
+  },
+})
+
+const animationStyle = css.create({
+  animation: {
+    animationName: pulse,
+    animationDirection: "normal",
+    animationIterationCount: 1,
+    animationTimingFunction: "linear",
+    animationDuration: 300,
+  },
 })
 
 export default ProductCategoryItem

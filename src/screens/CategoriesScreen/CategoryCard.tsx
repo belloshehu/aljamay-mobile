@@ -12,6 +12,10 @@ import {
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { useRouter } from "expo-router"
+import { css } from "react-native-reanimated"
+import Animated from "react-native-reanimated"
+import { push } from "expo-router/build/global-state/routing"
+import { animationStyles } from "@/styles/animation.style"
 
 interface CategoryCardProps {
   image: ImageSourcePropType
@@ -22,12 +26,11 @@ interface CategoryCardProps {
 }
 const CategoryCard: FC<CategoryCardProps> = (props: CategoryCardProps) => {
   const { themed } = useAppTheme()
-  const router = useRouter()
   const { name, image, isSelected, pressHandler, count } = props
 
   const handlePress = () => {
     pressHandler(name)
-    router.push(("/(app)/(tabs)/categories/" + name) as any)
+    push(("/categories/" + name) as any)
   }
 
   return (
@@ -36,7 +39,9 @@ const CategoryCard: FC<CategoryCardProps> = (props: CategoryCardProps) => {
         source={image}
         style={themed([$image, isSelected && { borderWidth: 1, height: 50 }])}
       />
-      <Text style={themed([$text, isSelected && { fontWeight: "bold" }])}>{name}</Text>
+      <Animated.Text style={themed([$text, animationStyles.slideInAmination])}>
+        {name}
+      </Animated.Text>
 
       <View style={themed($badge)}>
         <Text style={themed($badgeText)}>{count || 0}</Text>

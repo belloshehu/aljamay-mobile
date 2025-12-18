@@ -6,6 +6,8 @@ import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { $styles } from "@/theme/styles"
+import Animated from "react-native-reanimated"
+import { animationStyles } from "@/styles/animation.style"
 
 const ProductSearchModal: FC = (props) => {
   const [visible, setVisible] = useState(false)
@@ -46,7 +48,7 @@ const ProductSearchModal: FC = (props) => {
               RightAccessory={() => (
                 <Icon
                   icon="search"
-                  style={{ marginVertical: "auto", top: 10, right: 5 }}
+                  style={[{ marginVertical: "auto", top: 10, right: 5 }]}
                   color={theme.colors.text}
                 />
               )}
@@ -55,7 +57,9 @@ const ProductSearchModal: FC = (props) => {
         </View>
         {/* Search modal main content here */}
         <View style={themed($container)}>
-          <Text>Your previous search keys are:</Text>
+          <Animated.Text style={animationStyles.slideInAmination}>
+            Your previous search keys are:
+          </Animated.Text>
         </View>
       </SafeAreaView>
     </Modal>

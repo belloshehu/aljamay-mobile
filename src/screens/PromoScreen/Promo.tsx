@@ -4,9 +4,11 @@ import { ThemedStyle } from "@/theme/types"
 import { push } from "expo-router/build/global-state/routing"
 import { FC } from "react"
 import { ImageBackground, ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
-import { PromoItemType } from "types/promo.types"
 import { PromoDate } from "./PromoDate"
 import { PromoCountDown } from "./PromoCountDown"
+import { animationStyles } from "@/styles/animation.style"
+import Animated from "react-native-reanimated"
+import { PromoItemType } from "types/promo.types"
 
 interface PromoProps {
   promo: PromoItemType
@@ -29,7 +31,10 @@ export const Promo: FC<PromoProps> = (props: PromoProps) => {
         imageStyle={themed($image)}
       >
         <View style={themed($content)}>
-          <Text text={title} style={themed($title)} />
+          <Animated.Text
+            children={title}
+            style={[themed($title), animationStyles.slideInYAmination]}
+          />
           <PromoDate startDate={startDate} stopDate={stopDate} />
           <PromoCountDown count={countDown.toString()} />
         </View>

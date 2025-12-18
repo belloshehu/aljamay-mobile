@@ -1,10 +1,12 @@
 import { Icon } from "@/components/Icon"
-import { Text } from "@/components/Text"
+import { translate } from "@/i18n/translate"
+import { animationStyles } from "@/styles/animation.style"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { goBack } from "expo-router/build/global-state/routing"
-import { FC } from "react"
+import { FC, useTransition } from "react"
 import { Pressable, ViewStyle, View, TextStyle, Image, ImageStyle } from "react-native"
+import Animated from "react-native-reanimated"
 import { ProductCategory } from "types/product.types"
 
 interface CategoryDetailHeaderProps {
@@ -21,10 +23,9 @@ const CategoryDetailHeader: FC<CategoryDetailHeaderProps> = (props: CategoryDeta
         <Pressable style={themed($backButton)} onPress={goBack}>
           <Icon icon="caretLeft" size={30} />
         </Pressable>
-        <Text
-          tx="categories:categoryDetailHeading"
-          txOptions={{ name }}
-          style={themed($titleText)}
+        <Animated.Text
+          children={translate("categories:categoryDetailHeading", { name })}
+          style={[themed($titleText), animationStyles.slideInAmination]}
         />
       </View>
       <Image source={image as any} style={themed($image)} />
