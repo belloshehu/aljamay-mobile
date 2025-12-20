@@ -38,7 +38,6 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
     setFocus,
     reset,
     setValue,
-    watch,
   } = useForm({
     resolver: zodResolver(productCreateValidationSchema),
     defaultValues: {},
@@ -47,9 +46,6 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
   const onSubmit = async (data: ProductCreateValidationSchemaType) => {
     // Handle form submission logic here
     // upload the image and thumbnails to cloudinary
-    console.log("Submitting data: ", data)
-    const image = data.image
-
     try {
       const file = {
         uri: data.image.uri,
@@ -69,7 +65,6 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
       // upload the images to cloudinary
       const thumbnails = []
       if (data?.thumbnails) {
-        console.log("uploading thumbnails", data.thumbnails)
         for (let i = 0; i < data?.thumbnails?.length!; i++) {
           const image = data.thumbnails[i]
           const file = {
@@ -106,7 +101,6 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
       reset()
       onClose && onClose()
     } catch (error) {
-      console.log(error)
       Toast.show({
         type: "error",
         text1: "Failed to upload images",
@@ -258,9 +252,7 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
           <View>
             <PhotoUpload
               name={name}
-              // onChange={onChange}
               setFile={(name, file) => {
-                console.log("Setting file: ", name, file.fileSize)
                 setValue(name, file)
               }}
               value={value as any}
