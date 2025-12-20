@@ -1,7 +1,5 @@
 # Aljamay E-commerce mobile
 
-# Aljamay E-commerce Mobile
-
 Aljamay E-commerce Mobile is a mobile application designed to provide users with a seamless and intuitive shopping experience. This app is part of the Aljamay ecosystem, which includes a web platform and other services aimed at delivering a robust e-commerce solution.
 
 ## Features
