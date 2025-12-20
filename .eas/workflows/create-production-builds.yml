@@ -1,4 +1,4 @@
-name: Create Production Build
+name: Create Production Builds
 
 on:
   push:
@@ -9,8 +9,5 @@ on:
       type: build
       params:
         platform: android
-
-    # build_ios:
-    #   type: build
-    #   params:
-    #     platform: ios
+    build_ios:
+      type: build
