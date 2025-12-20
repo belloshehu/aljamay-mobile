@@ -9,9 +9,7 @@ interface PhotoUploadProps {
   customStyle?: object
   setFile?: (name: string | any, file: ImagePicker.ImagePickerAsset) => void
   file?: ImagePicker.ImagePickerAsset
-  // setFile: (name: string | any, file: string) => void
-  // file: string
-  name: string
+  name?: string
   buttonText?: string
   withPreview?: boolean
   value?: ImagePicker.ImagePickerAsset
@@ -23,7 +21,6 @@ export default function PhotoUpload(props: PhotoUploadProps) {
   //the device's media library
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
-
     if (status !== "granted") {
       // If permission is denied, show an alert
       Alert.alert(

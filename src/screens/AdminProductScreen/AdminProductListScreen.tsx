@@ -61,7 +61,7 @@ export const AdminProductListScreen: FC = () => {
             TriggerComponent={({ onPress }) => (
               <Button tx="productList:addProduct" preset="filled" onPress={onPress} />
             )}
-            renderedModalChildren={<AddProductModal />}
+            RenderedModalChildren={({ onClose }) => <AddProductModal onClose={onClose} />}
             // renderedModalChildren={<AddProductModal />}
           />
         </View>
@@ -70,22 +70,6 @@ export const AdminProductListScreen: FC = () => {
   return (
     <Screen preset="fixed" contentContainerStyle={{ ...$styles.flex1, padding: 0, margin: 0 }}>
       <View style={themed($topContainer)}>
-        <View style={themed($header)}>
-          <Text
-            tx="productList:title"
-            txOptions={{ count: data.length }}
-            style={themed($titleText)}
-            preset="subheading"
-          />
-          <Modal
-            title={translate("productList:addProduct")}
-            TriggerComponent={({ onPress }) => (
-              <Button tx="productList:addProduct" preset="filled" onPress={onPress} />
-            )}
-            renderedModalChildren={<AddProductModal />}
-            // renderedModalChildren={<AddProductModal />}
-          />
-        </View>
         <ProductList products={data} isLoading={isLoading} minimum />
       </View>
     </Screen>

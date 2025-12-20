@@ -24,7 +24,10 @@ const productCreateValidationSchema = z
       .default(0),
     description: z.string().min(1, { message: "Description is required" }),
     category: z.enum(productCatoriesEnum as [string, ...string[]]).default("all"),
-    image: z.object<ImagePickerAsset>().refine((file) => !!file, "Imaage required"),
+    image: z
+      .any()
+      .refine((file) => !!file, "Image required")
+      .refine((file) => file.fileSize < 1000000, "Image too large"),
     thumbnails: z.any().array().default([]),
     quantity: z.coerce.number().default(1),
   })

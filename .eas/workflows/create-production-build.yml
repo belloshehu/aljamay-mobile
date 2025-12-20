@@ -1,0 +1,16 @@
+name: Create Development Build
+
+on:
+  push:
+    branches: [main]
+
+  jobs:
+    build_android:
+      type: build
+      params:
+        platform: android
+
+    build_ios:
+      type: buidl
+      params:
+        platform: ios

@@ -1,13 +1,17 @@
 import { FC, useState } from "react"
 // eslint-disable-next-line no-restricted-imports
-import { ScrollView, TextStyle, ViewStyle } from "react-native"
+import { TextStyle, ViewStyle } from "react-native"
 import { Text } from "@/components/Text"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import ProductForm from "../ProductScreen/ProductForm"
 import { Screen } from "@/components/Screen"
 
-export const AddProductModal: FC = () => {
+interface AddProductModalProps {
+  // onClose function to close the modal
+  onClose?: () => void
+}
+export const AddProductModal: FC<AddProductModalProps> = ({ onClose }: AddProductModalProps) => {
   const [err, setErr] = useState("")
   const { themed } = useAppTheme()
 
@@ -19,7 +23,7 @@ export const AddProductModal: FC = () => {
     >
       {err && <Text text={err} style={themed($error)} />}
 
-      <ProductForm setError={setErr} />
+      <ProductForm setError={setErr} onClose={onClose} />
     </Screen>
   )
 }

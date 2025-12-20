@@ -38,14 +38,16 @@ const DefaultRenderedModalChildren: FC<DefaultRenderedModalChildrenProps> = (
   return (
     <View style={themed($textFieldWrapper)}>
       {/* <PressableIcon icon="caretLeft" onPress={props.toggle} style={{ margin: 10 }} size={24} /> */}
-      <View style={{ width: "87%" }}>Hello modal</View>
+      <View style={{ width: "87%" }}>
+        <Text>Hello modal</Text>
+      </View>
     </View>
   )
 }
 
 interface ModalProps {
   TriggerComponent?: FC<PressableProps>
-  renderedModalChildren?: ReactNode
+  RenderedModalChildren?: FC<{ onClose: () => void }>
   triggerText?: string
   title?: string
   titleStyle?: StyleProp<TextStyle>
@@ -55,7 +57,7 @@ interface ModalProps {
 const Modal: FC<ModalProps> = (props: ModalProps) => {
   const [visible, setVisible] = useState(false)
   const { themed } = useAppTheme()
-  const { TriggerComponent, renderedModalChildren, title, titleStyle, headerStyle } = props
+  const { TriggerComponent, RenderedModalChildren, title, titleStyle, headerStyle } = props
 
   const toggleModal = () => {
     setVisible((prev) => !prev)
@@ -75,8 +77,8 @@ const Modal: FC<ModalProps> = (props: ModalProps) => {
             />
             <Text style={themed([titleStyle])}>{title ? title : "Title"}</Text>
           </View>
-          {renderedModalChildren ? (
-            <React.Fragment>{renderedModalChildren}</React.Fragment>
+          {RenderedModalChildren ? (
+            <RenderedModalChildren onClose={() => setVisible(false)} />
           ) : (
             <DefaultRenderedModalChildren toggle={toggleModal} />
           )}

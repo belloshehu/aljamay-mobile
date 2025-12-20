@@ -1,7 +1,9 @@
 import { Header } from "@/components/Header"
-import { dummyPromo } from "@/constants"
+import { PressableIcon } from "@/components/Icon"
+import { dummyPromo, productCategories } from "@/constants"
 import { useAuth } from "@/context/AuthContext"
 import { translate } from "@/i18n/translate"
+import AdminProductScreenHeaderRight from "@/screens/AdminProductScreen/AdminProductScreenHeaderRight"
 import { useUserStore } from "@/store/userStore"
 import { Stack, Tabs } from "expo-router"
 import { goBack } from "expo-router/build/global-state/routing"
@@ -29,17 +31,24 @@ export default function UserLayout() {
           }}
         />
         <Stack.Screen
-          name="admin-reviews"
+          name="(admin)/admin-reviews"
           options={{
             title: translate("reviewScreen:title", { count: reviews.length }),
           }}
         />
         <Stack.Screen
-          name="admin-products"
+          name="(admin)/admin-products"
           options={{
-            headerTitle: "Manage Products",
-            headerBackTitle: "Products",
             headerShown: true,
+            title: translate("productList:title", { count: productCategories.length }),
+            header: (props) => (
+              <Header
+                title={props.options.title as string}
+                leftIcon="caretLeft"
+                onLeftPress={goBack}
+                RightActionComponent={<AdminProductScreenHeaderRight />}
+              />
+            ),
           }}
         />
         <Stack.Screen
@@ -52,6 +61,13 @@ export default function UserLayout() {
           name="(admin)/admin-orders"
           options={{
             title: translate("order:title", { count: orders.length }),
+          }}
+        />
+        <Stack.Screen
+          name="(admin)/admin-categories"
+          options={{
+            title: translate("categories:title", { count: productCategories.length }),
+            headerRight: () => <PressableIcon icon="back" size={24} />,
           }}
         />
       </Tabs.Protected>

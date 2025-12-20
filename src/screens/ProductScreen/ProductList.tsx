@@ -4,7 +4,7 @@ import { ProductType } from "types/product.types"
 import Product from "./Product"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
-import { ProductListEmptyState } from "@/components/product/ProductEmptyState"
+import { ProductListEmptyState } from "@/components/CustomEmptyState"
 
 interface ProductListProps {
   products: ProductType[] | null

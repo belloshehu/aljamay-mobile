@@ -16,15 +16,19 @@ import PhotoUpload from "@/components/PhotoUpload"
 import { productCategoryOptions } from "@/constants"
 import DropdownComponent from "@/components/Dropdown"
 import { Text } from "@/components/Text"
+import Toast from "react-native-toast-message"
+import useFileUpload from "@/hooks/use-file-upload"
 
 interface ProductFormProps {
   setError?: Dispatch<SetStateAction<string>>
+  onClose?: () => void
 }
 
 const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
-  const { setError } = props
+  const { setError, onClose } = props
   const { mutateAsync, isPending, error } = useCreateProduct()
   const { protectedRequest } = useAxios()
+  const { uploadToCloudinary } = useFileUpload()
 
   const { themed } = useAppTheme()
   const {
@@ -32,6 +36,7 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
     handleSubmit,
     formState: { errors },
     setFocus,
+    reset,
     setValue,
     watch,
   } = useForm({
@@ -39,9 +44,74 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
     defaultValues: {},
   })
 
-  const onSubmit = (data: ProductCreateValidationSchemaType) => {
-    console.log("Data: ", data)
-    mutateAsync({ payload: data, protectedRequest })
+  const onSubmit = async (data: ProductCreateValidationSchemaType) => {
+    // Handle form submission logic here
+    // upload the image and thumbnails to cloudinary
+    console.log("Submitting data: ", data)
+    const image = data.image
+
+    try {
+      const file = {
+        uri: data.image.uri,
+        type: data.image.mimeType || "image/jpeg",
+        name: data.image.fileName || `product_image_${Date.now()}.jpg`,
+      }
+      const { secure_url } = await uploadToCloudinary(file, "aljamay-products")
+
+      if (!secure_url) {
+        Toast.show({
+          type: "error",
+          text1: "Failed to upload images",
+        })
+        return
+      }
+
+      // upload the images to cloudinary
+      const thumbnails = []
+      if (data?.thumbnails) {
+        console.log("uploading thumbnails", data.thumbnails)
+        for (let i = 0; i < data?.thumbnails?.length!; i++) {
+          const image = data.thumbnails[i]
+          const file = {
+            uri: data.image.uri,
+            type: data.image.mimeType || "image/jpeg",
+            name: data.image.fileName || `product_image_${Date.now()}.jpg`,
+          }
+          const { secure_url } = await uploadToCloudinary(file, "aljamay-products")
+          thumbnails.push(secure_url)
+        }
+        if (thumbnails.length === 0) {
+          Toast.show({
+            type: "error",
+            text1: "Failed to upload thumbnails",
+          })
+        }
+      }
+
+      // create product instance in the database
+
+      mutateAsync({
+        payload: {
+          name: data.name,
+          price: data.price,
+          discount: data.discount,
+          category: data.category,
+          quantity: data.quantity,
+          description: data.description,
+          image: secure_url as any,
+          thumbnails: thumbnails,
+        },
+        protectedRequest,
+      })
+      reset()
+      onClose && onClose()
+    } catch (error) {
+      console.log(error)
+      Toast.show({
+        type: "error",
+        text1: "Failed to upload images",
+      })
+    }
   }
 
   useEffect(() => {
@@ -184,11 +254,15 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
       <Controller
         control={control}
         name="image"
-        render={({ field: { name, value, onChange }, fieldState: { error } }) => (
+        render={({ field: { name, value }, fieldState: { error } }) => (
           <View>
             <PhotoUpload
               name={name}
-              onChange={onChange}
+              // onChange={onChange}
+              setFile={(name, file) => {
+                console.log("Setting file: ", name, file.fileSize)
+                setValue(name, file)
+              }}
               value={value as any}
               buttonText="Upload product image"
               withPreview
@@ -198,7 +272,7 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
         )}
       />
       <Button
-        testID="login-button"
+        testID="submit-produt-button"
         tx={isPending ? "progress:wait" : "common:submit"}
         style={themed($tapButton)}
         preset="reversed"

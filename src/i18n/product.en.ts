@@ -1,12 +1,12 @@
 const productEn = {
   emptyState: {
     one: {
-      heading: "Oops! Empty product",
-      content: "No product found yet. Try clicking the button to refresh or reload the app",
+      heading: "Oops! Empty {{item}}",
+      content: "No {{item}} found yet. Try clicking the button to refresh or reload the app",
     },
     many: {
-      heading: "Oops! Empty products",
-      content: "No products found yet. Try clicking the button to refresh or reload the app",
+      heading: "Oops! Empty {{items}}",
+      content: "No {{items}} found yet. Try clicking the button to refresh or reload the app",
     },
   },
   productDetail: {

@@ -2,6 +2,8 @@ import ProductServiceAPI from "@/services/api/product.services"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useAxios } from "../use-axios"
 import Toast from "react-native-toast-message"
+import { useOnline } from "@/context/OnlineProvider"
+import { is } from "date-fns/locale"
 
 // Create a new product
 export const useCreateProduct = () => {
@@ -10,7 +12,7 @@ export const useCreateProduct = () => {
     mutationKey: ["createProduct"],
     mutationFn: ProductServiceAPI.createProduct,
     onSuccess: () => {
-      Toast.show({ type: "success", text2: "Prodiuct created" })
+      Toast.show({ type: "success", text2: "Product created" })
       queryClient.invalidateQueries({ queryKey: ["products"] })
     },
     onError: (error: any) => {
@@ -21,6 +23,14 @@ export const useCreateProduct = () => {
 
 export const useGetProducts = ({ limit = 20, offset = 0, search = "" }) => {
   const { publicRequest } = useAxios()
+  const isOneline = useOnline()
+  if (!isOneline) {
+    Toast.show({
+      type: isOneline ? "success" : "error",
+      text1: isOneline ? "You are online" : "You have no internet connection!",
+      text2: isOneline ? "You are back online" : "Check your connection",
+    })
+  }
   return useQuery({
     queryKey: ["products", { limit, offset, search }],
     queryFn: async () => ProductServiceAPI.getProducts({ limit, offset, search, publicRequest }),
