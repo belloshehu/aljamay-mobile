@@ -8,6 +8,8 @@ import { FC } from "react"
 import { Image, ImageStyle, Pressable, Text, TextStyle, View, ViewStyle } from "react-native"
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated"
 import { ProductType } from "types/product.types"
+import { NativeTabs, Label, Badge, VectorIcon } from "expo-router/unstable-native-tabs"
+import { createAnimatedComponent } from "react-native-reanimated"
 
 interface ProductProps {
   product: ProductType
@@ -46,7 +48,7 @@ const Product: FC<ProductProps> = (props: ProductProps) => {
       style={[themed($container), { transform: animatedStyle.transform }]}
       onPress={goToDetailScreen}
     >
-      <Image src={image as any} alt={name} style={themed($image)} />
+      <Animated.Image src={image as any} alt={name} style={themed($image)} />
       <View style={themed($footer)}>
         <Text style={themed($name)}>{name}</Text>
         <View style={themed($priceWrapper)}>

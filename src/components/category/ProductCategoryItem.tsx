@@ -39,10 +39,7 @@ const ProductCategoryItem: FC<ProductCategoryItemProps> = (props: ProductCategor
     return (
       <GlowWrapper>
         <Pressable style={[themed($wrapper)]} onPress={handlePress}>
-          <Animated.Image
-            source={image}
-            style={themed([$image, isSelected && (animationStyle.animation as any)])}
-          />
+          <Animated.Image source={image} style={themed([$image])} />
           <Text style={themed([$text, isSelected && { fontWeight: "bold" }])}>{name}</Text>
           {isSelected && (
             <View style={themed($badge)}>
@@ -54,10 +51,7 @@ const ProductCategoryItem: FC<ProductCategoryItemProps> = (props: ProductCategor
     )
   return (
     <Pressable style={[themed($wrapper)]} onPress={handlePress}>
-      <Animated.Image
-        source={image}
-        style={themed([$image, isSelected && (animationStyle.animation as any)])}
-      />
+      <Animated.Image source={image} style={themed([$image])} />
       <Text style={themed([$text, isSelected && { fontWeight: "bold" }])}>{name}</Text>
       {isSelected && (
         <View style={themed($badge)}>
@@ -123,16 +117,6 @@ const pulse = css.keyframes({
   },
   "100%": {
     transform: "scale(1)",
-  },
-})
-
-const animationStyle = css.create({
-  animation: {
-    animationName: pulse,
-    animationDirection: "normal",
-    animationIterationCount: 1,
-    animationTimingFunction: "linear",
-    animationDuration: 300,
   },
 })
 

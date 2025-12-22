@@ -11,8 +11,6 @@ import {
 } from "react-native"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
-import { useRouter } from "expo-router"
-import { css } from "react-native-reanimated"
 import Animated from "react-native-reanimated"
 import { push } from "expo-router/build/global-state/routing"
 import { animationStyles } from "@/styles/animation.style"
