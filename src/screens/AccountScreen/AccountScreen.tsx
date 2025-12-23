@@ -14,7 +14,7 @@ import { AccountItem } from "./AccountItem"
 import { adminAccountItem, userAccountItem } from "@/constants"
 import withAuth from "@/components/HOC/withAuth"
 import { useBottomSheetContext } from "@/context/BottomSheetContext"
-import { Icon, PressableIcon } from "@/components/Icon"
+import { Icon } from "@/components/Icon"
 import { spacing } from "@/theme/spacing"
 import AccountPhotoUpdate from "./AccountPhotoUpdate"
 
@@ -86,7 +86,7 @@ const AccountScreen: FC = function AccountScreen() {
 
   // show logout bottomsheet
   const showPhotoUpdateBottomSheet = () => {
-    setBottomChildren(<AccountPhotoUpdate />)
+    setBottomChildren(<AccountPhotoUpdate imageUrl={user?.image!} />)
     handleModalPreset()
   }
 
@@ -97,7 +97,7 @@ const AccountScreen: FC = function AccountScreen() {
           <TouchableOpacity onPress={showPhotoUpdateBottomSheet} style={themed($icon)}>
             <Icon icon="edit" size={30} />
           </TouchableOpacity>
-          <Image source={defaultProfileImage} style={themed($profileFace)} />
+          <Image src={user?.image || defaultProfileImage} style={themed($profileFace)} />
           <Text text={user?.firstName + " " + user?.lastName} style={themed($names)} />
           <Text text={user?.email} />
           {user?.role === "ADMIN" && (
@@ -153,9 +153,11 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 
 const $profileFace: ImageStyle = {
   height: 120,
-  width: 200,
+  width: 120,
   transform: [{ scaleX: isRTL ? -1 : 1 }],
-  resizeMode: "contain",
+  resizeMode: "cover",
+  objectFit: "cover",
+  borderRadius: 60,
 }
 
 const $names: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({

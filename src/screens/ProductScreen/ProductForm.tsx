@@ -36,7 +36,7 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
     product?.id || "",
   )
   const { protectedRequest } = useAxios()
-  const { uploadToCloudinary, isProgressing } = useFileUpload()
+  const { uploadToCloudinary, isUploading } = useFileUpload()
 
   const { themed } = useAppTheme()
   const {
@@ -75,9 +75,9 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
     // upload the image and thumbnails to cloudinary
     try {
       const file = {
-        uri: data.image.uri,
-        type: data.image.mimeType || "image/jpeg",
-        name: data.image.fileName || `product_image_${Date.now()}.jpg`,
+        uri: data?.image?.uri,
+        type: data?.image?.mimeType || "image/jpeg",
+        name: data?.image?.fileName || `product_image_${Date.now()}.jpg`,
       }
       const responseData = await uploadToCloudinary(file)
 
@@ -302,7 +302,7 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
 
       <Button
         testID="submit-product-button"
-        tx={isPending || isProgressing || isUpdating ? "progress:wait" : "common:submit"}
+        tx={isPending || isUploading || isUpdating ? "progress:wait" : "common:submit"}
         style={themed($tapButton)}
         preset="reversed"
         onPress={isPending ? undefined : handleSubmit(onSubmit as any)}

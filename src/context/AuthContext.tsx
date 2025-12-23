@@ -1,12 +1,4 @@
-import {
-  createContext,
-  FC,
-  PropsWithChildren,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react"
+import { createContext, FC, PropsWithChildren, useCallback, useContext, useMemo } from "react"
 import { useMMKVObject, useMMKVString } from "react-native-mmkv"
 import { UserType } from "types/auth.types"
 
@@ -19,6 +11,7 @@ export type AuthContextType = {
   logout: () => void
   validationError: string
   user: UserType | null | undefined
+  setUser: (user: UserType | null) => void
   login: (token: string, user: UserType) => void
 }
 
@@ -70,6 +63,7 @@ export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({ childre
     validationError,
     login,
     user,
+    setUser,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -14,6 +14,10 @@ const en = {
     submit: "Submit",
     confirm: "Confirm",
     upload: "Upload",
+    wait: "Please wait ...",
+    deleting: "Deleting ...",
+    uploading: "Uploading ...",
+    delete: "Delete",
   },
   welcomeScreen: {
     postscript:
@@ -49,6 +53,7 @@ const en = {
   },
   profileScreen: {
     title: "My profile",
+    deleteImage: "Delete profile image",
     accountItem: {
       user: {
         orders: "Your orders ({{count}})",

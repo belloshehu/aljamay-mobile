@@ -56,13 +56,6 @@ const OrderListScreen: FC = () => {
   )
 }
 
-const $header: ThemedStyle<ViewStyle> = ({}) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  width: "100%",
-})
-
 const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexShrink: 1,
   flexGrow: 1,

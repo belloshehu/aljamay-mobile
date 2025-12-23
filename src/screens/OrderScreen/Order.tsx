@@ -20,7 +20,7 @@ export const Order: FC<OrderProps> = (props: OrderProps) => {
   const { orderItems, totalAmount, isLoading, createdAt, status, id } = props
   if (isLoading) <Loader loadingText="order:loadingMany" />
 
-  if (!orderItems || orderItems?.length === 0) return <Text tx="order:emptyOne" />
+  if (!orderItems || orderItems?.length === 0) return null
   return (
     <View style={themed($mainContainer)}>
       <Pressable style={themed($header)}>
@@ -36,7 +36,7 @@ export const Order: FC<OrderProps> = (props: OrderProps) => {
           onPress={() => push(("/user/orders/" + id) as any)}
         />
       </Pressable>
-      <Text text={status} style={themed($statusText)} />
+      <Text text={status as any} style={themed($statusText)} />
       <View style={themed($wrapper)}>
         {orderItems.map((item) => (
           <OrderItem data={item} key={item.id} />

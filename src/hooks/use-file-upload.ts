@@ -2,10 +2,11 @@ import { useState } from "react"
 import { useDeleteUploadedImage, useImageUpload } from "./service-hooks/image-upload.hook"
 import { useAxios } from "./use-axios"
 import { CloudinaryImageUploadFile } from "types/cloudinary.types"
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry"
+import { getPublicIdFromUrl } from "@/utils/image"
 
 export default function useFileUpload() {
-  const [isProgressing, setIsProgressing] = useState(false)
-  const { isPending, mutateAsync, data } = useImageUpload()
+  const { isPending: isUploading, mutateAsync, data } = useImageUpload()
   const {
     mutateAsync: deleteUpladedImage,
     isPending: isDeleting,
@@ -20,19 +21,20 @@ export default function useFileUpload() {
   }
 
   // desroy/delete the image from cloudinary
-  const deleteFromCloudinary = async (publicId: string) => {
+  const deleteFromCloudinary = async (imageUrl: string) => {
+    const publicId = getPublicIdFromUrl(imageUrl)
     await deleteUpladedImage({ protectedRequest, publicId })
     return deleteResult
   }
 
   const uploadToS3 = async (file: any) => {
     // upload a base64 image to S3 bucket
-    console.log(file)
   }
   return {
     uploadToCloudinary,
     uploadToS3,
     deleteFromCloudinary,
-    isProgressing: isPending || isDeleting || isProgressing,
+    isDeleting,
+    isUploading,
   }
 }
