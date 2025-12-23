@@ -10,8 +10,10 @@ import { useAxios } from "@/hooks/use-axios"
 import {
   productCreateValidationSchema,
   ProductCreateValidationSchemaType,
+  productUpdateValidationSchema,
+  ProductUpdateValidationSchemaType,
 } from "@/schemas/product.validation.schema"
-import { useCreateProduct } from "@/hooks/service-hooks/product.service.hooks"
+import { useCreateProduct, useUpdateProduct } from "@/hooks/service-hooks/product.service.hooks"
 import PhotoUpload from "@/components/PhotoUpload"
 import { productCategoryOptions } from "@/constants"
 import DropdownComponent from "@/components/Dropdown"
@@ -19,18 +21,22 @@ import { Text } from "@/components/Text"
 import Toast from "react-native-toast-message"
 import useFileUpload from "@/hooks/use-file-upload"
 import { CloudinaryImageUploadFile } from "types/cloudinary.types"
+import { ProductType } from "types/product.types"
 
 interface ProductFormProps {
   setError?: Dispatch<SetStateAction<string>>
   onClose?: () => void
+  product?: ProductType | null
 }
 
 const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
-  const { setError, onClose } = props
+  const { setError, onClose, product } = props
   const { mutateAsync, isPending, error } = useCreateProduct()
+  const { mutateAsync: updateMutateAsync, isPending: isUpdating } = useUpdateProduct(
+    product?.id || "",
+  )
   const { protectedRequest } = useAxios()
   const { uploadToCloudinary, isProgressing } = useFileUpload()
-  console.log(isPending, isProgressing)
 
   const { themed } = useAppTheme()
   const {
@@ -41,12 +47,31 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
     reset,
     setValue,
   } = useForm({
-    resolver: zodResolver(productCreateValidationSchema),
-    defaultValues: {},
+    resolver: zodResolver(product ? productUpdateValidationSchema : productCreateValidationSchema),
+    defaultValues: {
+      name: product ? product.name : "",
+      price: product ? String(product.price) : "",
+      discount: product ? String(product.discount) : "",
+      category: product ? product.category : "",
+      quantity: product ? String(product.quantity) : "",
+      description: product ? product.description : "",
+      thumbnails: [],
+    },
   })
 
-  const onSubmit = async (data: ProductCreateValidationSchemaType) => {
-    // Handle form submission logic here
+  const updateProduct = async (data: ProductUpdateValidationSchemaType) => {
+    // Invoked when updating an existing product
+    if (product) {
+      await updateMutateAsync({
+        protectedRequest,
+        payload: data,
+        productId: product?.id,
+      })
+      onClose && onClose()
+    }
+  }
+  const createProduct = async (data: ProductCreateValidationSchemaType) => {
+    // Invoked when creating a new product
     // upload the image and thumbnails to cloudinary
     try {
       const file = {
@@ -107,6 +132,15 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
         type: "error",
         text1: "Failed to upload images",
       })
+    }
+  }
+
+  const onSubmit = async (data: ProductCreateValidationSchemaType) => {
+    // Handle form submission logic here
+    if (props.product) {
+      await updateProduct(data)
+    } else {
+      await createProduct(data)
     }
   }
 
@@ -214,7 +248,7 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
             helper={errors.quantity?.message}
             status={errors.quantity ? "error" : undefined}
             returnKeyType="next"
-            onSubmitEditing={() => setFocus("image")}
+            onSubmitEditing={() => setFocus("description")}
           />
         )}
       />
@@ -242,30 +276,36 @@ const ProductForm: FC<ProductFormProps> = (props: ProductFormProps) => {
         )}
       />
 
-      <Controller
-        control={control}
-        name="image"
-        render={({ field: { name, value }, fieldState: { error } }) => (
-          <View>
-            <PhotoUpload
-              name={name}
-              setFile={(name, file) => {
-                setValue(name, file)
-              }}
-              value={value as any}
-              buttonText="Upload product image"
-              withPreview
-            />
-            {error && <Text text={error.message} style={{ color: "red" }} />}
-          </View>
-        )}
-      />
+      {
+        /* Product image upload component shows only when creating new product */
+        props.product ? null : (
+          <Controller
+            control={control}
+            name="image"
+            render={({ field: { name, value }, fieldState: { error } }) => (
+              <View>
+                <PhotoUpload
+                  name={name}
+                  setFile={(name, file) => {
+                    setValue(name, file)
+                  }}
+                  value={value as any}
+                  buttonText="Upload product image"
+                  withPreview
+                />
+                {error && <Text text={error.message} style={{ color: "red" }} />}
+              </View>
+            )}
+          />
+        )
+      }
+
       <Button
-        testID="submit-produt-button"
-        tx={isPending || isProgressing ? "progress:wait" : "common:submit"}
+        testID="submit-product-button"
+        tx={isPending || isProgressing || isUpdating ? "progress:wait" : "common:submit"}
         style={themed($tapButton)}
         preset="reversed"
-        onPress={isPending ? undefined : handleSubmit(onSubmit)}
+        onPress={isPending ? undefined : handleSubmit(onSubmit as any)}
         disabled={isPending}
       />
     </View>

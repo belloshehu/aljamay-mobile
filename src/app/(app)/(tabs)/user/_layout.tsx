@@ -2,6 +2,7 @@ import { Header } from "@/components/Header"
 import { PressableIcon } from "@/components/Icon"
 import { dummyPromo, productCategories } from "@/constants"
 import { useAuth } from "@/context/AuthContext"
+import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
 import { translate } from "@/i18n/translate"
 import AdminProductScreenHeaderRight from "@/screens/AdminProductScreen/AdminProductScreenHeaderRight"
 import { useUserStore } from "@/store/userStore"
@@ -11,6 +12,7 @@ import { goBack } from "expo-router/build/global-state/routing"
 export default function UserLayout() {
   const { isAuthenticated } = useAuth()
   const { orders, messages, reviews } = useUserStore()
+  const { data: productsData } = useGetProducts({ limit: 1000, offset: 0 })
   return (
     <Stack
       screenOptions={{
@@ -40,6 +42,21 @@ export default function UserLayout() {
           name="(admin)/admin-products"
           options={{
             headerShown: true,
+            title: translate("productList:title", { count: productsData?.length }),
+            header: (props) => (
+              <Header
+                title={props.options.title as string}
+                leftIcon="caretLeft"
+                onLeftPress={goBack}
+                RightActionComponent={<AdminProductScreenHeaderRight />}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="(admin)/product/[id]"
+          options={{
+            headerShown: false,
             title: translate("productList:title", { count: productCategories.length }),
             header: (props) => (
               <Header

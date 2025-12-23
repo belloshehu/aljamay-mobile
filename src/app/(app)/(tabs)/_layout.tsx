@@ -13,8 +13,6 @@ import { useCartStore } from "@/store/cartStore"
 import { useUserStore } from "@/store/userStore"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
-import Toast from "react-native-toast-message"
-import { useOnline } from "@/context/OnlineProvider"
 
 export default function Layout() {
   const { bottom } = useSafeAreaInsets()

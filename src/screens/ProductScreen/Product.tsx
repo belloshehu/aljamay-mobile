@@ -5,11 +5,10 @@ import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { useRouter } from "expo-router"
 import { FC } from "react"
-import { Image, ImageStyle, Pressable, Text, TextStyle, View, ViewStyle } from "react-native"
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated"
+import { ImageStyle, Pressable, Text, TextStyle, View, ViewStyle } from "react-native"
+import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated"
 import { ProductType } from "types/product.types"
-import { NativeTabs, Label, Badge, VectorIcon } from "expo-router/unstable-native-tabs"
-import { createAnimatedComponent } from "react-native-reanimated"
+import { push } from "expo-router/build/global-state/routing"
 
 interface ProductProps {
   product: ProductType
@@ -23,24 +22,24 @@ const Product: FC<ProductProps> = (props: ProductProps) => {
     return { transform: [{ scale: scale.value }] }
   })
 
-  const router = useRouter()
   const {
     product: { image, name, price, discount, id },
     minimum = false,
   } = props
 
   const goToDetailScreen = () => {
-    scale.value = withSpring(1.6, {
-      damping: 10,
-      stiffness: 200,
-    })
-
-    router.push(("/product/" + id) as any)
+    if (minimum) {
+      // go to admin product detail screen
+      push(("/user/product/" + id) as any)
+    } else {
+      // go to regular product detail screen
+      push(("/product/" + id) as any)
+    }
   }
 
   const addToCart = () => {
     // implement adding product to shopping cart
-    router.push(("/product/" + id) as any)
+    push(("/product/" + id) as any)
   }
 
   return (

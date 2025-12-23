@@ -37,7 +37,7 @@ const CategoryCard: FC<CategoryCardProps> = (props: CategoryCardProps) => {
         source={image}
         style={themed([$image, isSelected && { borderWidth: 1, height: 50 }])}
       />
-      <Animated.Text style={themed([$text, animationStyles.slideInAmination])}>
+      <Animated.Text style={themed([$text, animationStyles.slideInXAmination])}>
         {name}
       </Animated.Text>
 

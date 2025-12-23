@@ -16,6 +16,11 @@ const productEn = {
     discount: "Off",
     empty: "No products yet",
     goToList: "Check other products",
+    edit: "Edit",
+    delete: "Delete Product",
+    reviews: "Reviews ({{count}})",
+    orders: "Orders ({{count}})",
+    rating: "Rating: {{rating}}/5",
   },
   productList: {
     title: "Products ({{count}}) ",

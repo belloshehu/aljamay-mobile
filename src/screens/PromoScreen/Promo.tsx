@@ -1,4 +1,3 @@
-import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { push } from "expo-router/build/global-state/routing"
@@ -15,7 +14,7 @@ interface PromoProps {
 }
 export const Promo: FC<PromoProps> = (props: PromoProps) => {
   const {
-    promo: { title, description, images, startDate, stopDate, id },
+    promo: { title, images, startDate, stopDate, id },
   } = props
   const { themed } = useAppTheme()
   const countDown = Math.round((startDate.getTime() - new Date().getTime()) / (60 * 60 * 1000 * 24))
@@ -33,7 +32,7 @@ export const Promo: FC<PromoProps> = (props: PromoProps) => {
         <View style={themed($content)}>
           <Animated.Text
             children={title}
-            style={[themed($title), animationStyles.slideInYAmination]}
+            style={[themed($title), animationStyles.slideInXAmination]}
           />
           <PromoDate startDate={startDate} stopDate={stopDate} />
           <PromoCountDown count={countDown.toString()} />

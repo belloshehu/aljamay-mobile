@@ -47,6 +47,7 @@ export default function PhotoUpload(props: PhotoUploadProps) {
   if (props.withPreview && props.value) {
     return <ImagePreview uri={props.value?.uri} onPress={pickImage} />
   }
+
   return (
     <Button onPress={pickImage} style={customStyle} LeftAccessory={() => <Icon icon="camera" />}>
       {buttonText || "Upload Photo"}

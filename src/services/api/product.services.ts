@@ -45,7 +45,25 @@ class ProductServiceAPI {
     return data.data
   }
 
-  // Update product by id
+  // Update product by Id
+  static async updateProductById({
+    protectedRequest,
+    productId,
+    payload,
+  }: {
+    productId: string
+    payload: Partial<ProductCreateValidationSchemaType>
+    protectedRequest: AxiosInstance
+  }) {
+    console.log("Updating product with ID:", productId, "Payload:", payload)
+    const { data } = await protectedRequest.patch<SingleProductResponseType>(
+      "/product/" + productId,
+      payload,
+    )
+    return data.data
+  }
+
+  // Delete product by id
   static async deleteProductById({
     protectedRequest,
     productId,

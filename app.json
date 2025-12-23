@@ -23,7 +23,7 @@
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ADF802"
     },
     "allowBackup": false,
     "edgeToEdgeEnabled": true

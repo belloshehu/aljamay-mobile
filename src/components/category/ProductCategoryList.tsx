@@ -53,6 +53,8 @@ const $scroll: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   padding: spacing.sm,
   borderRadius: spacing.md,
   overflowX: "auto",
+  width: "100%",
+  justifyContent: "center",
 })
 
 const $container: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({

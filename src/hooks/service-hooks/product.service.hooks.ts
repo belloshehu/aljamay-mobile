@@ -4,6 +4,7 @@ import { useAxios } from "../use-axios"
 import Toast from "react-native-toast-message"
 import { useOnline } from "@/context/OnlineProvider"
 import { is } from "date-fns/locale"
+import { push } from "expo-router/build/global-state/routing"
 
 // Create a new product
 export const useCreateProduct = () => {
@@ -57,6 +58,25 @@ export const useDeleteProduct = (productId: string) => {
     onSuccess: () => {
       // Optionally, you can invalidate the product query to refetch the list of products
       queryClient.invalidateQueries({ queryKey: ["products"] })
+      Toast.show({ type: "success", text2: "Product deleted successfully" })
+      push("/user/(admin)/admin-products" as any)
+    },
+  })
+}
+
+// Hook for updating a product by ID
+export const useUpdateProduct = (productId: string) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationKey: ["updateProduct", productId],
+    mutationFn: ProductServiceAPI.updateProductById,
+    onSuccess: () => {
+      Toast.show({ type: "success", text2: "Product updated." })
+      queryClient.invalidateQueries({ queryKey: ["product", productId] })
+      queryClient.invalidateQueries({ queryKey: ["products"] })
+    },
+    onError: (error: any) => {
+      Toast.show({ type: "error", text2: "Error updating product" })
     },
   })
 }

@@ -12,6 +12,8 @@ const en = {
     logOut: "Log Out", // @demo remove-current-line
     loading: "Loading ...",
     submit: "Submit",
+    confirm: "Confirm",
+    upload: "Upload",
   },
   welcomeScreen: {
     postscript:
