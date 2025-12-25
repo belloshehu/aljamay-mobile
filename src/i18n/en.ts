@@ -18,6 +18,7 @@ const en = {
     deleting: "Deleting ...",
     uploading: "Uploading ...",
     delete: "Delete",
+    searchFailure: "No {{item}} with matching keyword found!",
   },
   welcomeScreen: {
     postscript:
@@ -128,6 +129,7 @@ const en = {
     detail:
       "If the initial verification fails, click the confirm button or go back to to login screen to try fresh login.",
     backToLogin: "Back to login",
+    waitToConfirm: "Click in {{time}} ",
   },
   loginScreen: {
     logIn: "Log In",

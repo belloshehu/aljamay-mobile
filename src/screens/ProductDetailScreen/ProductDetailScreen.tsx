@@ -4,7 +4,6 @@ import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import { useLocalSearchParams } from "expo-router"
-
 import ProductDetailHeader from "../ProductScreen/ProductDetailHeader"
 import { Card } from "@/components/Card"
 import { Text } from "@/components/Text"
@@ -34,7 +33,7 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
   const goToList = () => {
     push("/")
   }
-  if (isLoading) return <ActivityIndicator />
+  if (isLoading) return <ActivityIndicator size={"large"} />
   if (!product)
     return (
       <Screen style={[$styles.container, { gap: 15 }]}>

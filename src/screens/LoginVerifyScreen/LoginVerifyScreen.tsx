@@ -5,11 +5,11 @@ import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
-
 import { push } from "expo-router/build/global-state/routing"
 import { useLocalSearchParams } from "expo-router"
 import { useLoginVerify } from "@/hooks/service-hooks/auth.service.hook"
 import { useAxios } from "@/hooks/use-axios"
+import { useTimer } from "@/hooks/useTimer"
 
 /*
  * Screen where user will redirected to from email using magic link.
@@ -20,8 +20,9 @@ import { useAxios } from "@/hooks/use-axios"
 export const LoginVerifyScreen: FC = function ResetPasswordScreen() {
   const { themed } = useAppTheme()
   const { token } = useLocalSearchParams() as { token: string }
-  const { mutateAsync, isPending, error } = useLoginVerify()
+  const { mutateAsync, isPending } = useLoginVerify()
   const { protectedRequest } = useAxios()
+  const { time, getTimer } = useTimer({ duration: 60 }) // wait for two minutes incase of delay in receiving the magic link
 
   useEffect(() => {
     sendTokenBack()
@@ -32,7 +33,6 @@ export const LoginVerifyScreen: FC = function ResetPasswordScreen() {
   }
 
   const backToLogin = () => push("/user/login")
-  console.log(error)
   return (
     <Screen preset="auto" contentContainerStyle={themed($screenContentContainer)}>
       <View style={themed($topContainer)}>
@@ -43,11 +43,14 @@ export const LoginVerifyScreen: FC = function ResetPasswordScreen() {
           style={themed($logIn)}
         />
         <Text tx={"loginVerificationScreen:detail"} />
-        {JSON.stringify(error)}
-        {/* {error && <Text text={error} style={themed($error)} />} */}
       </View>
+      <Text
+        tx="loginVerificationScreen:waitToConfirm"
+        txOptions={{ time: getTimer() }}
+        style={{ textAlign: "center" }}
+      />
       <Button
-        tx={isPending ? "common:wait" : "common:confirm"}
+        tx={isPending && time > 0 ? "common:wait" : "common:confirm"}
         onPress={sendTokenBack}
         disabled={isPending}
         preset="filled"
@@ -73,9 +76,4 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 const $logIn: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   marginBottom: spacing.sm,
   color: colors.palette.primary500,
-})
-
-const $error: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  color: colors.error,
-  marginBottom: spacing.md,
 })

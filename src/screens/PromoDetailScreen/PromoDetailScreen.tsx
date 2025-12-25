@@ -30,7 +30,7 @@ export const PromoDetailScreen: FC = () => {
     setIsLoading(false)
   }, [id])
 
-  if (isLoading) return <ActivityIndicator />
+  if (isLoading) return <ActivityIndicator size={"large"} />
   if (!promo) return <Card ContentComponent={<Text tx="promo:notFound" />} />
   return (
     <View style={$styles.flex1}>

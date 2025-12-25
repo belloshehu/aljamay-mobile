@@ -1,5 +1,5 @@
 import { ProductCreateValidationSchemaType } from "@/schemas/product.validation.schema"
-import axios, { AxiosInstance } from "axios"
+import { AxiosInstance } from "axios"
 import { ProductResponseType, SingleProductResponseType } from "types/product.types"
 
 class ProductServiceAPI {
@@ -27,6 +27,7 @@ class ProductServiceAPI {
     offset?: number
     search?: string
   }) {
+    console.log("fetching products:", search)
     const { data } = await publicRequest.get<ProductResponseType>("/product", {
       params: { limit, offset, search },
     })

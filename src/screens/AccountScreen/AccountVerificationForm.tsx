@@ -13,6 +13,7 @@ import { Button } from "@/components/Button"
 import { useVerifyEmail } from "@/hooks/service-hooks/auth.service.hook"
 import { useAxios } from "@/hooks/use-axios"
 import Config from "@/config"
+import { useTimer } from "@/hooks/useTimer"
 
 interface AccountVerificationFormProps {
   setError: Dispatch<SetStateAction<string>>
@@ -25,8 +26,7 @@ const AccountVerificationForm: FC<AccountVerificationFormProps> = (
 ) => {
   const { mutateAsync, isPending, error: verificationError } = useVerifyEmail()
   const { protectedRequest } = useAxios()
-  const [waitDuration, setWaitDuration] = useState(Config.CODE_RESEND_TIME)
-
+  const { getTimer, time } = useTimer({ duration: 60 })
   const { themed } = useAppTheme()
   const {
     control,
@@ -50,15 +50,6 @@ const AccountVerificationForm: FC<AccountVerificationFormProps> = (
     }
   }, [verificationError, errors.root])
 
-  useEffect(() => {
-    let interval = setInterval(() => {
-      if (waitDuration > 0) {
-        const timeLeft = waitDuration - 1
-        setWaitDuration(timeLeft)
-      }
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [waitDuration])
   return (
     <View style={themed($formContainer)}>
       <Controller
@@ -82,7 +73,7 @@ const AccountVerificationForm: FC<AccountVerificationFormProps> = (
           />
         )}
       />
-      {waitDuration === 0 && (
+      {time === 0 && (
         <Button
           testID="verifcation-button"
           tx={isPending ? "loginScreen:loginProgress" : "verification:sendVerificationCode"}
@@ -96,12 +87,12 @@ const AccountVerificationForm: FC<AccountVerificationFormProps> = (
         tx={
           props.isRequesting
             ? "progress:wait"
-            : waitDuration === 0
+            : time === 0
               ? "verification:resent"
               : "verification:resendInFuture"
         }
         txOptions={{
-          time: `${Math.floor(waitDuration / 60)}:${waitDuration % 60}s`,
+          time: getTimer(),
         }}
         onPress={props.requestCode}
         disabled={props.isRequesting}

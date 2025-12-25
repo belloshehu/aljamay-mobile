@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/theme/context"
 import { NavigationContainer } from "@react-navigation/native"
-import { render, waitFor } from "@testing-library/react-native"
+import { render } from "@testing-library/react-native"
 import { ButtonProps, TextInputProps, View } from "react-native"
 import AccountVerificationForm from "./AccountVerificationForm"
 import { AuthProvider } from "@/context/AuthContext"
