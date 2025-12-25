@@ -1,8 +1,3 @@
-export interface LoginPayload {
-  email: string
-  password: string
-}
-
 import { IconTypes } from "@/components/Icon"
 import { ResponseType } from "./response.types"
 import { TxKeyPath } from "@/i18n"

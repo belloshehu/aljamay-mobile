@@ -1,10 +1,8 @@
-import { ComponentType, FC, useEffect, useMemo, useRef, useState } from "react"
-// eslint-disable-next-line no-restricted-imports
+import { FC, useRef, useState } from "react"
 import { Pressable, TextInput, TextStyle, ViewStyle } from "react-native"
 
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
-import { useAuth } from "@/context/AuthContext"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { useRouter } from "expo-router"
@@ -12,7 +10,6 @@ import BrandLogo from "@/components/BrandLogo"
 import LoginForm from "./LoginForm"
 
 export const LoginScreen: FC = () => {
-  const authPasswordInput = useRef<TextInput>(null)
   const [loginError, setLoginError] = useState("")
 
   const {
@@ -33,6 +30,7 @@ export const LoginScreen: FC = () => {
     >
       <BrandLogo />
       <Text testID="login-heading" tx="loginScreen:logIn" preset="heading" style={themed($logIn)} />
+      <Text tx="loginScreen:enterDetails" />
 
       {loginError && <Text text={loginError} style={themed($error)} />}
 
@@ -64,5 +62,3 @@ const $signupButton: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   textAlign: "center",
   color: colors.palette.primary500,
 })
-
-// @demo remove-file

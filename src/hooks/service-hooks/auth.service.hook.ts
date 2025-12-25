@@ -4,67 +4,69 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { useRouter } from "expo-router"
 import { useAxios } from "../use-axios"
 import { AxiosError } from "axios"
+import { push } from "expo-router/build/global-state/routing"
+import Toast from "react-native-toast-message"
 // import { Toast } from "toastify-react-native"
 
 export const useLogin = () => {
-  const { login } = useAuth()
-
   return useMutation({
     mutationFn: AuthServiceAPI.login,
+    onSuccess: (data) => {
+      Toast.show({ type: "success", text1: "Login success!", text2: data.message })
+    },
+    onError: (error: any) => {
+      Toast.show({
+        text1: `Login error: ${error instanceof Error ? error.message : "Unknown error"}`,
+      })
+    },
+  })
+}
+
+export const useLoginVerify = () => {
+  const { login } = useAuth()
+  return useMutation({
+    mutationFn: AuthServiceAPI.loginVerify,
     onSuccess: (data) => {
       if (data) {
         login(data.data.token, data.data.user)
       }
-      if (__DEV__) {
-        // console.log("Loged in successfully", data.response)
-      }
+      Toast.show({ type: "success", text1: "Login successful!" })
     },
     onError: (error: any) => {
-      // Toast.error(error.response.data)
-      if (__DEV__) {
-        // console.log("Failed to login:", error.response.data)
-      }
+      Toast.show({
+        type: "error",
+        text1: `Login error: ${error instanceof Error ? error.message : "Unknown error"}`,
+      })
     },
   })
 }
 
 export const useSignup = () => {
-  const router = useRouter()
   return useMutation({
     mutationFn: AuthServiceAPI.signup,
-    onSuccess: () => {
-      router.push("/(app)/(tabs)/user/(auth)/login")
-      if (__DEV__) {
-        //console.log("Sign up in successfully", data.response)
-      }
+    onSuccess: (data) => {
+      Toast.show({ type: "success", text1: "Signup successful!" })
+      push("/user/login")
     },
     onError: (error: any) => {
-      // Toast.error(error.response.data)
-      if (__DEV__) {
-        // console.log("Failed to signup:", error.response.data)
-      }
+      Toast.show({ type: "error", text1: "Signup failed!" })
     },
   })
 }
 
-// Handle email verification request
+// Send the received email verification code to server
 export const useVerifyEmail = () => {
   const router = useRouter()
   const { logout } = useAuth()
   return useMutation({
     mutationFn: AuthServiceAPI.verifyAccount,
     onSuccess: () => {
+      Toast.show({ type: "success", text1: "Email verified!" })
       logout()
-      router.push("/(app)/(tabs)/user/(auth)/login")
-      if (__DEV__) {
-        //console.log("Verified successfully", data.response)
-      }
+      router.push("/user/login")
     },
     onError: (error: any) => {
-      // Toast.error(error.response.data)
-      if (__DEV__) {
-        // console.log("Failed to verify account:", error.response.data)
-      }
+      Toast.show({ type: "error", text1: "Email verification failed!" })
     },
   })
 }
@@ -87,16 +89,11 @@ export const usePasswordResetRequest = () => {
   return useMutation({
     mutationFn: AuthServiceAPI.requestPasswordReset,
     onSuccess: () => {
+      Toast.show({ type: "error", text1: "Password reset request success" })
       router.push("/user/password-reset-request-success")
-      if (__DEV__) {
-        //console.log("Verified successfully", data.response)
-      }
     },
     onError: (error: any) => {
-      // Toast.error(error.response.data)
-      if (__DEV__) {
-        // console.log("Failed to verify account:", error.response.data)
-      }
+      Toast.show({ type: "error", text1: "Failed to initiate password reset!" })
     },
   })
 }
@@ -108,6 +105,7 @@ export const usePasswordResetVerification = () => {
   return useMutation({
     mutationFn: AuthServiceAPI.verifyPasswordReset,
     onSuccess: () => {
+      Toast.show({ type: "error", text1: "Password reset code verified" })
       logout()
       router.push("/user/password-reset")
       if (__DEV__) {
@@ -115,10 +113,7 @@ export const usePasswordResetVerification = () => {
       }
     },
     onError: (error: any) => {
-      // Toast.error(error.response.data)
-      if (__DEV__) {
-        // console.log("Failed to verify account:", error.response.data)
-      }
+      Toast.show({ type: "error", text1: "Failed to verify reset password code!" })
     },
   })
 }
@@ -130,18 +125,13 @@ export const usePasswordReset = () => {
   return useMutation({
     mutationFn: AuthServiceAPI.passwordReset,
     onSuccess: () => {
+      Toast.show({ type: "success", text1: "New password set!" })
       logout()
       // use should login after successful password reset
       router.push("/user/login")
-      if (__DEV__) {
-        //console.log("Verified successfully", data.response)
-      }
     },
     onError: (error: AxiosError) => {
-      // Toast.error(error.response.data)
-      if (__DEV__) {
-        // console.log("Failed to verify account:", error.response.data)
-      }
+      Toast.show({ type: "error", text1: "Failed to set new password!" })
     },
   })
 }

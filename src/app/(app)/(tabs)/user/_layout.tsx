@@ -97,6 +97,13 @@ export default function UserLayout() {
             header: () => null,
           }}
         />
+        <Stack.Screen
+          name="(auth)/login-verify"
+          options={{
+            headerShown: false,
+            header: () => null,
+          }}
+        />
         <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)/password-reset" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)/password-reset-request" options={{ headerShown: false }} />

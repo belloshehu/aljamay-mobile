@@ -9,9 +9,17 @@ interface GlowWrapperProps {
   children: ReactNode
   style?: StyleProp<ViewStyle>
   preset?: "rounded" | "flat"
+  runGlow?: boolean
 }
-export function GlowWrapper({ children, style, preset = "rounded" }: GlowWrapperProps) {
+export function GlowWrapper({
+  children,
+  style,
+  preset = "rounded",
+  runGlow = false,
+}: GlowWrapperProps) {
   const { themed } = useAppTheme()
+
+  if (!runGlow) return children
   return (
     <Animated.View
       style={[
@@ -20,6 +28,7 @@ export function GlowWrapper({ children, style, preset = "rounded" }: GlowWrapper
         preset === "rounded" && themed($buttonWrapper),
         style,
       ]}
+      // animatedProps={{ animationPlayState: runGlow ? "running" : "paused" }}
     >
       {children}
     </Animated.View>

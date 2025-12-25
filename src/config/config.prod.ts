@@ -16,4 +16,5 @@ export default {
     apiSecret: process.env.EXPO_CLOUDINARY_API_SECRET,
     uploadPreset: "aljamay-products",
   },
+  CODE_RESEND_TIME: 300, // 5 Mminutes: 3000 seconds
 }

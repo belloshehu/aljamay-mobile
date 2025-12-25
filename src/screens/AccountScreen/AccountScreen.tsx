@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react"
+import { FC, useMemo } from "react"
 import { Image, ImageStyle, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import { useAuth } from "@/context/AuthContext" // @demo remove-current-line
@@ -6,10 +6,8 @@ import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { useRouter } from "expo-router"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
-import { useRequestEmailVerificationCode } from "@/hooks/service-hooks/auth.service.hook"
 import { AccountItem } from "./AccountItem"
 import { adminAccountItem, userAccountItem } from "@/constants"
 import withAuth from "@/components/HOC/withAuth"
@@ -19,14 +17,11 @@ import { spacing } from "@/theme/spacing"
 import AccountPhotoUpdate from "./AccountPhotoUpdate"
 
 const defaultProfileImage = require("@assets/images/users/man.png")
-// @demo replace-next-line export const AccountScreen: FC = function AccountScreen(
+
 const AccountScreen: FC = function AccountScreen() {
   const { themed, theme } = useAppTheme()
   const { logout, user } = useAuth()
-  const router = useRouter()
-  const [enableCodeRequest, setEnableCodeRequest] = useState(false)
-  const { refetch, error, isSuccess, isRefetching, isFetching } =
-    useRequestEmailVerificationCode(enableCodeRequest)
+
   const { setBottomChildren, handleModalPreset, handleModalDismiss } = useBottomSheetContext()
 
   const renderAccountItems = useMemo(() => {
@@ -54,16 +49,6 @@ const AccountScreen: FC = function AccountScreen() {
       return <Text text="No account items available" />
     }
   }, [])
-  function verifyAccount() {
-    // reguest verification code
-    setEnableCodeRequest(true)
-    if (enableCodeRequest) {
-      refetch()
-    }
-    if (isSuccess) {
-      router.push("/user/email-verification")
-    }
-  }
 
   // show logout bottomsheet
   const showLogoutBottomSheet = () => {
@@ -114,16 +99,6 @@ const AccountScreen: FC = function AccountScreen() {
           )}
         </View>
         <View style={{ gap: 5, flex: 1, justifyContent: "flex-start" }}>{renderAccountItems}</View>
-
-        {error && <Text text={error.message} />}
-        {!user?.verified && (
-          <Button
-            tx={isFetching || isRefetching ? "progress:wait" : "verification:goToVerification"}
-            onPress={verifyAccount}
-            style={themed($tapButton)}
-            disabled={isRefetching || isFetching}
-          />
-        )}
         <AccountItem icon="user" title="common:logOut" onPress={showLogoutBottomSheet} />
       </View>
     </Screen>
@@ -144,7 +119,7 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   alignItems: "center",
   paddingHorizontal: spacing.lg,
   width: "100%",
-  flex: 0.6,
+  flex: 0.7,
   gap: spacing.xs,
   backgroundColor: "#fff",
   borderTopLeftRadius: spacing.xxl,
