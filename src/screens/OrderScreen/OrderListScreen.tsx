@@ -14,7 +14,6 @@ import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import { Text } from "@/components/Text"
-import Price from "@/components/product/Price"
 import { $separator } from "../ProductScreen/ProductList"
 import { useGetOrders } from "@/hooks/service-hooks/order.service.hooks"
 import { Order } from "./Order"
@@ -56,13 +55,6 @@ const OrderListScreen: FC = () => {
     </Screen>
   )
 }
-
-const $header: ThemedStyle<ViewStyle> = ({}) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  width: "100%",
-})
 
 const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexShrink: 1,

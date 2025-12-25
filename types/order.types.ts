@@ -4,7 +4,6 @@ import { ShippingAddressType } from "./shipping.types"
 
 export type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED"
 export type PaymentMethod = "CREDIT_CARD" | "USSD" | "BANK_TRANSFER"
-export type OrderStatus = "PENDING" | "COMPLETED" | "CANCELLED" | "SHIPPED" | "DELIVERED"
 
 export interface OrderType {
   id: string
@@ -19,6 +18,13 @@ export interface OrderType {
   shippingCost?: number
   createdAt?: Date
   updatedAt?: Date
+}
+
+enum OrderStatus {
+  PENDING,
+  SHIPPED,
+  DELIVERED,
+  CANCELLED,
 }
 
 export interface OrderItemType {

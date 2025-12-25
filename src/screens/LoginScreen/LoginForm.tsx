@@ -13,8 +13,6 @@ import { useLogin } from "@/hooks/service-hooks/auth.service.hook"
 import { useAxios } from "@/hooks/use-axios"
 import { Text } from "@/components/Text"
 import { useRouter } from "expo-router"
-import Animated from "react-native-reanimated"
-import { animationStyles } from "@/styles/animation.style"
 import { GlowWrapper } from "@/components/GlowWrapper"
 
 interface LoginFormProps {
@@ -33,12 +31,17 @@ const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
     handleSubmit,
     formState: { errors, isValid },
     setFocus,
+    reset,
   } = useForm<LoginSchemaType>({ resolver: zodResolver(loginValidationSchema) })
 
   const onSubmit = (data: LoginSchemaType) => {
-    mutateAsync({ payload: data, publicRequest }).then(() => {
-      props.setError("")
-    })
+    mutateAsync({ payload: data, publicRequest })
+      .then(() => {
+        props.setError("")
+      })
+      .then(() => {
+        reset()
+      })
   }
 
   useEffect(() => {
@@ -82,13 +85,12 @@ const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
             placeholderTx="loginScreen:emailFieldPlaceholder"
             helper={errors.email?.message}
             status={errors.email ? "error" : undefined}
-            returnKeyType="next"
-            onSubmitEditing={() => setFocus("password")}
+            returnKeyType="send"
           />
         )}
       />
 
-      <Controller
+      {/* <Controller
         control={control}
         name="password"
         render={({ field: { value, onChange, ref } }) => (
@@ -110,16 +112,9 @@ const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
             onSubmitEditing={handleSubmit(onSubmit)}
           />
         )}
-      />
-      <Pressable
-        onPress={() => {
-          router.push("/(app)/(tabs)/user/(auth)/password-reset-request")
-        }}
-      >
-        <Text text="Forgot password" style={themed($forgotPasswordButtonText)} />
-      </Pressable>
+      /> */}
 
-      <GlowWrapper style={{ marginTop: 20 }}>
+      <GlowWrapper style={{ marginTop: 20 }} runGlow={isPending}>
         <Button
           testID="login-button"
           tx={isPending ? "loginScreen:loginProgress" : "loginScreen:tapToLogIn"}
@@ -132,14 +127,12 @@ const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
   )
 }
 
-const $formContainer: ThemedStyle<ViewStyle> = ({}) => ({})
+const $formContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  marginVertical: spacing.md,
+})
 
 const $textField: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   marginBottom: spacing.lg,
-})
-
-const $forgotPasswordButtonText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.errorBackground,
 })
 
 export default LoginForm

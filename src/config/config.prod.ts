@@ -6,14 +6,15 @@
  * https://reactnative.dev/docs/security#storing-sensitive-info
  */
 export default {
-  API_URL: process.env.EXPO_PUBLIC_API_BASE_URL_PROD,
+  API_URL: "https://aljamay.com/api",
   MAX_CART_ITEM: 20, // Maximum allowable cart items
   FLUTTERWAVE_PUBLIC_KEY: process.env.EXPO_PUBLIC_FLUTTERWAVE_PUBLIC_KEY,
-  FLW_SECRET_KEY: process.env.EXPO_PUBLIC_FLW_SECRET_KEY,
   APP_REMOTE_LOGO: process.env.EXPO_PUBLIC_REMOTE_APP_LOGO,
   CLOUDINARY: {
     cloudName: process.env.EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME,
     apiKey: process.env.EXPO_PUBLIC_CLOUDINARY_API_KEY,
     apiSecret: process.env.EXPO_CLOUDINARY_API_SECRET,
+    uploadPreset: "aljamay-products",
   },
+  CODE_RESEND_TIME: 300, // 5 Mminutes: 3000 seconds
 }

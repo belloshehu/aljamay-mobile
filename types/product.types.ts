@@ -1,5 +1,6 @@
 import { ImageSourcePropType } from "react-native"
 import { ResponseType } from "types/response.types"
+import { OrderItemType } from "./order.types"
 
 export interface ProductType {
   id: string
@@ -12,7 +13,20 @@ export interface ProductType {
   discount: number
   createdAt?: Date
   updatedAt?: Date
+  category: string
   status?: "available" | "not available"
+  reviews: Review[]
+  orderItems: OrderItemType[]
+}
+
+export type Review = {
+  id: string
+  createdAt: Date
+  updatedAt: Date
+  userId: string
+  rating: number
+  productId: string
+  comment: string | null
 }
 
 export interface ProductCategory {

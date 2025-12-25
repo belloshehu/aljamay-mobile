@@ -11,8 +11,6 @@ import {
 } from "react-native"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
-import { useRouter } from "expo-router"
-import { css } from "react-native-reanimated"
 import Animated from "react-native-reanimated"
 import { push } from "expo-router/build/global-state/routing"
 import { animationStyles } from "@/styles/animation.style"
@@ -39,7 +37,7 @@ const CategoryCard: FC<CategoryCardProps> = (props: CategoryCardProps) => {
         source={image}
         style={themed([$image, isSelected && { borderWidth: 1, height: 50 }])}
       />
-      <Animated.Text style={themed([$text, animationStyles.slideInAmination])}>
+      <Animated.Text style={themed([$text, animationStyles.slideInXAmination])}>
         {name}
       </Animated.Text>
 

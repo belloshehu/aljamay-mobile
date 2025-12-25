@@ -3,7 +3,7 @@ import * as z from "zod"
 // Validation schema for login
 export const loginValidationSchema = z.object({
   email: z.email("Invalid email address"),
-  password: z.string().min(8).max(16),
+  // password: z.string().min(8).max(16),
 })
 
 //validation schema for signup

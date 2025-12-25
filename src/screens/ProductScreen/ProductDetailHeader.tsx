@@ -1,10 +1,11 @@
 import { Icon } from "@/components/Icon"
 import { Text } from "@/components/Text"
+import { animationStyles } from "@/styles/animation.style"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { goBack } from "expo-router/build/global-state/routing"
 import { FC } from "react"
-import { Pressable, ViewStyle, View, TextStyle, Image, ImageStyle } from "react-native"
+import { Pressable, ViewStyle, View, TextStyle, ImageStyle, Image } from "react-native"
 import { ProductType } from "types/product.types"
 
 interface ProductDetailHeaderProps {
@@ -21,7 +22,7 @@ const ProductDetailHeader: FC<ProductDetailHeaderProps> = (props: ProductDetailH
         <Pressable style={themed($backButton)} onPress={goBack}>
           <Icon icon="caretLeft" size={30} />
         </Pressable>
-        <Text text={name} style={themed($titleText)} />
+        <Text text={name} style={[themed($titleText), animationStyles.slideInXAmination]} />
       </View>
       <Image src={image as any} style={themed($image)} />
     </View>

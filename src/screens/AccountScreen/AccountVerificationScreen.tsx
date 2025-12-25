@@ -43,11 +43,10 @@ export const AccountVerificationScreen: FC = function AccountVerificationScreen(
         )}
       </View>
 
-      <AccountVerificationForm setError={setverificationError} />
-      <Button
-        tx={isFetching || isRefetching ? "progress:wait" : "verification:resent"}
-        onPress={requestCode}
-        disabled={isRefetching || isFetching}
+      <AccountVerificationForm
+        setError={setverificationError}
+        isRequesting={isFetching || isRefetching}
+        requestCode={requestCode}
       />
     </Screen>
   )

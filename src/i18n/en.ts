@@ -12,6 +12,12 @@ const en = {
     logOut: "Log Out", // @demo remove-current-line
     loading: "Loading ...",
     submit: "Submit",
+    confirm: "Confirm",
+    upload: "Upload",
+    wait: "Please wait ...",
+    deleting: "Deleting ...",
+    uploading: "Uploading ...",
+    delete: "Delete",
   },
   welcomeScreen: {
     postscript:
@@ -47,6 +53,7 @@ const en = {
   },
   profileScreen: {
     title: "My profile",
+    deleteImage: "Delete profile image",
     accountItem: {
       user: {
         orders: "Your orders ({{count}})",
@@ -116,10 +123,16 @@ const en = {
   shoppingCartScreen: {
     searchPlaceholder: "Product name, category etc.",
   },
+  loginVerificationScreen: {
+    title: "Login verification",
+    detail:
+      "If the initial verification fails, click the confirm button or go back to to login screen to try fresh login.",
+    backToLogin: "Back to login",
+  },
   loginScreen: {
     logIn: "Log In",
     enterDetails:
-      "Enter your details below to unlock top secret info. You'll never guess what we've got waiting. Or maybe you will; it's not rocket science here.",
+      "Enter your email below to get login link. Tap on the link in the email to complete your login",
     emailFieldLabel: "Email",
     passwordFieldLabel: "Password",
     emailFieldPlaceholder: "Enter your email address",
@@ -154,9 +167,10 @@ const en = {
     sendVerificationCode: "Verify code",
     verificationCodeFieldPlaceholder: "Enter verification code",
     goToVerification: "Verify account",
-    heading: "Verification",
+    heading: "Email Verification",
     detail: "Enter the verification code sent to your email.",
     resent: "Resent code",
+    resendInFuture: "Resend in {{time}}",
     forgotPassword: {
       confirm: "Enter your email address to receive link to reset password",
       ok: "Reset password",

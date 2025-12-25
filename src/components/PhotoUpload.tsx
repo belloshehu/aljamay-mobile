@@ -4,6 +4,7 @@ import * as ImagePicker from "expo-image-picker"
 import { Button } from "./Button"
 import { Icon } from "./Icon"
 import { ImagePreview } from "./ImagePreview"
+import { resizeImage } from "@/utils/image"
 
 interface PhotoUploadProps {
   customStyle?: object
@@ -14,7 +15,9 @@ interface PhotoUploadProps {
   withPreview?: boolean
   value?: ImagePicker.ImagePickerAsset
   onChange?: (file: any) => void
+  usage?: "banner" | "avatar" | "product"
 }
+
 export default function PhotoUpload(props: PhotoUploadProps) {
   const { customStyle, setFile, name, buttonText, onChange } = props
   // Function to pick an image from
@@ -39,14 +42,18 @@ export default function PhotoUpload(props: PhotoUploadProps) {
       if (!result.canceled) {
         // If an image is selected (not cancelled),
         // update the file state variable
-        setFile && setFile(name, result.assets[0])
-        onChange && onChange(result.assets[0])
+        resizeImage(result?.assets[0].uri, "avatar").then((resizedImage) => {
+          // You can update the state or perform further actions with the resized image here
+          setFile && setFile(name, resizedImage)
+          onChange && onChange(resizedImage)
+        })
       }
     }
   }
   if (props.withPreview && props.value) {
     return <ImagePreview uri={props.value?.uri} onPress={pickImage} />
   }
+
   return (
     <Button onPress={pickImage} style={customStyle} LeftAccessory={() => <Icon icon="camera" />}>
       {buttonText || "Upload Photo"}

@@ -5,9 +5,10 @@ import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { useRouter } from "expo-router"
 import { FC } from "react"
-import { Image, ImageStyle, Pressable, Text, TextStyle, View, ViewStyle } from "react-native"
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated"
+import { ImageStyle, Pressable, Text, TextStyle, View, ViewStyle } from "react-native"
+import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated"
 import { ProductType } from "types/product.types"
+import { push } from "expo-router/build/global-state/routing"
 
 interface ProductProps {
   product: ProductType
@@ -21,24 +22,24 @@ const Product: FC<ProductProps> = (props: ProductProps) => {
     return { transform: [{ scale: scale.value }] }
   })
 
-  const router = useRouter()
   const {
     product: { image, name, price, discount, id },
     minimum = false,
   } = props
 
   const goToDetailScreen = () => {
-    scale.value = withSpring(1.6, {
-      damping: 10,
-      stiffness: 200,
-    })
-
-    router.push(("/product/" + id) as any)
+    if (minimum) {
+      // go to admin product detail screen
+      push(("/user/product/" + id) as any)
+    } else {
+      // go to regular product detail screen
+      push(("/product/" + id) as any)
+    }
   }
 
   const addToCart = () => {
     // implement adding product to shopping cart
-    router.push(("/product/" + id) as any)
+    push(("/product/" + id) as any)
   }
 
   return (
@@ -46,7 +47,7 @@ const Product: FC<ProductProps> = (props: ProductProps) => {
       style={[themed($container), { transform: animatedStyle.transform }]}
       onPress={goToDetailScreen}
     >
-      <Image src={image as any} alt={name} style={themed($image)} />
+      <Animated.Image src={image as any} alt={name} style={themed($image)} />
       <View style={themed($footer)}>
         <Text style={themed($name)}>{name}</Text>
         <View style={themed($priceWrapper)}>

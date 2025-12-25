@@ -44,7 +44,7 @@ const ProductList: FC<ProductListProps> = (props: ProductListProps) => {
 }
 
 const $containerStyle: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  paddingBottom: 170,
+  paddingBottom: 200,
 })
 
 export const $separator: ThemedStyle<ViewStyle> = ({ colors }) => ({

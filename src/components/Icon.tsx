@@ -149,6 +149,7 @@ export const iconRegistry = {
   bread: require("@assets/icons/bread.png"),
   camera: require("@assets/icons/camera.png"),
   promo: require("@assets/icons/promo.png"),
+  edit: require("@assets/icons/edit.png"),
 }
 
 const $imageStyleBase: ImageStyle = {

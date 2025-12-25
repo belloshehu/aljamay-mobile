@@ -1,6 +1,10 @@
-import { SignupSchemaType } from "@/schemas/auth.validation.schema"
+import { LoginSchemaType, SignupSchemaType } from "@/schemas/auth.validation.schema"
 import { AxiosInstance } from "axios"
-import { EmailVerificationCodeResponse, LoginPayload, LoginResponseType } from "types/auth.types"
+import {
+  EmailVerificationCodeResponse,
+  LoginResponseType,
+  RegisterResponseType,
+} from "types/auth.types"
 
 class AuthServiceAPI {
   static async login({
@@ -8,9 +12,23 @@ class AuthServiceAPI {
     payload,
   }: {
     publicRequest: AxiosInstance
-    payload: LoginPayload
+    payload: LoginSchemaType
   }) {
     const { data } = await publicRequest.post<LoginResponseType>("/native/login", payload)
+    return data
+  }
+
+  // Send the login verification token back to server to complete user's login process.
+  static async loginVerify({
+    protectedRequest,
+    token,
+  }: {
+    protectedRequest: AxiosInstance
+    token: string
+  }) {
+    const { data } = await protectedRequest.post<LoginResponseType>(
+      "/native/login-verify?token=" + token,
+    )
     return data
   }
 
@@ -21,7 +39,7 @@ class AuthServiceAPI {
     publicRequest: AxiosInstance
     payload: SignupSchemaType
   }) {
-    const { data } = await publicRequest.post("/native/signup", payload)
+    const { data } = await publicRequest.post<RegisterResponseType>("/native/signup", payload)
     return data
   }
 
