@@ -59,9 +59,7 @@ const ProductSearchModal: FC = () => {
               )}
               onChangeText={(text) => setSearchKey(text)}
               onSubmitEditing={() => {
-                console.log("submitted", searchKey)
                 refetch()
-                console.log(isRefetching)
               }}
             />
           </View>

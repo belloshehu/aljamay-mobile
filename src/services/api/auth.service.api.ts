@@ -1,4 +1,8 @@
-import { LoginSchemaType, SignupSchemaType } from "@/schemas/auth.validation.schema"
+import {
+  EmailVerificationSchemaType,
+  LoginSchemaType,
+  SignupSchemaType,
+} from "@/schemas/auth.validation.schema"
 import { AxiosInstance } from "axios"
 import {
   EmailVerificationCodeResponse,
@@ -43,21 +47,31 @@ class AuthServiceAPI {
     return data
   }
 
-  /* EMAIL VERIFICATION: */
-  static async verifyAccount({
+  /* EMAIL VERIFICATION:
+   Send the verification token to server to complete email verification process.
+  */
+  static async verifyEmail({
+    protectedRequest,
+    token,
+  }: {
+    protectedRequest: AxiosInstance
+    token: string
+  }) {
+    const { data } = await protectedRequest.post("/native/verify-email?token=" + token)
+    return data
+  }
+
+  // Send post request with user's email address to get link for email verification
+  static async requestEmailVerificationLink({
     protectedRequest,
     payload,
   }: {
     protectedRequest: AxiosInstance
-    payload: { code: string }
+    payload: EmailVerificationSchemaType
   }) {
-    const { data } = await protectedRequest.post("/native/protected/verify-code", payload)
-    return data
-  }
-
-  static async requestVerificationCode({ protectedRequest }: { protectedRequest: AxiosInstance }) {
-    const { data } = await protectedRequest.get<EmailVerificationCodeResponse>(
-      "/native/protected/send-code",
+    const { data } = await protectedRequest.post<EmailVerificationCodeResponse>(
+      "/native/send-email-verification-link",
+      payload,
     )
     return data
   }

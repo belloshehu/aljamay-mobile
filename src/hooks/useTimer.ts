@@ -6,26 +6,29 @@ import { useEffect, useState } from "react"
 interface UseTimerArgs {
   mode?: "count-down" | "count-up"
   duration: number // duration of timer in seconds
+  start?: boolean // start when true
 }
-export const useTimer = ({ mode = "count-down", duration }: UseTimerArgs) => {
+export const useTimer = ({ mode = "count-down", duration, start = true }: UseTimerArgs) => {
   const [time, setTime] = useState(duration)
 
   useEffect(() => {
     let interval = setInterval(() => {
-      if (mode === "count-down") {
-        if (time > 0) {
-          const timeLeft = time - 1
-          setTime(timeLeft)
-        }
-      } else {
-        if (time > duration) {
-          const timeLeft = time + 1
-          setTime(timeLeft)
+      if (start) {
+        if (mode === "count-down") {
+          if (time > 0) {
+            const timeLeft = time - 1
+            setTime(timeLeft)
+          }
+        } else {
+          if (time > duration) {
+            const timeLeft = time + 1
+            setTime(timeLeft)
+          }
         }
       }
     }, 1000)
     return () => clearInterval(interval)
-  }, [time])
+  }, [time, start])
 
   const getTimer = () => {
     // Returns formated timing count down or count up

@@ -30,7 +30,7 @@ export const LoginScreen: FC = () => {
     >
       <BrandLogo />
       <Text testID="login-heading" tx="loginScreen:logIn" preset="heading" style={themed($logIn)} />
-      <Text tx="loginScreen:enterDetails" />
+      {/* <Text tx="loginScreen:enterDetails" /> */}
 
       {loginError && <Text text={loginError} style={themed($error)} />}
 
