@@ -7,17 +7,19 @@
   "userInterfaceStyle": "automatic",
   "icon": "./assets/images/aljamay-logo.png",
   "updates": {
-    "fallbackToCacheTimeout": 0
+    "fallbackToCacheTimeout": 0,
+    "url": "https://u.expo.dev/a5face2e-e735-4b44-b488-2767aad09b7a"
   },
   "newArchEnabled": true,
   "jsEngine": "hermes",
-  "assetBundlePatterns": ["**/*"],
+  "assetBundlePatterns": [
+    "**/*"
+  ],
   "android": {
     "icon": "./assets/images/app-icon-android-legacy.png",
     "package": "com.aljamaymobile",
     "adaptiveIcon": {
       "foregroundImage": "./assets/images/app-icon-android-adaptive-foreground.png",
-      // "backgroundImage": "./assets/images/app-icon-android-adaptive-background.png",
       "backgroundColor": "#FFFFFF"
     },
     "splash": {
@@ -26,12 +28,25 @@
       "backgroundColor": "#ADF802"
     },
     "allowBackup": false,
-    "edgeToEdgeEnabled": true
+    "edgeToEdgeEnabled": true,
+    "permissions": [
+      "android.permission.RECORD_AUDIO"
+    ]
   },
   "ios": {
     "icon": "./assets/images/app-icon-ios.png",
     "supportsTablet": true,
-    "bundleIdentifier": "com.aljamaymobile"
+    "bundleIdentifier": "com.aljamaymobile",
+    "privacyManifests": {
+      "NSPrivacyAccessedAPITypes": [
+        {
+          "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+          "NSPrivacyAccessedAPITypeReasons": [
+            "CA92.1"
+          ]
+        }
+      ]
+    }
   },
   "web": {
     "favicon": "./assets/images/app-icon-web-favicon.png",
@@ -80,5 +95,8 @@
     "eas": {
       "projectId": "a5face2e-e735-4b44-b488-2767aad09b7a"
     }
+  },
+  "runtimeVersion": {
+    "policy": "appVersion"
   }
 }
