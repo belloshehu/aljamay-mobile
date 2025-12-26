@@ -1,17 +1,22 @@
 import React, { FC, useState } from "react"
-import { Modal, Pressable, Text, View, ViewStyle } from "react-native"
+import { Modal, Pressable, View, ViewStyle } from "react-native"
 import { Icon } from "../../components/Icon"
 import { TextField } from "../../components/TextField"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { $styles } from "@/theme/styles"
-import Animated from "react-native-reanimated"
-import { animationStyles } from "@/styles/animation.style"
+import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
+import { Text } from "@/components/Text"
+import ProductList from "./ProductList"
+import { useDebounce } from "use-debounce"
 
-const ProductSearchModal: FC = (props) => {
+const ProductSearchModal: FC = () => {
   const [visible, setVisible] = useState(false)
   const { themed, theme } = useAppTheme()
+  const [searchKey, setSearchKey] = useState("")
+  const [debouncedSearchKey] = useDebounce(searchKey, 1500)
+  const { refetch, data, isRefetching } = useGetProducts({ search: debouncedSearchKey })
 
   const toggleModal = () => {
     setVisible((prev) => !visible)
@@ -52,14 +57,23 @@ const ProductSearchModal: FC = (props) => {
                   color={theme.colors.text}
                 />
               )}
+              onChangeText={(text) => setSearchKey(text)}
+              onSubmitEditing={() => {
+                refetch()
+              }}
             />
           </View>
         </View>
         {/* Search modal main content here */}
         <View style={themed($container)}>
-          <Animated.Text style={animationStyles.slideInAmination}>
-            Your previous search keys are:
-          </Animated.Text>
+          {data?.length === 0 ? (
+            <Text tx="common:searchFailure" txOptions={{ item: "products" }} />
+          ) : (
+            <View>
+              <Text tx="productList:title" txOptions={{ count: data?.length }} />
+              <ProductList products={data!} isLoading={isRefetching} />
+            </View>
+          )}
         </View>
       </SafeAreaView>
     </Modal>

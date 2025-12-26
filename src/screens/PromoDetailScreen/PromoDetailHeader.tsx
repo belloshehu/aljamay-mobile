@@ -1,5 +1,4 @@
 import { Icon } from "@/components/Icon"
-import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { goBack } from "expo-router/build/global-state/routing"

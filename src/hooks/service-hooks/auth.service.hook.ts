@@ -6,17 +6,20 @@ import { useAxios } from "../use-axios"
 import { AxiosError } from "axios"
 import { push } from "expo-router/build/global-state/routing"
 import Toast from "react-native-toast-message"
-// import { Toast } from "toastify-react-native"
 
 export const useLogin = () => {
+  const { login } = useAuth()
   return useMutation({
     mutationFn: AuthServiceAPI.login,
     onSuccess: (data) => {
-      Toast.show({ type: "success", text1: "Login success!", text2: data.message })
+      Toast.show({ type: "success", text1: data.message })
+      if (data) {
+        login(data.data.token, data.data.user)
+      }
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<{ error: string }>) => {
       Toast.show({
-        text1: `Login error: ${error instanceof Error ? error.message : "Unknown error"}`,
+        text1: `Login error: ${error instanceof Error ? error.response?.data.error : "Unknown error"}`,
       })
     },
   })
@@ -30,12 +33,12 @@ export const useLoginVerify = () => {
       if (data) {
         login(data.data.token, data.data.user)
       }
-      Toast.show({ type: "success", text1: "Login successful!" })
+      Toast.show({ type: "success", text1: data.message || "Login success" })
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<{ error: string }>) => {
       Toast.show({
         type: "error",
-        text1: `Login error: ${error instanceof Error ? error.message : "Unknown error"}`,
+        text1: `Login error: ${error instanceof Error ? error.response?.data.error : "Unknown error"}`,
       })
     },
   })
@@ -48,36 +51,49 @@ export const useSignup = () => {
       Toast.show({ type: "success", text1: "Signup successful!" })
       push("/user/login")
     },
-    onError: (error: any) => {
-      Toast.show({ type: "error", text1: "Signup failed!" })
+    onError: (error: AxiosError<{ error: string }>) => {
+      Toast.show({
+        type: "error",
+        text1: `Signup error: ${error instanceof Error ? error.response?.data.error : "Unknown error"}`,
+      })
     },
   })
 }
 
-// Send the received email verification code to server
+// Send the received email verification token back to server to complete verification.
 export const useVerifyEmail = () => {
-  const router = useRouter()
   const { logout } = useAuth()
   return useMutation({
-    mutationFn: AuthServiceAPI.verifyAccount,
+    mutationFn: AuthServiceAPI.verifyEmail,
     onSuccess: () => {
       Toast.show({ type: "success", text1: "Email verified!" })
       logout()
-      router.push("/user/login")
+      push("/user/email-verify-success" as any)
     },
-    onError: (error: any) => {
-      Toast.show({ type: "error", text1: "Email verification failed!" })
+    onError: (error: AxiosError<{ error: string }>) => {
+      Toast.show({
+        type: "error",
+        text1: `Verification error: ${error instanceof Error ? error.response?.data.error : "Unknown error"}`,
+      })
+      push("/user/email-verify-request" as any)
     },
   })
 }
 
-export const useRequestEmailVerificationCode = (enabled: boolean = false) => {
+// Hook to used to send post request with the user's email in the body to get email verification link
+export const useRequestEmailVerificationLink = (enabled: boolean = false) => {
   const { protectedRequest } = useAxios()
-  return useQuery({
-    queryFn: async () => AuthServiceAPI.requestVerificationCode({ protectedRequest }),
-    queryKey: ["email-verification"],
-    enabled,
-    refetchOnMount: false,
+  return useMutation({
+    mutationFn: AuthServiceAPI.requestEmailVerificationLink,
+    onSuccess: () => {
+      Toast.show({ type: "success", text1: "Email verification link sent" })
+    },
+    onError: (error: AxiosError<{ error: string }>) => {
+      Toast.show({
+        type: "error",
+        text1: `Email Verification error: ${error instanceof Error ? error.response?.data.error : "Unknown error"}`,
+      })
+    },
   })
 }
 

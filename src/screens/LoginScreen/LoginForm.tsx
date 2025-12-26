@@ -1,7 +1,7 @@
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { ComponentType, Dispatch, FC, SetStateAction, useEffect, useMemo, useState } from "react"
-import { Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginValidationSchema, LoginSchemaType } from "@/schemas/auth.validation.schema"
@@ -90,7 +90,7 @@ const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
         )}
       />
 
-      {/* <Controller
+      <Controller
         control={control}
         name="password"
         render={({ field: { value, onChange, ref } }) => (
@@ -112,7 +112,7 @@ const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
             onSubmitEditing={handleSubmit(onSubmit)}
           />
         )}
-      /> */}
+      />
 
       <GlowWrapper style={{ marginTop: 20 }} runGlow={isPending}>
         <Button

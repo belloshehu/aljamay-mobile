@@ -18,6 +18,8 @@ const en = {
     deleting: "Deleting ...",
     uploading: "Uploading ...",
     delete: "Delete",
+    searchFailure: "No {{item}} with matching keyword found!",
+    verify: "Verify Email",
   },
   welcomeScreen: {
     postscript:
@@ -128,6 +130,7 @@ const en = {
     detail:
       "If the initial verification fails, click the confirm button or go back to to login screen to try fresh login.",
     backToLogin: "Back to login",
+    waitToConfirm: "Click in {{time}} ",
   },
   loginScreen: {
     logIn: "Log In",
@@ -163,14 +166,30 @@ const en = {
     markettingPolicy: "Accept our marketting policies",
     privacyPolicy: "Accept our privacy policies",
   },
-  verification: {
-    sendVerificationCode: "Verify code",
-    verificationCodeFieldPlaceholder: "Enter verification code",
-    goToVerification: "Verify account",
+  emailVerificationScreen: {
     heading: "Email Verification",
-    detail: "Enter the verification code sent to your email.",
-    resent: "Resent code",
+    detail:
+      "If the verifcation fails, you can click the button below to request another email verification link.",
+    goToVerification: "Verify email",
+    goToLogin: "Go to Login",
+    success: "Your email has been verified successfully.",
+    resendLink: "Resend link",
     resendInFuture: "Resend in {{time}}",
+  },
+  emailVerificationRequestScreen: {
+    heading: "Email Verification",
+    detail: "Enter your email address to get verification link sent to you.",
+    cancel: "Cancel verification",
+    success: "Your email has been verified successfully.",
+    resendLink: "Resend link",
+    resendInFuture: "Resend in {{time}}",
+  },
+  emailVerificationSuccessScreen: {
+    heading: "Verification success",
+    detail: "Your email address has been verified successfully",
+  },
+  verification: {
+    resend: "Resent code",
     forgotPassword: {
       confirm: "Enter your email address to receive link to reset password",
       ok: "Reset password",

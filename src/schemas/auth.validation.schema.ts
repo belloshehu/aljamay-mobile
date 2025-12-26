@@ -3,7 +3,7 @@ import * as z from "zod"
 // Validation schema for login
 export const loginValidationSchema = z.object({
   email: z.email("Invalid email address"),
-  // password: z.string().min(8).max(16),
+  password: z.string().min(8).max(16),
 })
 
 //validation schema for signup
@@ -44,8 +44,8 @@ export const signupValidationSchema = z
     },
   )
 
-export const verificationValidationSchema = z.object({
-  code: z.string().length(6, "Invalid verification code"),
+export const emailVerificationValidationSchema = z.object({
+  email: z.email("Invalid email address"),
 })
 
 export const resetPasswordRequestValidationSchema = z.object({
@@ -85,6 +85,6 @@ export const resetPasswordValidationSchema = z
 // Type annotation for the auth schema
 export type SignupSchemaType = z.infer<typeof signupValidationSchema>
 export type LoginSchemaType = z.infer<typeof loginValidationSchema>
-export type VerificationSchemaType = z.infer<typeof verificationValidationSchema>
+export type EmailVerificationSchemaType = z.infer<typeof emailVerificationValidationSchema>
 export type ResetPasswordRequestSchemaType = z.infer<typeof resetPasswordRequestValidationSchema>
 export type ResetPasswordSchemaType = z.infer<typeof resetPasswordValidationSchema>
