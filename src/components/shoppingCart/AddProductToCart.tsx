@@ -11,6 +11,9 @@ import { useStepChange } from "@/hooks/useCount"
 import { Counter } from "../Counter"
 import { useAddToCart } from "@/hooks/service-hooks/cart.service.hooks"
 import { useAxios } from "@/hooks/use-axios"
+import { useAuth } from "@/context/AuthContext"
+import { Text } from "../Text"
+import { push } from "expo-router/build/global-state/routing"
 
 /*
   Component with - and + buttons to add certain number of product to shopping cart
@@ -27,6 +30,7 @@ const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProp
   const { handleBottomSheetClose, product } = props
   const { mutateAsync, isPending } = useAddToCart()
   const { protectedRequest } = useAxios()
+  const { isAuthenticated } = useAuth()
   const {
     stepDecrease,
     stepIncrease,
@@ -37,6 +41,18 @@ const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProp
     await mutateAsync({ productId: product.id, quantity: count, protectedRequest })
     handleBottomSheetClose && handleBottomSheetClose()
   }
+  if (!isAuthenticated)
+    return (
+      <View style={{ gap: 15 }}>
+        <Text>You need to login to add product to shopping cart</Text>
+        <Button
+          tx="signupScreen:goToLogin"
+          preset="filled"
+          textStyle={{ color: "#000" }}
+          onPress={() => push("/user/login")}
+        />
+      </View>
+    )
 
   return (
     <View style={themed($container)}>

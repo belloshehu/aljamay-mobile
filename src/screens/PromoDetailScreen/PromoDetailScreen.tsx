@@ -11,6 +11,7 @@ import { PromoItemType } from "types/promo.types"
 import PromoDetailHeader from "./PromoDetailHeader"
 import ProductList from "../ProductScreen/ProductList"
 import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
+import Loader from "@/components/Loader"
 
 // @demo replace-next-line export const promoDetailScreen: FC = function promoDetailScreen(
 export const PromoDetailScreen: FC = () => {
@@ -30,7 +31,7 @@ export const PromoDetailScreen: FC = () => {
     setIsLoading(false)
   }, [id])
 
-  if (isLoading) return <ActivityIndicator size={"large"} />
+  if (isLoading) return <Loader loadingText="promo:loadingOne" />
   if (!promo) return <Card ContentComponent={<Text tx="promo:notFound" />} />
   return (
     <View style={$styles.flex1}>

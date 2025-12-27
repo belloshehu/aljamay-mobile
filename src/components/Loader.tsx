@@ -21,4 +21,7 @@ export default Loader
 
 const $wrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   gap: spacing.md,
+  justifyContent: "center",
+  alignItems: "center",
+  flex: 1,
 })

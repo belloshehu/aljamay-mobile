@@ -5,6 +5,7 @@ import Product from "./Product"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { ProductListEmptyState } from "@/components/CustomEmptyState"
+import { ProductListSkeleton } from "@/components/skeleton/product/ProductListSkeleton"
 
 interface ProductListProps {
   products: ProductType[] | null
@@ -20,8 +21,8 @@ const ProductList: FC<ProductListProps> = (props: ProductListProps) => {
   const { themed } = useAppTheme()
 
   const { products, isLoading, minimum, reLoad } = props
-  if (isLoading) return <ActivityIndicator />
-  if (!products || products.length === 0) return <ProductListEmptyState buttonOnPress={reLoad} />
+  if (isLoading) return <ProductListSkeleton />
+  if (!products || products?.length === 0) return <ProductListEmptyState buttonOnPress={reLoad} />
 
   return (
     <FlatList

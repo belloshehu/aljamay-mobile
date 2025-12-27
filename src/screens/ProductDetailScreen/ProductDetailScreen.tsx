@@ -15,6 +15,7 @@ import AddProductToCart from "@/components/shoppingCart/AddProductToCart"
 import { Screen } from "@/components/Screen"
 import { push } from "expo-router/build/global-state/routing"
 import { useGetProductById } from "@/hooks/service-hooks/product.service.hooks"
+import Loader from "@/components/Loader"
 
 // @demo replace-next-line export const ProductDetailScreen: FC = function ProductDetailScreen(
 export const ProductDetailScreen: FC = function ProductDetailScreen() {
@@ -33,7 +34,7 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
   const goToList = () => {
     push("/")
   }
-  if (isLoading) return <ActivityIndicator size={"large"} />
+  if (isLoading) return <Loader loadingText="loadingOne" />
   if (!product)
     return (
       <Screen style={[$styles.container, { gap: 15 }]}>

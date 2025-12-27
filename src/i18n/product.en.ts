@@ -9,6 +9,8 @@ const productEn = {
       content: "No {{items}} found yet. Try clicking the button to refresh or reload the app",
     },
   },
+  loadingOne: "Loading product",
+  loadingMany: "Loading products",
   productDetail: {
     notFound: "Product not found",
     checkout: "Checkout",
@@ -41,6 +43,7 @@ const productEn = {
     notFound: "Promo not found",
     countDown: "{{days}} days to go",
     productList: "Products in the promo ({{count}})",
+    loadingOne: "Loading promo",
   },
   cart: {
     loading: "Loading cart items",
