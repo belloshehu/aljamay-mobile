@@ -1,18 +1,19 @@
-import { Header } from "@/components/Header"
-import { PressableIcon } from "@/components/Icon"
-import { dummyPromo, productCategories } from "@/constants"
-import { useAuth } from "@/context/AuthContext"
-import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
-import { translate } from "@/i18n/translate"
 import AdminProductScreenHeaderRight from "@/screens/AdminProductScreen/AdminProductScreenHeaderRight"
-import { useUserStore } from "@/store/userStore"
-import { Stack, Tabs } from "expo-router"
+import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
 import { goBack } from "expo-router/build/global-state/routing"
+import { dummyPromo, productCategories } from "@/constants"
+import { Stack, Tabs } from "expo-router"
+import { PressableIcon } from "@/components/Icon"
+import { useUserStore } from "@/store/userStore"
+import { useAuth } from "@/context/AuthContext"
+import { Header } from "@/components/Header"
+import { translate } from "@/i18n/translate"
 
 export default function UserLayout() {
   const { isAuthenticated } = useAuth()
   const { orders, messages, reviews } = useUserStore()
   const { data: productsData } = useGetProducts({ limit: 1000, offset: 0 })
+
   return (
     <Stack
       screenOptions={{

@@ -14,13 +14,16 @@ export const ProductListSkeleton = ({ count = 10 }) => {
         <ProductSkeleton key={index} />
       ))}
       <ProductSkeleton />
-      <ProductSkeleton key={23} />
+      <ProductSkeleton key={2} />
+      <ProductSkeleton key={3} />
+      <ProductSkeleton key={4} />
+      <ProductSkeleton key={5} />
     </View>
   )
 }
 
 const $container: ThemedStyle<ViewStyle> = ({}) => ({
-  gap: 2,
+  gap: 5,
   width: "100%",
   flexDirection: "row",
   flexWrap: "wrap",

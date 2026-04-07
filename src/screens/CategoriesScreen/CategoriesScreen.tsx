@@ -1,11 +1,9 @@
 import { FC } from "react"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
-import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { Text } from "@/components/Text"
 import CategoryCardList from "./CategoryCardList"
 import { productCategories } from "@/constants"
 

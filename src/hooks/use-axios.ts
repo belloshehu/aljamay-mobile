@@ -23,11 +23,6 @@ export const useAxios = () => {
             type: "error",
             text1: "You have no internet connection!",
             text2: "Check your connection",
-            //onPress: () => Toast.hide(),
-
-            // text1Style: {
-            //   color: theme.colors.errorBackground,
-            // },
           })
         }
         throw new Error("No connection!")

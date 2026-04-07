@@ -6,7 +6,8 @@
  * https://reactnative.dev/docs/security#storing-sensitive-info
  */
 export default {
-  API_URL: "http://192.168.240.212:3000/api",
+  // API_URL: "http://192.168.240.212:3000/api",
+  API_URL: "https://aljamay.com/api",
   MAX_CART_ITEM: 20, // Maximum allowable cart items
   FLUTTERWAVE_PUBLIC_KEY: process.env.EXPO_PUBLIC_FLUTTERWAVE_PUBLIC_KEY,
   APP_REMOTE_LOGO: process.env.EXPO_PUBLIC_REMOTE_APP_LOGO,

@@ -13,13 +13,19 @@ import { useCartStore } from "@/store/cartStore"
 import { useUserStore } from "@/store/userStore"
 import { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
+import { useGetCartItems } from "@/hooks/service-hooks/cart.service.hooks"
 
 export default function Layout() {
   const { bottom } = useSafeAreaInsets()
   const segments = useSegments<Route>()
-  const { items } = useCartStore()
+  const { cartItems, setCartItems } = useCartStore()
   const { messages } = useUserStore()
-  const { themed, theme } = useAppTheme()
+  const { themed } = useAppTheme()
+  const { data } = useGetCartItems()
+
+  useEffect(() => {
+    setCartItems(data || [])
+  }, [data])
 
   const hideTabBar =
     segments.includes("product" as never) ||
@@ -27,6 +33,7 @@ export default function Layout() {
     segments.includes("promo" as never) ||
     segments.includes("categories" as never) ||
     segments.includes("shopping" as never)
+
   return (
     <>
       <Tabs
@@ -81,7 +88,7 @@ export default function Layout() {
             tabBarIcon: ({ focused }) => (
               <Icon icon="cart" color={focused ? colors.tint : undefined} size={30} />
             ),
-            tabBarBadge: items, // count of items in the cart
+            tabBarBadge: data?.length, // count of items in the cart
           }}
         />
 

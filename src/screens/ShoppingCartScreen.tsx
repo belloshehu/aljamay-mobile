@@ -20,7 +20,6 @@ import { push, replace } from "expo-router/build/global-state/routing"
 import { CartItem } from "@/components/shoppingCart/CartItem"
 import Price from "@/components/product/Price"
 import { $separator } from "./ProductScreen/ProductList"
-import withAuth from "@/components/HOC/withAuth"
 
 const ShoppingCartScreen: FC = function ShoppingCartScreen() {
   const { themed } = useAppTheme()
@@ -87,7 +86,7 @@ const ShoppingCartScreen: FC = function ShoppingCartScreen() {
     <Screen preset="fixed" contentContainerStyle={{ ...$styles.flex1, padding: 0, margin: 0 }}>
       <View style={themed($topContainer)}>
         <View style={themed($header)}>
-          <Text tx="cart:title" txOptions={{ count: data.length }} style={themed($titleText)} />
+          {/* <Text tx="cart:title" txOptions={{ count: data.length }} style={themed($titleText)} /> */}
           <Price price={totalPrice} priceStyle={themed($priceText)} discount={totalDiscount} />
         </View>
         <FlatList
@@ -154,4 +153,4 @@ const $titleText: ThemedStyle<TextStyle> = ({}) => ({
   fontWeight: "500",
 })
 
-export default withAuth(ShoppingCartScreen)
+export default ShoppingCartScreen

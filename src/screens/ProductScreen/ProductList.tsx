@@ -1,5 +1,5 @@
 import React, { FC, JSX } from "react"
-import { ActivityIndicator, FlatList, View, ViewStyle } from "react-native"
+import { FlatList, View, ViewStyle } from "react-native"
 import { ProductType } from "types/product.types"
 import Product from "./Product"
 import { ThemedStyle } from "@/theme/types"

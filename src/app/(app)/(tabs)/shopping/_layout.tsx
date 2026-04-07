@@ -1,10 +1,17 @@
 import { Header } from "@/components/Header"
+import { useAuth } from "@/context/AuthContext"
 import { useCartStore } from "@/store/cartStore"
-import { Stack } from "expo-router"
+import { Redirect, Stack } from "expo-router"
 import { goBack } from "expo-router/build/global-state/routing"
 
 export default function CategoryLayout() {
-  const { items } = useCartStore()
+  const { cartItems } = useCartStore()
+  const { isAuthenticated } = useAuth()
+
+  if (!isAuthenticated) {
+    return <Redirect href={"/user/login"} />
+  }
+
   return (
     <Stack
       initialRouteName="index"
@@ -21,7 +28,7 @@ export default function CategoryLayout() {
             <Header
               leftIcon="caretLeft"
               titleTx="cart:title"
-              titleTxOptions={{ count: items }}
+              titleTxOptions={{ count: cartItems.length }}
               onLeftPress={goBack}
               {...props}
             />

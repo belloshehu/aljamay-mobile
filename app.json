@@ -92,8 +92,9 @@
     "ignite": {
       "version": "UNKNOWN"
     },
+    "router": {},
     "eas": {
-      "projectId": "a5face2e-e735-4b44-b488-2767aad09b7a"
+      "projectId": "1bd62e20-dfd7-4372-be00-f140314cfbd0"
     }
   },
   "runtimeVersion": {

@@ -61,6 +61,7 @@ export default function Root() {
       },
     },
   })
+
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       {/* <ToastManager> */}

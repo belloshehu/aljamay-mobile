@@ -1,5 +1,5 @@
-import { FC, useMemo } from "react"
 import { Image, ImageStyle, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
+import { FC, useMemo } from "react"
 import { Screen } from "@/components/Screen"
 import { useAuth } from "@/context/AuthContext" // @demo remove-current-line
 import { isRTL } from "@/i18n"
@@ -10,7 +10,6 @@ import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
 import { AccountItem } from "./AccountItem"
 import { adminAccountItem, userAccountItem } from "@/constants"
-import withAuth from "@/components/HOC/withAuth"
 import { useBottomSheetContext } from "@/context/BottomSheetContext"
 import { Icon } from "@/components/Icon"
 import { spacing } from "@/theme/spacing"
@@ -150,10 +149,4 @@ const $icon: ThemedStyle<ImageStyle> = ({ colors, spacing }) => ({
   padding: spacing.xxs,
 })
 
-const $tapButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  marginTop: spacing.xs,
-  backgroundColor: colors.errorBackground,
-  width: "100%",
-})
-
-export default withAuth(AccountScreen)
+export default AccountScreen

@@ -1,4 +1,5 @@
 import { useAuth } from "@/context/AuthContext"
+import { router } from "expo-router"
 import { push } from "expo-router/build/global-state/routing"
 import { ComponentProps, JSX, useEffect } from "react"
 
@@ -8,8 +9,9 @@ import { ComponentProps, JSX, useEffect } from "react"
 export default function withAuth(Component: JSX.ElementType) {
   return (props: ComponentProps<any>) => {
     const { isAuthenticated } = useAuth()
+
     useEffect(() => {
-      if (!isAuthenticated) push("/user/login")
+      if (!isAuthenticated) router
     }, [])
 
     return <Component {...props} />

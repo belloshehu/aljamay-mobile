@@ -8,7 +8,7 @@ export type SkeletonButtonProps = {
   height?: number
 }
 
-const SkeletonButton = ({ width = "100%", height = 20 }: SkeletonButtonProps) => {
+const SkeletonButton = ({ width = "100%", height = 45 }: SkeletonButtonProps) => {
   const colorScheme = useColorScheme()
   const colorMode = colorScheme === "dark" ? "dark" : "light"
 

@@ -91,7 +91,7 @@ export const OrderDetailScreen: FC = () => {
             },
           ]}
         >
-          <Text text={order.status} style={[{ fontSize: 18, width: "40%" }]} />
+          <Text text={order.status as any} style={[{ fontSize: 18, width: "40%" }]} />
           <Price price={order.totalAmount} priceStyle={themed($priceText)} />
         </View>
         <View>

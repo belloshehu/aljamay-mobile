@@ -1,8 +1,7 @@
 import { FC } from "react"
-import { ImageStyle, TextStyle, ViewStyle } from "react-native"
+import { ImageStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import { isRTL } from "@/i18n"
-import type { ThemedStyle } from "@/theme/types"
 import { $styles } from "@/theme/styles"
 
 import { Text } from "@/components/Text"

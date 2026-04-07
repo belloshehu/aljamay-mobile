@@ -66,7 +66,7 @@ export const ShippingAddressListScreen: FC = function AccountScreen() {
                 onPress={onPress!}
               />
             )}
-            renderedModalChildren={<AddShippingAddressModal />}
+            RenderedModalChildren={AddShippingAddressModal}
           />
         </View>
         <ShippingAddressList addresses={addresses} isLoading={isLoading} />

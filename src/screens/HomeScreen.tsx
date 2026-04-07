@@ -29,7 +29,7 @@ export const HomeScreen: FC = function HomeScreen() {
   return (
     <Screen preset="fixed" contentContainerStyle={[$styles.flex1]}>
       <View style={themed($topContainer)}>
-        <Marquee spacing={2} speed={1}>
+        {/* <Marquee spacing={2} speed={1}>
           <View style={themed($marquee)}>
             <Text style={{ color: "green" }}>Happy new year in advance. </Text>
             <LottieView
@@ -42,11 +42,11 @@ export const HomeScreen: FC = function HomeScreen() {
               source={require("@assets/animations/celebrate.json")}
             />
           </View>
-        </Marquee>
+        </Marquee> */}
         <ProductSearchModal />
         <CategoryList categories={productCategories} />
       </View>
-      <Overlay visible={new Date().getFullYear() === animationDate}>
+      {/* <Overlay visible={new Date().getFullYear() === animationDate}>
         <AnimatedText
           style={[{ color: theme.colors.errorBackground }, animationStyles.slideInYAmination]}
           preset="heading"
@@ -61,7 +61,7 @@ export const HomeScreen: FC = function HomeScreen() {
           }}
           source={require("@assets/animations/congratulation.json")}
         />
-      </Overlay>
+      </Overlay> */}
     </Screen>
   )
 }

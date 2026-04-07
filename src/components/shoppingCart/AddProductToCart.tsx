@@ -14,6 +14,7 @@ import { useAxios } from "@/hooks/use-axios"
 import { useAuth } from "@/context/AuthContext"
 import { Text } from "../Text"
 import { push } from "expo-router/build/global-state/routing"
+import { useCartStore } from "@/store/cartStore"
 
 /*
   Component with - and + buttons to add certain number of product to shopping cart
@@ -29,6 +30,7 @@ const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProp
   const { themed } = useAppTheme()
   const { handleBottomSheetClose, product } = props
   const { mutateAsync, isPending } = useAddToCart()
+  const addProductToCart = useCartStore((state) => state.addProduct)
   const { protectedRequest } = useAxios()
   const { isAuthenticated } = useAuth()
   const {
@@ -39,6 +41,14 @@ const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProp
 
   const addToCart = async () => {
     await mutateAsync({ productId: product.id, quantity: count, protectedRequest })
+      .then(() => {
+        addProductToCart({
+          id: product.id,
+          product,
+          quantity: count,
+        })
+      })
+      .catch((error) => console.log(error))
     handleBottomSheetClose && handleBottomSheetClose()
   }
   if (!isAuthenticated)
@@ -82,15 +92,6 @@ const $priceTextStyle: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   textAlign: "center",
   fontSize: spacing.lg,
   color: colors.errorBackground,
-})
-
-const $countWrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  gap: spacing.xxl,
-  paddingHorizontal: spacing.lg,
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "100%",
 })
 
 export default AddProductToCart

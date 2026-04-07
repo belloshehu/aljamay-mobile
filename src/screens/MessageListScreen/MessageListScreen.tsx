@@ -18,7 +18,6 @@ import { Button } from "@/components/Button"
 import { push } from "expo-router/build/global-state/routing"
 import { $separator } from "../ProductScreen/ProductList"
 import { Message } from "./Message"
-import withAuth from "@/components/HOC/withAuth"
 
 // @demo replace-next-line export const ShoppingCartScreen: FC = function ShoppingCartScreen(
 const MessageListScreen: FC = () => {
@@ -113,4 +112,4 @@ const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   fontWeight: "500",
 })
 
-export default withAuth(MessageListScreen)
+export default MessageListScreen
