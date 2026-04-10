@@ -8,6 +8,7 @@ import { useUserStore } from "@/store/userStore"
 import { useAuth } from "@/context/AuthContext"
 import { Header } from "@/components/Header"
 import { translate } from "@/i18n/translate"
+import useToggle from "@/hooks/useToggle"
 
 export default function UserLayout() {
   const { isAuthenticated } = useAuth()

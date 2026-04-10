@@ -2,7 +2,6 @@ import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.
 import { ShippingAddressList } from "../CheckoutScreen/ShippingAddressList"
 import { AddShippingAddressModal } from "./AddShippingAddressModal"
 import { ActivityIndicator, View, ViewStyle } from "react-native"
-import { PressableIcon } from "@/components/Icon"
 import { Screen } from "@/components/Screen"
 import { FC } from "react"
 import type { ThemedStyle } from "@/theme/types"
@@ -12,6 +11,7 @@ import { Text } from "@/components/Text"
 import Modal from "@/components/Modal"
 import LottieView from "lottie-react-native"
 import useToggle from "@/hooks/useToggle"
+import { Button } from "@/components/Button"
 
 export const ShippingAddressListScreen: FC = () => {
   const { themed, theme } = useAppTheme()
@@ -44,12 +44,9 @@ export const ShippingAddressListScreen: FC = () => {
             <Modal
               title="Add shipping Address"
               TriggerComponent={({ onPress }) => (
-                <PressableIcon
-                  icon="plus"
-                  size={24}
-                  color={theme.colors.errorBackground}
-                  onPress={onPress!}
-                />
+                <Button preset="filled" onPress={onPress!} style={{ marginTop: theme.spacing.md }}>
+                  <Text tx="shippingAddressScreen:addAddress" />
+                </Button>
               )}
               RenderedModalChildren={() => <AddShippingAddressModal onClose={toggle} />}
             />
@@ -59,26 +56,20 @@ export const ShippingAddressListScreen: FC = () => {
     )
 
   return (
-    <Screen preset="auto" contentContainerStyle={$styles.flex1}>
+    <Screen
+      preset="auto"
+      contentContainerStyle={$styles.flex1}
+      safeAreaEdges={["left", "right", "bottom"]}
+    >
       <View style={themed($mainContainer)}>
         <View style={themed($header)}>
-          {/* <Text
-            tx="shippingAddressScreen:title"
-            txOptions={{ count: addresses.length }}
-            preset="subheading"
-          /> */}
-
           {visible && (
             <Modal
               title="Add shipping Address"
               TriggerComponent={({ onPress }) => (
-                <PressableIcon
-                  icon="plus"
-                  size={24}
-                  color={theme.colors.errorBackground}
-                  onPress={onPress!}
-                  style={{ marginLeft: "auto" }}
-                />
+                <Button preset="filled" onPress={onPress!} style={{ marginTop: theme.spacing.md }}>
+                  + <Text tx="shippingAddressScreen:addAddress" />
+                </Button>
               )}
               RenderedModalChildren={() => <AddShippingAddressModal onClose={toggle} />}
             />
@@ -93,7 +84,7 @@ export const ShippingAddressListScreen: FC = () => {
 const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   justifyContent: "flex-start",
   alignItems: "center",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.sm,
   paddingTop: spacing.md,
   flex: 1,
   width: "100%",

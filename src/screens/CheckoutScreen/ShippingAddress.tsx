@@ -82,6 +82,8 @@ const $selectedWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
 
 const $name: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.errorBackground,
+  fontWeight: "bold",
+  textTransform: "capitalize",
 })
 
 const $text: ThemedStyle<TextStyle> = ({ spacing }) => ({

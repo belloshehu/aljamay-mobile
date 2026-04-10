@@ -112,7 +112,7 @@ const AccountScreen: FC = function AccountScreen() {
 const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   justifyContent: "flex-start",
   alignItems: "center",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.sm,
   flex: 1,
   width: "100%",
   gap: spacing.sm,

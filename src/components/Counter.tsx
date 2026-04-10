@@ -71,9 +71,10 @@ const $countBtnTextStyle: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   textAlign: "center",
 })
 
-const $countTextStyle: ThemedStyle<TextStyle> = ({}) => ({
+const $countTextStyle: ThemedStyle<TextStyle> = ({ colors }) => ({
   fontWeight: "bold",
   textAlign: "center",
+  color: colors.errorBackground,
 })
 
 const $countWrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({

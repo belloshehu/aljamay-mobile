@@ -63,7 +63,12 @@ export const CartItem: FC<CartItemProps> = (props: CartItemProps) => {
           <Price price={price * count} discount={discount * count} />
         </View>
       </View>
-      <Counter onDecrese={decrease} onIncrease={increase} count={count} />
+      <Counter
+        onDecrese={decrease}
+        onIncrease={increase}
+        count={count}
+        buttonStyle={{ paddingHorizontal: 15 }}
+      />
       <PressableIcon
         icon="delete"
         containerStyle={themed($deleteButton)}
@@ -100,9 +105,9 @@ const $wrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
 })
 
 const $image: ThemedStyle<ImageStyle> = ({ spacing, colors }) => ({
-  width: 150,
+  width: 250,
   height: 80,
-  flex: 0.4,
+  flex: 0.7,
   resizeMode: "cover",
   backgroundColor: colors.errorBackground,
 })

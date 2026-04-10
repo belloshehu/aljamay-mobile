@@ -1,15 +1,6 @@
 import { FC } from "react"
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  ImageStyle,
-  TextStyle,
-  View,
-  ViewStyle,
-} from "react-native"
+import { ActivityIndicator, FlatList, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
-import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
@@ -95,7 +86,7 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexGrow: 1,
   flexBasis: "57%",
   justifyContent: "flex-start",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.sm,
   gap: spacing.sm,
   paddingBottom: spacing.xs,
 })

@@ -14,12 +14,3 @@ export const SupportScreen: FC = function SupportScreen() {
     </Screen>
   )
 }
-
-const $SupportFace: ImageStyle = {
-  height: 169,
-  width: 269,
-  position: "absolute",
-  bottom: -47,
-  right: -80,
-  transform: [{ scaleX: isRTL ? -1 : 1 }],
-}

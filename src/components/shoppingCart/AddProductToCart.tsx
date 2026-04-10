@@ -44,13 +44,14 @@ const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProp
     stepIncrease,
     step: count,
   } = useStepChange({
-    defaultValue: product.cartItems[0].quantity || 1,
+    defaultValue: product?.cartItems[0]?.quantity || 1,
     lowerLimit: 0,
     upperLimit: Config.MAX_CART_ITEM,
   })
 
+  const productQuantityInCart = product?.cartItems[0]?.quantity || 0
   const addToCart = async () => {
-    if (product.cartItems[0] && product.cartItems[0].quantity > 0) {
+    if (product.cartItems[0] && productQuantityInCart > 0) {
       await updateCartItem({
         quantity: count,
         cartItemId: product.cartItems[0].id,
@@ -98,7 +99,7 @@ const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProp
         <Loader loadingText="progress:wait" />
       ) : (
         <Button
-          tx={product.cartItems[0].quantity ? "productDetail:updateCart" : "productDetail:cart"}
+          tx={productQuantityInCart > 0 ? "productDetail:updateCart" : "productDetail:cart"}
           onPress={addToCart}
           preset="filled"
           style={{ width: "100%" }}

@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@animatereactnative/marquee": "^0.5.2",
+    "@expo-google-fonts/quicksand": "^0.4.1",
     "@expo-google-fonts/space-grotesk": "^0.4.0",
     "@expo/metro-runtime": "~6.1.2",
     "@gorhom/bottom-sheet": "^5.2.8",

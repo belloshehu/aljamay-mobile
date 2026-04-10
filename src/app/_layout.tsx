@@ -69,7 +69,7 @@ export default function Root() {
         <OnlineProvider>
           <AuthProvider>
             <QueryClientProvider client={queryClient}>
-              <ThemeProvider>
+              <ThemeProvider initialContext="light">
                 <CheckoutProvider>
                   <CustomBottomSheetContextProvider>
                     <KeyboardProvider>

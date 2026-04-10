@@ -75,7 +75,7 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexGrow: 1,
   flexBasis: "57%",
   justifyContent: "flex-start",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.sm,
   alignItems: "center",
   gap: spacing.sm,
   paddingBottom: spacing.xs,

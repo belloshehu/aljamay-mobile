@@ -1,31 +1,31 @@
-import { FC, useEffect, useMemo } from "react"
 import { ActivityIndicator, FlatList, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
+import { ShippingAddressBottomSheetChildren } from "./ShippingAddressBottomSheetChildren"
+import { useGetCartItems } from "@/hooks/service-hooks/cart.service.hooks"
+import { PaymentButton } from "@/screens/CheckoutScreen/PaymentButton"
+import { useBottomSheetContext } from "@/context/BottomSheetContext"
+import { replace } from "expo-router/build/global-state/routing"
+import { useCheckoutContext } from "@/context/CheckoutProvider"
+import { CartItem } from "@/components/shoppingCart/CartItem"
+import { ShippingAddress } from "./ShippingAddress"
+import { PressableIcon } from "@/components/Icon"
+import { FC, useEffect, useMemo } from "react"
 import { Screen } from "@/components/Screen"
 import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import { useAuth } from "@/context/AuthContext"
-import { useGetCartItems } from "@/hooks/service-hooks/cart.service.hooks"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
-import { replace } from "expo-router/build/global-state/routing"
-import { CartItem } from "@/components/shoppingCart/CartItem"
 import Price from "@/components/product/Price"
-import { PressableIcon } from "@/components/Icon"
-import { useBottomSheetContext } from "@/context/BottomSheetContext"
-import { ShippingAddressBottomSheetChildren } from "./ShippingAddressBottomSheetChildren"
-import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
-import { ShippingAddress } from "./ShippingAddress"
 import Loader from "@/components/Loader"
-import { PaymentButton } from "@/screens/CheckoutScreen/PaymentButton"
 import { UserType } from "types/auth.types"
-import { useCheckoutContext } from "@/context/CheckoutProvider"
 import withAuth from "@/components/HOC/withAuth"
 import LottieView from "lottie-react-native"
 
 const CheckoutScreen: FC = () => {
-  const { themed } = useAppTheme()
+  const { themed, theme } = useAppTheme()
   const { user } = useAuth()
   const { isLoading, data: cartItems } = useGetCartItems()
   const { setBottomChildren, handleModalPreset } = useBottomSheetContext()
@@ -114,31 +114,25 @@ const CheckoutScreen: FC = () => {
           />
           <Price price={totalPrice} priceStyle={themed($priceText)} discount={totalDiscount} />
         </View>
-        <View style={{ height: 180 }}>
-          {/* <Text tx="checkout:productSection.count" txOptions={{ count: cartItems.length }} /> */}
+        <View
+          style={{
+            width: "100%",
+            flex: 1,
+            backgroundColor: "#fff",
+          }}
+        >
           <FlatList
             contentContainerStyle={themed($horizontalScroll)}
-            horizontal={true}
             data={cartItems}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <CartItem {...item} key={item.id} />}
+            bounces
+            indicatorStyle="white"
           />
         </View>
 
-        {/* Shipping Method section to allow user select a desired method of shipping */}
-        {/* <View style={{ flex: 0.3 }}>
-          <View style={themed($header)}>
-            <Text tx="checkout:shippinMethod.title" />
-            <PressableIcon
-              icon="caretRight"
-              onPress={showShippingMethodBottomSheet}
-              style={themed($icon)}
-            />
-          </View>
-        </View> */}
-
         {/* Shipping Address section to allow user enter shipping address */}
-        <View style={{ flex: 1, width: "100%" }}>
+        <View style={{ flex: 0.4, width: "100%" }}>
           <View style={themed($header)}>
             <Text tx="checkout:shippingAddress.title" style={{ fontSize: 13 }} />
             <PressableIcon
@@ -172,10 +166,10 @@ const CheckoutScreen: FC = () => {
 
 const $horizontalScroll: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   gap: 10,
-  flexDirection: "row",
-  padding: spacing.sm,
-  borderRadius: spacing.md,
-  overflowX: "auto",
+  padding: spacing.xs,
+  // borderRadius: spacing.md,
+  backgroundColor: colors.palette.neutral300,
+  paddingBottom: spacing.md,
 })
 const $header: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexDirection: "row",
@@ -194,7 +188,7 @@ const $icon: ThemedStyle<ImageStyle> = ({ spacing, colors }) => ({
 const $container: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   alignItems: "flex-start",
   justifyContent: "flex-start",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.sm,
   gap: spacing.sm,
   paddingBottom: spacing.xs,
   flex: 1,

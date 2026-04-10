@@ -263,10 +263,7 @@ export function Screen(props: ScreenProps) {
         $containerInsets,
       ]}
     >
-      <SystemBars
-        style={systemBarStyle || (themeContext === "dark" ? "light" : "dark")}
-        {...SystemBarsProps}
-      />
+      <SystemBars style={"dark"} />
 
       <KeyboardAvoidingView
         behavior={isIos ? "padding" : "height"}
