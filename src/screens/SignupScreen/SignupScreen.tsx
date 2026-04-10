@@ -44,7 +44,7 @@ export const SignUpScreen: FC = () => {
 }
 
 const $screenContentContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingVertical: spacing.xxl,
+  paddingVertical: spacing.lg,
   paddingHorizontal: spacing.lg,
 })
 

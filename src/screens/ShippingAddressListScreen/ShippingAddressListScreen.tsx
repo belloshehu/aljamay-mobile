@@ -1,20 +1,21 @@
 import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
 import { ShippingAddressList } from "../CheckoutScreen/ShippingAddressList"
-import { FC } from "react"
+import { AddShippingAddressModal } from "./AddShippingAddressModal"
 import { ActivityIndicator, View, ViewStyle } from "react-native"
+import { PressableIcon } from "@/components/Icon"
 import { Screen } from "@/components/Screen"
+import { FC } from "react"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import { Text } from "@/components/Text"
-import { Button } from "@/components/Button"
-import { PressableIcon } from "@/components/Icon"
 import Modal from "@/components/Modal"
-import { AddShippingAddressModal } from "./AddShippingAddressModal"
 import LottieView from "lottie-react-native"
+import useToggle from "@/hooks/useToggle"
 
-export const ShippingAddressListScreen: FC = function AccountScreen() {
+export const ShippingAddressListScreen: FC = () => {
   const { themed, theme } = useAppTheme()
+  const [visible, toggle] = useToggle(true)
 
   const { isLoading, data: addresses } = useGetAllShippingAdressesByUser()
 
@@ -39,11 +40,20 @@ export const ShippingAddressListScreen: FC = function AccountScreen() {
             style={themed($animation)}
           />
           <Text tx="shippingAddressScreen:noAddress" style={{ textAlign: "center" }} />
-          <Button
-            tx="shippingAddressScreen:addAddress"
-            preset="filled"
-            style={{ width: "100%", marginTop: 10 }}
-          />
+          {visible && (
+            <Modal
+              title="Add shipping Address"
+              TriggerComponent={({ onPress }) => (
+                <PressableIcon
+                  icon="plus"
+                  size={24}
+                  color={theme.colors.errorBackground}
+                  onPress={onPress!}
+                />
+              )}
+              RenderedModalChildren={() => <AddShippingAddressModal onClose={toggle} />}
+            />
+          )}
         </View>
       </Screen>
     )
@@ -52,23 +62,27 @@ export const ShippingAddressListScreen: FC = function AccountScreen() {
     <Screen preset="auto" contentContainerStyle={$styles.flex1}>
       <View style={themed($mainContainer)}>
         <View style={themed($header)}>
-          <Text
+          {/* <Text
             tx="shippingAddressScreen:title"
             txOptions={{ count: addresses.length }}
             preset="subheading"
-          />
+          /> */}
 
-          <Modal
-            TriggerComponent={({ onPress }) => (
-              <PressableIcon
-                icon="plus"
-                size={24}
-                color={theme.colors.errorBackground}
-                onPress={onPress!}
-              />
-            )}
-            RenderedModalChildren={AddShippingAddressModal}
-          />
+          {visible && (
+            <Modal
+              title="Add shipping Address"
+              TriggerComponent={({ onPress }) => (
+                <PressableIcon
+                  icon="plus"
+                  size={24}
+                  color={theme.colors.errorBackground}
+                  onPress={onPress!}
+                  style={{ marginLeft: "auto" }}
+                />
+              )}
+              RenderedModalChildren={() => <AddShippingAddressModal onClose={toggle} />}
+            />
+          )}
         </View>
         <ShippingAddressList addresses={addresses} isLoading={isLoading} />
       </View>
@@ -89,7 +103,7 @@ const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   justifyContent: "center",
   alignItems: "center",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.md,
   paddingTop: spacing.md,
   width: "100%",
   flex: 1,

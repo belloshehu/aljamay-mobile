@@ -9,12 +9,15 @@ import Price from "../product/Price"
 import Config from "@/config"
 import { useStepChange } from "@/hooks/useCount"
 import { Counter } from "../Counter"
-import { useAddToCart } from "@/hooks/service-hooks/cart.service.hooks"
+import { useAddToCart, useUpdateCartItemQuantity } from "@/hooks/service-hooks/cart.service.hooks"
 import { useAxios } from "@/hooks/use-axios"
 import { useAuth } from "@/context/AuthContext"
 import { Text } from "../Text"
 import { push } from "expo-router/build/global-state/routing"
 import { useCartStore } from "@/store/cartStore"
+import { Icon } from "../Icon"
+import { is } from "date-fns/locale"
+import Loader from "../Loader"
 
 /*
   Component with - and + buttons to add certain number of product to shopping cart
@@ -29,7 +32,10 @@ interface AddProductToCartProps extends BottomSheetChildrenProps {
 const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProps) => {
   const { themed } = useAppTheme()
   const { handleBottomSheetClose, product } = props
-  const { mutateAsync, isPending } = useAddToCart()
+  const { mutateAsync, isPending } = useAddToCart(product.id)
+  const { mutateAsync: updateCartItem, isPending: isPendingCartItemUpdate } =
+    useUpdateCartItemQuantity(product.id)
+
   const addProductToCart = useCartStore((state) => state.addProduct)
   const { protectedRequest } = useAxios()
   const { isAuthenticated } = useAuth()
@@ -37,18 +43,38 @@ const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProp
     stepDecrease,
     stepIncrease,
     step: count,
-  } = useStepChange({ defaultValue: 1, lowerLimit: 1, upperLimit: Config.MAX_CART_ITEM })
+  } = useStepChange({
+    defaultValue: product.cartItems[0].quantity || 1,
+    lowerLimit: 0,
+    upperLimit: Config.MAX_CART_ITEM,
+  })
 
   const addToCart = async () => {
-    await mutateAsync({ productId: product.id, quantity: count, protectedRequest })
-      .then(() => {
-        addProductToCart({
-          id: product.id,
-          product,
-          quantity: count,
-        })
+    if (product.cartItems[0] && product.cartItems[0].quantity > 0) {
+      await updateCartItem({
+        quantity: count,
+        cartItemId: product.cartItems[0].id,
+        protectedRequest,
       })
-      .catch((error) => console.log(error))
+        .then(() => {
+          addProductToCart({
+            id: product.id,
+            product,
+            quantity: count,
+          })
+        })
+        .catch((error) => console.log(error))
+    } else {
+      await mutateAsync({ productId: product.id, quantity: count, protectedRequest })
+        .then(() => {
+          addProductToCart({
+            id: product.id,
+            product,
+            quantity: count,
+          })
+        })
+        .catch((error) => console.log(error))
+    }
     handleBottomSheetClose && handleBottomSheetClose()
   }
   if (!isAuthenticated)
@@ -68,13 +94,18 @@ const AddProductToCart: FC<AddProductToCartProps> = (props: AddProductToCartProp
     <View style={themed($container)}>
       <Price price={product.price * count} priceStyle={themed($priceTextStyle)} />
       <Counter count={count} onDecrese={stepDecrease} onIncrease={stepIncrease} />
-      <Button
-        tx="productDetail:cart"
-        onPress={addToCart}
-        preset="filled"
-        style={{ width: "100%" }}
-        disabled={isPending}
-      />
+      {isPendingCartItemUpdate || isPending ? (
+        <Loader loadingText="progress:wait" />
+      ) : (
+        <Button
+          tx={product.cartItems[0].quantity ? "productDetail:updateCart" : "productDetail:cart"}
+          onPress={addToCart}
+          preset="filled"
+          style={{ width: "100%" }}
+          disabled={isPending}
+          LeftAccessory={() => <Icon icon="cart" style={{ marginRight: 10 }} />}
+        />
+      )}
     </View>
   )
 }

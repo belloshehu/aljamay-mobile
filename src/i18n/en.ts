@@ -165,8 +165,9 @@ const en = {
     goToLogin: "Log in instead",
     signupProgress: "Please wait ...",
     hint: "Hint: you can use any email address and your favorite password :)",
-    markettingPolicy: "Accept our marketting policies",
-    privacyPolicy: "Accept our privacy policies",
+    markettingPolicy: "Accept our marketting policy",
+    privacyPolicy: "Accept our privacy policy",
+    readMarkettingPolicy: "Read marketting policy",
   },
   emailVerificationScreen: {
     heading: "Email Verification",

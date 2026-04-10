@@ -1,6 +1,7 @@
 import { ImageSourcePropType } from "react-native"
 import { ResponseType } from "types/response.types"
 import { OrderItemType } from "./order.types"
+import { CartItemType } from "./cart.types"
 
 export interface ProductType {
   id: string
@@ -17,6 +18,7 @@ export interface ProductType {
   status?: "available" | "not available"
   reviews: Review[]
   orderItems: OrderItemType[]
+  cartItems: CartItemType[]
 }
 
 export type Review = {

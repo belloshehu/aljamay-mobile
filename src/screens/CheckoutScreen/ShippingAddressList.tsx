@@ -1,12 +1,11 @@
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { FC } from "react"
-import { FlatList, View, ViewStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 import { ShippingAddressType } from "types/shipping.types"
 import Loader from "@/components/Loader"
 import { Text } from "@/components/Text"
 import { ShippingAddress } from "./ShippingAddress"
-import { $separator } from "../ProductScreen/ProductList"
 
 interface ShippingAddressListProps {
   addresses: ShippingAddressType[] | null | undefined

@@ -12,6 +12,8 @@ import { Button } from "@/components/Button"
 import { useSignup } from "@/hooks/service-hooks/auth.service.hook"
 import { useAxios } from "@/hooks/use-axios"
 import { Checkbox } from "@/components/Toggle/Checkbox"
+import { useBottomSheetContext } from "@/context/BottomSheetContext"
+import MarketingPolicyBottomsheet from "./MarkettingMessagePolicy"
 
 interface SignupFormProps {
   setError: Dispatch<SetStateAction<string>>
@@ -21,6 +23,7 @@ const SignupForm: FC<SignupFormProps> = (props: SignupFormProps) => {
   const { setError } = props
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
   const [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true)
+  const { handleModalDismiss, setBottomChildren, handleModalPreset } = useBottomSheetContext()
 
   const { mutateAsync, isPending, error: loginError } = useSignup()
   const { publicRequest } = useAxios()
@@ -33,6 +36,7 @@ const SignupForm: FC<SignupFormProps> = (props: SignupFormProps) => {
     setFocus,
   } = useForm({
     resolver: zodResolver(signupValidationSchema),
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
@@ -44,6 +48,10 @@ const SignupForm: FC<SignupFormProps> = (props: SignupFormProps) => {
     },
   })
 
+  const openPrivacyPolicy = () => {
+    setBottomChildren(<MarketingPolicyBottomsheet onClose={handleModalDismiss} />)
+    handleModalPreset()
+  }
   const onSubmit = (data: SignupSchemaType) => {
     mutateAsync({ payload: data, publicRequest })
   }
@@ -234,6 +242,11 @@ const SignupForm: FC<SignupFormProps> = (props: SignupFormProps) => {
             />
           )}
         /> */}
+        <Button
+          tx="signupScreen:readMarkettingPolicy"
+          onPress={openPrivacyPolicy}
+          role="contentinfo"
+        />
       </View>
 
       <Button
@@ -253,10 +266,12 @@ const $checkBoxWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   gap: 10,
   marginBottom: spacing.sm,
 })
-const $formContainer: ThemedStyle<ViewStyle> = ({}) => ({})
+const $formContainer: ThemedStyle<ViewStyle> = ({}) => ({
+  gap: 10,
+})
 
 const $textField: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  marginBottom: spacing.lg,
+  // marginBottom: spacing.lg,
 })
 
 const $tapButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({

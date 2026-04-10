@@ -15,6 +15,7 @@ const productEn = {
     notFound: "Product not found",
     checkout: "Checkout",
     cart: "Add to cart",
+    updateCart: "Update cart",
     discount: "Off",
     empty: "No products yet",
     goToList: "Check other products",

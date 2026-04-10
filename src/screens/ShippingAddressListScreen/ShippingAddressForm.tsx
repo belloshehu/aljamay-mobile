@@ -1,12 +1,11 @@
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
-import { ComponentType, Dispatch, FC, SetStateAction, useEffect, useMemo, useState } from "react"
+import { Dispatch, FC, SetStateAction, useEffect } from "react"
 import { View, ViewStyle } from "react-native"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { TextField, TextFieldAccessoryProps } from "@/components/TextField"
+import { TextField } from "@/components/TextField"
 import { Button } from "@/components/Button"
-
 import { useAxios } from "@/hooks/use-axios"
 import { Checkbox } from "@/components/Toggle/Checkbox"
 import {
@@ -17,10 +16,11 @@ import { useCreateShippingAddress } from "@/hooks/service-hooks/shipping.service
 
 interface ShippingAddressFormProps {
   setError?: Dispatch<SetStateAction<string>>
+  onClose?: () => void
 }
 
 const ShippingAddressForm: FC<ShippingAddressFormProps> = (props: ShippingAddressFormProps) => {
-  const { setError } = props
+  const { setError, onClose } = props
   const { mutateAsync, isPending, error } = useCreateShippingAddress()
   const { protectedRequest } = useAxios()
 
@@ -28,10 +28,12 @@ const ShippingAddressForm: FC<ShippingAddressFormProps> = (props: ShippingAddres
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     setFocus,
+    reset,
   } = useForm({
     resolver: zodResolver(shippingAddressValidationSchema),
+    mode: "onChange",
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -47,7 +49,10 @@ const ShippingAddressForm: FC<ShippingAddressFormProps> = (props: ShippingAddres
   })
 
   const onSubmit = (data: ShippingAddressValidationSchemaType) => {
-    mutateAsync({ payload: data, protectedRequest })
+    mutateAsync({ payload: data, protectedRequest }).then(() => {
+      reset()
+      onClose && onClose()
+    })
   }
 
   useEffect(() => {
@@ -57,7 +62,7 @@ const ShippingAddressForm: FC<ShippingAddressFormProps> = (props: ShippingAddres
   }, [error])
 
   return (
-    <View style={themed($formContainer)}>
+    <View>
       {/* First name textinput */}
       <Controller
         control={control}
@@ -288,7 +293,6 @@ const $checkBoxWrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   gap: 10,
   marginBottom: spacing.sm,
 })
-const $formContainer: ThemedStyle<ViewStyle> = ({}) => ({})
 
 const $textField: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   marginBottom: spacing.lg,

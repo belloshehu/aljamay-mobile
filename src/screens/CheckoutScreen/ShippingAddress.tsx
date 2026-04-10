@@ -44,7 +44,7 @@ export const ShippingAddress: FC<ShippingAddressProps> = (props: ShippingAddress
     >
       {selectable && <Checkbox value={address?.id === id} />}
       <View style={{ width: "100%" }}>
-        <Text text={isDefault ? "Default" : ""} style={[themed($badge)]} />
+        {isDefault && <Text text={isDefault ? "Default" : ""} style={[themed($badge)]} />}
         <Text
           text={firstName + " " + lastName}
           preset="default"

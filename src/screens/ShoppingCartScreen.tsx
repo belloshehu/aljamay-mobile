@@ -141,9 +141,4 @@ const $priceText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   fontWeight: "500",
 })
 
-const $titleText: ThemedStyle<TextStyle> = ({}) => ({
-  fontSize: 20,
-  fontWeight: "500",
-})
-
 export default ShoppingCartScreen

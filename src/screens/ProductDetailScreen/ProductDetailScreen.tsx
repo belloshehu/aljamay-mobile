@@ -16,14 +16,20 @@ import { Card } from "@/components/Card"
 import { Text } from "@/components/Text"
 import { Icon } from "@/components/Icon"
 import { FC } from "react"
+import useCartItemCount from "@/hooks/useCartItemCount"
 
 // @demo replace-next-line export const ProductDetailScreen: FC = function ProductDetailScreen(
 export const ProductDetailScreen: FC = function ProductDetailScreen() {
-  const { themed } = useAppTheme()
+  const { themed, theme } = useAppTheme()
   const { id } = useLocalSearchParams<{ id: string }>()
   const { handleModalDismiss, setBottomChildren, handleModalPreset } = useBottomSheetContext()
   const { data: product, isLoading } = useGetProductById(id)
+  const { count, increase, decrease } = useCartItemCount(
+    product?.cartItems[0]?.id!,
+    product?.cartItems[0]?.quantity!,
+  )
 
+  console.log("product", count, product?.cartItems[0]?.quantity)
   // Press handle that triggers a bottomsheet to add product
   const showAddToCartBottomSheet = () => {
     setBottomChildren(
@@ -70,12 +76,15 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
               priceStyle={themed($price)}
               discountStyle={themed($discount)}
             />
+
             <Button
               // tx="productDetail:cart"
               LeftAccessory={() => <Icon icon="cart" />}
               style={themed($cartButton)}
               onPress={showAddToCartBottomSheet}
-              textStyle={{ color: "#fff" }}
+              textStyle={{ color: "#000" }}
+              text={` (${product.cartItems[0].quantity})`}
+              role="button"
             />
           </View>
           <Text text={product.quantity + " in stock"} style={themed($quantity)} />

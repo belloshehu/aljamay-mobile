@@ -30,7 +30,7 @@ export default function UserLayout() {
         <Stack.Screen
           name="shipping-addresses"
           options={{
-            title: translate("messageScreen:title", { count: messages.length }),
+            title: translate("shippingAddressScreen:title", { count: 0 }),
           }}
         />
         <Stack.Screen

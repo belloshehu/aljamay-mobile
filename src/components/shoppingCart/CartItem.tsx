@@ -37,6 +37,7 @@ export const CartItem: FC<CartItemProps> = (props: CartItemProps) => {
   })
 
   const { protectedRequest } = useAxios()
+
   const handleDelete = () => {
     mutate({ cartItemId, protectedRequest })
   }
@@ -52,6 +53,7 @@ export const CartItem: FC<CartItemProps> = (props: CartItemProps) => {
     }
     stepDecrease()
   }
+
   return (
     <View style={themed($mainContainer)}>
       <View style={themed($wrapper)}>

@@ -1,6 +1,5 @@
 import { FC } from "react"
 import { Pressable, StyleProp, TextStyle, View, ViewStyle } from "react-native"
-import { Button } from "./Button"
 import { Text } from "./Text"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
