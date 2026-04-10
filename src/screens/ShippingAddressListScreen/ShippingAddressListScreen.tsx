@@ -1,17 +1,17 @@
+import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
+import { ShippingAddressList } from "../CheckoutScreen/ShippingAddressList"
 import { FC } from "react"
-import { ActivityIndicator, Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { ActivityIndicator, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
-import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
-import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
-import { ShippingAddressList } from "../CheckoutScreen/ShippingAddressList"
 import { PressableIcon } from "@/components/Icon"
 import Modal from "@/components/Modal"
 import { AddShippingAddressModal } from "./AddShippingAddressModal"
+import LottieView from "lottie-react-native"
 
 export const ShippingAddressListScreen: FC = function AccountScreen() {
   const { themed, theme } = useAppTheme()
@@ -31,14 +31,14 @@ export const ShippingAddressListScreen: FC = function AccountScreen() {
   if (!addresses || addresses.length === 0)
     return (
       <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
-        <View
-          style={themed([
-            $topContainer,
-            { justifyContent: "center", alignItems: "center", gap: 5 },
-          ])}
-        >
-          <Image source={require("@assets/images/cart.png")} width={50} height={50} />
-          <Text tx="cart:noItems" />
+        <View style={themed([$topContainer])}>
+          <LottieView
+            source={require("@assets/animations/delivery.json")}
+            autoPlay
+            loop
+            style={themed($animation)}
+          />
+          <Text tx="shippingAddressScreen:noAddress" style={{ textAlign: "center" }} />
           <Button
             tx="shippingAddressScreen:addAddress"
             preset="filled"
@@ -47,6 +47,7 @@ export const ShippingAddressListScreen: FC = function AccountScreen() {
         </View>
       </Screen>
     )
+
   return (
     <Screen preset="auto" contentContainerStyle={$styles.flex1}>
       <View style={themed($mainContainer)}>
@@ -86,32 +87,13 @@ const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 })
 
 const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  justifyContent: "flex-start",
+  justifyContent: "center",
   alignItems: "center",
   paddingHorizontal: spacing.lg,
   paddingTop: spacing.md,
   width: "100%",
-  flex: 0.7,
-  gap: spacing.xs,
-})
-
-const $profileFace: ImageStyle = {
-  height: 169,
-  width: 269,
-  transform: [{ scaleX: isRTL ? -1 : 1 }],
-  resizeMode: "contain",
-}
-
-const $names: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  fontWeight: "bold",
-  color: colors.errorBackground,
-  fontSize: spacing.lg,
-})
-
-const $tapButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  marginTop: spacing.xs,
-  backgroundColor: colors.errorBackground,
-  width: "100%",
+  flex: 1,
+  gap: spacing.lg,
 })
 
 const $header: ThemedStyle<ViewStyle> = ({}) => ({
@@ -119,4 +101,9 @@ const $header: ThemedStyle<ViewStyle> = ({}) => ({
   alignItems: "center",
   justifyContent: "space-between",
   width: "100%",
+})
+
+const $animation: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  width: 150,
+  height: 150,
 })

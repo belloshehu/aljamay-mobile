@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 3.15.1"
+    "version": ">= 3.15.1",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -43,10 +44,22 @@
       "channel": "preview-device"
     },
     "production": {
-      "channel": "production"
+      "channel": "production",
+      "autoIncrement": true
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "track": "production",
+        "serviceAccountKeyPath": "./service-account-aljamay.json"
+      }
+    },
+    "internal": {
+      "android": {
+        "track": "internal",
+        "serviceAccountKeyPath": "./service-account-aljamay.json"
+      }
+    }
   }
 }

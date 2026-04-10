@@ -6,6 +6,7 @@ import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import CategoryCardList from "./CategoryCardList"
 import { productCategories } from "@/constants"
+import { Text } from "@/components/Text"
 
 // @demo replace-next-line export const CategoriesScreen: FC = function CategoriesScreen(
 const CategoriesScreen: FC = function CategoriesScreen() {
@@ -14,12 +15,9 @@ const CategoriesScreen: FC = function CategoriesScreen() {
   return (
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
       <View style={themed($topContainer)}>
-        {/* <Text
-          style={themed($CategoriesHeading)}
-          tx="categories:numberOfCategories"
-          txOptions={{ count: productCategories.length }}
-        />
-        <Text tx="categories:listDescription" /> */}
+        <Text>
+          Explore our wide range of product categories and find exactly what you're looking for.
+        </Text>
         <CategoryCardList categories={productCategories} isLoading={false} />
       </View>
     </Screen>
@@ -32,11 +30,7 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexBasis: "57%",
   justifyContent: "flex-start",
   paddingHorizontal: spacing.lg,
-})
-
-const $CategoriesHeading: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  marginBottom: spacing.md,
-  fontWeight: "bold",
+  gap: spacing.lg,
 })
 
 export default CategoriesScreen

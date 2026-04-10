@@ -40,7 +40,7 @@ const SignupForm: FC<SignupFormProps> = (props: SignupFormProps) => {
       lastName: "",
       passwordRepeat: "",
       marketingAccepted: true,
-      privacyAccepted: false,
+      // privacyAccepted: false,
     },
   })
 
@@ -220,7 +220,7 @@ const SignupForm: FC<SignupFormProps> = (props: SignupFormProps) => {
           )}
         />
 
-        <Controller
+        {/* <Controller
           control={control}
           name="privacyAccepted"
           render={({ field: { onChange, value } }) => (
@@ -233,7 +233,7 @@ const SignupForm: FC<SignupFormProps> = (props: SignupFormProps) => {
               status={errors.privacyAccepted ? "error" : undefined}
             />
           )}
-        />
+        /> */}
       </View>
 
       <Button

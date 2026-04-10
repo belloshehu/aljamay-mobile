@@ -18,6 +18,7 @@ import { Button } from "@/components/Button"
 import { push } from "expo-router/build/global-state/routing"
 import { $separator } from "../ProductScreen/ProductList"
 import { Message } from "./Message"
+import LottieView from "lottie-react-native"
 
 // @demo replace-next-line export const ShoppingCartScreen: FC = function ShoppingCartScreen(
 const MessageListScreen: FC = () => {
@@ -41,14 +42,14 @@ const MessageListScreen: FC = () => {
         <View
           style={themed([
             $topContainer,
-            { justifyContent: "center", alignItems: "center", gap: 5 },
+            { justifyContent: "flex-start", alignItems: "center", gap: 5 },
           ])}
         >
-          <Image
-            source={require("@assets/images/message_bubble.png")}
-            width={50}
-            height={50}
-            style={themed($shoppingCart)}
+          <LottieView
+            source={require("@assets/animations/message.json")}
+            autoPlay
+            loop
+            style={themed($animation)}
           />
           <Text tx="messageScreen:emptyMany" />
           <Button
@@ -99,12 +100,9 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingBottom: spacing.xs,
 })
 
-const $shoppingCart: ThemedStyle<ImageStyle> = ({ spacing }) => ({
-  height: 300,
-  width: 300,
-  transform: [{ scaleX: isRTL ? -1 : 1 }],
-  resizeMode: "contain",
-  borderRadius: spacing.xxl,
+const $animation: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  width: 450,
+  height: 350,
 })
 
 const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({

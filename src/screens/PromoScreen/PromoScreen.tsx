@@ -6,6 +6,7 @@ import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import PromoList from "./PromoList"
 import { dummyPromo } from "@/constants"
+import { Text } from "@/components/Text"
 
 // @demo replace-next-line export const PromoScreen: FC = function PromoScreen(
 export const PromoScreen: FC = function PromoScreen() {
@@ -14,6 +15,10 @@ export const PromoScreen: FC = function PromoScreen() {
   return (
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
       <View style={themed($topContainer)}>
+        <Text>
+          Here you can find the latest promotions and discounts on our products. Don't miss out on
+          these great deals!
+        </Text>
         <PromoList promos={dummyPromo} isLoading={false} />
       </View>
     </Screen>
@@ -26,4 +31,5 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexBasis: "57%",
   justifyContent: "flex-start",
   paddingHorizontal: spacing.lg,
+  gap: spacing.lg,
 })

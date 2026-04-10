@@ -9,6 +9,9 @@ import { $styles } from "@/theme/styles"
 import { Text } from "@/components/Text"
 import { FC, useMemo } from "react"
 import { Order } from "./Order"
+import LottieView from "lottie-react-native"
+import { Button } from "@/components/Button"
+import { router } from "expo-router"
 
 const OrderListScreen: FC = () => {
   const { themed } = useAppTheme()
@@ -31,7 +34,28 @@ const OrderListScreen: FC = () => {
       </Screen>
     )
 
-  if (!data || data.length === 0) return <OrderListEmptyState buttonOnPress={refetch} />
+  if (!data || data.length === 0)
+    return (
+      <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
+        <View style={themed([$topContainer])}>
+          <LottieView
+            source={require("@assets/animations/delivery.json")}
+            autoPlay
+            loop
+            style={themed($animation)}
+          />
+          <Text tx="order:emptyMany" style={{ textAlign: "center" }} />
+          <Button
+            tx="order:goToProducts"
+            preset="filled"
+            style={{ width: "100%", marginTop: 10 }}
+            onPress={() => {
+              router.push("/")
+            }}
+          ></Button>
+        </View>
+      </Screen>
+    )
   return (
     <Screen preset="fixed" contentContainerStyle={{ ...$styles.flex1, padding: 0, margin: 0 }}>
       <View style={themed($topContainer)}>
@@ -52,8 +76,14 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexBasis: "57%",
   justifyContent: "flex-start",
   paddingHorizontal: spacing.lg,
+  alignItems: "center",
   gap: spacing.sm,
   paddingBottom: spacing.xs,
+})
+
+const $animation: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  width: 150,
+  height: 150,
 })
 
 export default OrderListScreen

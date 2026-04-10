@@ -10,16 +10,21 @@ import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
 import { Text } from "@/components/Text"
 import ProductList from "./ProductList"
 import { useDebounce } from "use-debounce"
+import useCloseOnBack from "@/hooks/useCloseOnBack"
 
 const ProductSearchModal: FC = () => {
-  const [visible, setVisible] = useState(false)
+  // const [visible, setVisible] = useState(false)
   const { themed, theme } = useAppTheme()
   const [searchKey, setSearchKey] = useState("")
   const [debouncedSearchKey] = useDebounce(searchKey, 1500)
   const { refetch, data, isRefetching } = useGetProducts({ search: debouncedSearchKey })
+  const [visible, toggleModal] = useCloseOnBack()
 
-  const toggleModal = () => {
-    setVisible((prev) => !visible)
+  // const toggleModal = () => {
+  //   setVisible((prev) => !visible)
+  // }
+  const showModal = () => {
+    if (!visible) toggleModal()
   }
 
   if (!visible)
@@ -39,7 +44,12 @@ const ProductSearchModal: FC = () => {
       />
     )
   return (
-    <Modal visible={visible}>
+    <Modal
+      visible={visible}
+      onDismiss={toggleModal}
+      animationType="slide"
+      onRequestClose={toggleModal}
+    >
       <SafeAreaView style={$styles.flex1}>
         <View style={themed($textFieldWrapper)}>
           <Pressable onPress={toggleModal}>
@@ -47,8 +57,8 @@ const ProductSearchModal: FC = () => {
           </Pressable>
           <View style={{ width: "87%" }}>
             <TextField
-              onFocus={() => setVisible(true)}
-              onBlur={() => setVisible(true)}
+              onFocus={showModal}
+              onBlur={showModal}
               placeholderTx={"homeScreen:searchPlaceholder"}
               RightAccessory={() => (
                 <Icon

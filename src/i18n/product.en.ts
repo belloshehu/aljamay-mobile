@@ -77,6 +77,7 @@ const productEn = {
     goToCart: "Go to cart",
     orderHeading: "Ordered on, {{date}}",
     itemsCount: "Product/Items ({{count}})",
+    goToProducts: "Go to products",
   },
   productForm: {
     createTitle: "Create Product",

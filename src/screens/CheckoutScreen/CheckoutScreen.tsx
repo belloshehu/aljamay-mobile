@@ -1,13 +1,5 @@
 import { FC, useEffect, useMemo } from "react"
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  ImageStyle,
-  TextStyle,
-  View,
-  ViewStyle,
-} from "react-native"
+import { ActivityIndicator, FlatList, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
@@ -30,6 +22,7 @@ import { PaymentButton } from "@/screens/CheckoutScreen/PaymentButton"
 import { UserType } from "types/auth.types"
 import { useCheckoutContext } from "@/context/CheckoutProvider"
 import withAuth from "@/components/HOC/withAuth"
+import LottieView from "lottie-react-native"
 
 const CheckoutScreen: FC = () => {
   const { themed } = useAppTheme()
@@ -38,6 +31,7 @@ const CheckoutScreen: FC = () => {
   const { setBottomChildren, handleModalPreset } = useBottomSheetContext()
   const { data: addressList, isLoading: loadingDefaultAddress } = useGetAllShippingAdressesByUser()
   const { setAddress, address } = useCheckoutContext()
+
   useEffect(() => {
     if (!cartItems || cartItems.length === 0) {
       replace("/shopping")
@@ -93,11 +87,11 @@ const CheckoutScreen: FC = () => {
         <View
           style={themed([$container, { justifyContent: "center", alignItems: "center", gap: 5 }])}
         >
-          <Image
-            source={require("@assets/images/cart.png")}
-            width={50}
-            height={50}
-            style={themed($checkout)}
+          <LottieView
+            autoPlay
+            loop
+            source={require("@assets/animations/shopping-cart.json")}
+            style={themed($shoppingCart)}
           />
           <Text tx="cart:noItems" />
           <Button
@@ -206,7 +200,7 @@ const $container: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flex: 1,
 })
 
-const $checkout: ThemedStyle<ImageStyle> = ({ spacing }) => ({
+const $shoppingCart: ThemedStyle<ImageStyle> = ({ spacing }) => ({
   height: 300,
   width: 300,
   transform: [{ scaleX: isRTL ? -1 : 1 }],

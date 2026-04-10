@@ -12,12 +12,10 @@
   },
   "newArchEnabled": true,
   "jsEngine": "hermes",
-  "assetBundlePatterns": [
-    "**/*"
-  ],
+  "assetBundlePatterns": ["**/*"],
   "android": {
     "icon": "./assets/images/app-icon-android-legacy.png",
-    "package": "com.aljamaymobile",
+    "package": "com.belloshehu.Aljamay",
     "adaptiveIcon": {
       "foregroundImage": "./assets/images/app-icon-android-adaptive-foreground.png",
       "backgroundColor": "#FFFFFF"
@@ -29,21 +27,17 @@
     },
     "allowBackup": false,
     "edgeToEdgeEnabled": true,
-    "permissions": [
-      "android.permission.RECORD_AUDIO"
-    ]
+    "permissions": ["android.permission.RECORD_AUDIO"]
   },
   "ios": {
     "icon": "./assets/images/app-icon-ios.png",
     "supportsTablet": true,
-    "bundleIdentifier": "com.aljamaymobile",
+    "bundleIdentifier": "com.belloshehu.Aljamay",
     "privacyManifests": {
       "NSPrivacyAccessedAPITypes": [
         {
           "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
-          "NSPrivacyAccessedAPITypeReasons": [
-            "CA92.1"
-          ]
+          "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
         }
       ]
     }

@@ -81,7 +81,12 @@ const AccountScreen: FC = function AccountScreen() {
           <TouchableOpacity onPress={showPhotoUpdateBottomSheet} style={themed($icon)}>
             <Icon icon="edit" size={30} />
           </TouchableOpacity>
-          <Image src={user?.image || defaultProfileImage} style={themed($profileFace)} />
+
+          <Image
+            source={user?.image ? { uri: user.image } : defaultProfileImage}
+            style={themed($profileFace)}
+          />
+
           <Text text={user?.firstName + " " + user?.lastName} style={themed($names)} />
           <Text text={user?.email} />
           {user?.role === "ADMIN" && (

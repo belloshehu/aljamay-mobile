@@ -1,13 +1,5 @@
 import { FC, useMemo } from "react"
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  ImageStyle,
-  TextStyle,
-  View,
-  ViewStyle,
-} from "react-native"
+import { ActivityIndicator, FlatList, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
@@ -20,6 +12,7 @@ import { push, replace } from "expo-router/build/global-state/routing"
 import { CartItem } from "@/components/shoppingCart/CartItem"
 import Price from "@/components/product/Price"
 import { $separator } from "./ProductScreen/ProductList"
+import LottieView from "lottie-react-native"
 
 const ShoppingCartScreen: FC = function ShoppingCartScreen() {
   const { themed } = useAppTheme()
@@ -66,10 +59,10 @@ const ShoppingCartScreen: FC = function ShoppingCartScreen() {
             { justifyContent: "center", alignItems: "center", gap: 5 },
           ])}
         >
-          <Image
-            source={require("@assets/images/cart.png")}
-            width={50}
-            height={50}
+          <LottieView
+            autoPlay
+            loop
+            source={require("@assets/animations/shopping-cart.json")}
             style={themed($shoppingCart)}
           />
           <Text tx="cart:noItems" />

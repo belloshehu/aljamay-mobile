@@ -29,9 +29,9 @@ export const signupValidationSchema = z
       )
       .min(8)
       .max(16),
-    privacyAccepted: z.boolean().refine((val) => val === true, {
-      message: "You must accept the privacy policy",
-    }),
+    // privacyAccepted: z.boolean().refine((val) => val === true, {
+    //   message: "You must accept the privacy policy",
+    // }),
     marketingAccepted: z.boolean().optional().default(true),
   })
   .refine(

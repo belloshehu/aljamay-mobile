@@ -18,7 +18,7 @@ import { useGetCartItems } from "@/hooks/service-hooks/cart.service.hooks"
 export default function Layout() {
   const { bottom } = useSafeAreaInsets()
   const segments = useSegments<Route>()
-  const { cartItems, setCartItems } = useCartStore()
+  const { setCartItems } = useCartStore()
   const { messages } = useUserStore()
   const { themed } = useAppTheme()
   const { data } = useGetCartItems()
@@ -88,7 +88,7 @@ export default function Layout() {
             tabBarIcon: ({ focused }) => (
               <Icon icon="cart" color={focused ? colors.tint : undefined} size={30} />
             ),
-            tabBarBadge: data?.length, // count of items in the cart
+            tabBarBadge: (data && data?.length) || 0, // count of items in the cart
           }}
         />
 

@@ -11,7 +11,6 @@ import { colors } from "@/theme/colors"
 import { Button } from "@/components/Button"
 import { useLogin } from "@/hooks/service-hooks/auth.service.hook"
 import { useAxios } from "@/hooks/use-axios"
-import { useRouter } from "expo-router"
 import { GlowWrapper } from "@/components/GlowWrapper"
 
 interface LoginFormProps {
@@ -83,7 +82,8 @@ const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
             placeholderTx="loginScreen:emailFieldPlaceholder"
             helper={errors.email?.message}
             status={errors.email ? "error" : undefined}
-            returnKeyType="send"
+            returnKeyType="next"
+            onSubmitEditing={() => setFocus("password")}
           />
         )}
       />
