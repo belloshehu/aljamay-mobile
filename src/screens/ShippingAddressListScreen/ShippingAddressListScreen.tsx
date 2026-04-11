@@ -1,20 +1,21 @@
-import { FC } from "react"
-import { ActivityIndicator, Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
+import { ShippingAddressList } from "../CheckoutScreen/ShippingAddressList"
+import { AddShippingAddressModal } from "./AddShippingAddressModal"
+import { ActivityIndicator, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
-import { isRTL } from "@/i18n"
+import { FC } from "react"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import { Text } from "@/components/Text"
-import { Button } from "@/components/Button"
-import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
-import { ShippingAddressList } from "../CheckoutScreen/ShippingAddressList"
-import { PressableIcon } from "@/components/Icon"
 import Modal from "@/components/Modal"
-import { AddShippingAddressModal } from "./AddShippingAddressModal"
+import LottieView from "lottie-react-native"
+import useToggle from "@/hooks/useToggle"
+import { Button } from "@/components/Button"
 
-export const ShippingAddressListScreen: FC = function AccountScreen() {
+export const ShippingAddressListScreen: FC = () => {
   const { themed, theme } = useAppTheme()
+  const [visible, toggle] = useToggle(true)
 
   const { isLoading, data: addresses } = useGetAllShippingAdressesByUser()
 
@@ -31,43 +32,48 @@ export const ShippingAddressListScreen: FC = function AccountScreen() {
   if (!addresses || addresses.length === 0)
     return (
       <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
-        <View
-          style={themed([
-            $topContainer,
-            { justifyContent: "center", alignItems: "center", gap: 5 },
-          ])}
-        >
-          <Image source={require("@assets/images/cart.png")} width={50} height={50} />
-          <Text tx="cart:noItems" />
-          <Button
-            tx="shippingAddressScreen:addAddress"
-            preset="filled"
-            style={{ width: "100%", marginTop: 10 }}
+        <View style={themed([$topContainer])}>
+          <LottieView
+            source={require("@assets/animations/delivery.json")}
+            autoPlay
+            loop
+            style={themed($animation)}
           />
+          <Text tx="shippingAddressScreen:noAddress" style={{ textAlign: "center" }} />
+          {visible && (
+            <Modal
+              title="Add shipping Address"
+              TriggerComponent={({ onPress }) => (
+                <Button preset="filled" onPress={onPress!} style={{ marginTop: theme.spacing.md }}>
+                  <Text tx="shippingAddressScreen:addAddress" />
+                </Button>
+              )}
+              RenderedModalChildren={() => <AddShippingAddressModal onClose={toggle} />}
+            />
+          )}
         </View>
       </Screen>
     )
+
   return (
-    <Screen preset="auto" contentContainerStyle={$styles.flex1}>
+    <Screen
+      preset="auto"
+      contentContainerStyle={$styles.flex1}
+      safeAreaEdges={["left", "right", "bottom"]}
+    >
       <View style={themed($mainContainer)}>
         <View style={themed($header)}>
-          <Text
-            tx="shippingAddressScreen:title"
-            txOptions={{ count: addresses.length }}
-            preset="subheading"
-          />
-
-          <Modal
-            TriggerComponent={({ onPress }) => (
-              <PressableIcon
-                icon="plus"
-                size={24}
-                color={theme.colors.errorBackground}
-                onPress={onPress!}
-              />
-            )}
-            renderedModalChildren={<AddShippingAddressModal />}
-          />
+          {visible && (
+            <Modal
+              title="Add shipping Address"
+              TriggerComponent={({ onPress }) => (
+                <Button preset="filled" onPress={onPress!} style={{ marginTop: theme.spacing.md }}>
+                  + <Text tx="shippingAddressScreen:addAddress" />
+                </Button>
+              )}
+              RenderedModalChildren={() => <AddShippingAddressModal onClose={toggle} />}
+            />
+          )}
         </View>
         <ShippingAddressList addresses={addresses} isLoading={isLoading} />
       </View>
@@ -78,7 +84,7 @@ export const ShippingAddressListScreen: FC = function AccountScreen() {
 const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   justifyContent: "flex-start",
   alignItems: "center",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.sm,
   paddingTop: spacing.md,
   flex: 1,
   width: "100%",
@@ -86,32 +92,13 @@ const $mainContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 })
 
 const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  justifyContent: "flex-start",
+  justifyContent: "center",
   alignItems: "center",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.md,
   paddingTop: spacing.md,
   width: "100%",
-  flex: 0.7,
-  gap: spacing.xs,
-})
-
-const $profileFace: ImageStyle = {
-  height: 169,
-  width: 269,
-  transform: [{ scaleX: isRTL ? -1 : 1 }],
-  resizeMode: "contain",
-}
-
-const $names: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  fontWeight: "bold",
-  color: colors.errorBackground,
-  fontSize: spacing.lg,
-})
-
-const $tapButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  marginTop: spacing.xs,
-  backgroundColor: colors.errorBackground,
-  width: "100%",
+  flex: 1,
+  gap: spacing.lg,
 })
 
 const $header: ThemedStyle<ViewStyle> = ({}) => ({
@@ -119,4 +106,9 @@ const $header: ThemedStyle<ViewStyle> = ({}) => ({
   alignItems: "center",
   justifyContent: "space-between",
   width: "100%",
+})
+
+const $animation: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  width: 150,
+  height: 150,
 })

@@ -1,14 +1,13 @@
+import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
+import { AddShippingAddressModal } from "../ShippingAddressListScreen/AddShippingAddressModal"
+import { ShippingAddressList } from "./ShippingAddressList"
+import { PressableIcon } from "@/components/Icon"
+import { View, ViewStyle } from "react-native"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
-import { FC } from "react"
-import { View, ViewStyle } from "react-native"
 import { Text } from "@/components/Text"
-import { useGetAllShippingAdressesByUser } from "@/hooks/service-hooks/shipping.service.hooks"
-import { ShippingAddressList } from "./ShippingAddressList"
-import { Button } from "@/components/Button"
-import { PressableIcon } from "@/components/Icon"
 import Modal from "@/components/Modal"
-import { AddShippingAddressModal } from "../ShippingAddressListScreen/AddShippingAddressModal"
+import { FC } from "react"
 
 interface ShippingAddressBottomSheetChildrenProps {}
 export const ShippingAddressBottomSheetChildren: FC<ShippingAddressBottomSheetChildrenProps> = (
@@ -30,7 +29,7 @@ export const ShippingAddressBottomSheetChildren: FC<ShippingAddressBottomSheetCh
               onPress={onPress!}
             />
           )}
-          renderedModalChildren={<AddShippingAddressModal />}
+          RenderedModalChildren={AddShippingAddressModal}
         />
       </View>
       <Text

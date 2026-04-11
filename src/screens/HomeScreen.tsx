@@ -1,22 +1,16 @@
+import ProductSearchModal from "@/screens/ProductScreen/ProductSearchModal"
+import CategoryList from "@/components/category/ProductCategoryList"
 import { FC, useEffect, useState } from "react"
 import { View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import CategoryList from "@/components/category/ProductCategoryList"
 import { productCategories } from "@/constants"
-import ProductSearchModal from "@/screens/ProductScreen/ProductSearchModal"
-import { Marquee } from "@animatereactnative/marquee"
-import { Text } from "@/components/Text"
-import LottieView from "lottie-react-native"
-import { Overlay } from "@/components/Overlay"
-import { animationStyles } from "@/styles/animation.style"
-import { createAnimatedComponent } from "react-native-reanimated"
 
 export const HomeScreen: FC = function HomeScreen() {
-  const { themed, theme } = useAppTheme()
-  const [animationDate, setAnimationDate] = useState<number>(2025)
+  const { themed } = useAppTheme()
+  const [_, setAnimationDate] = useState<number>(2025)
 
   useEffect(() => {
     let timeOut = setTimeout(() => {
@@ -25,11 +19,10 @@ export const HomeScreen: FC = function HomeScreen() {
     return () => clearTimeout(timeOut)
   }, [])
 
-  const AnimatedText = createAnimatedComponent(Text)
   return (
     <Screen preset="fixed" contentContainerStyle={[$styles.flex1]}>
       <View style={themed($topContainer)}>
-        <Marquee spacing={2} speed={1}>
+        {/* <Marquee spacing={2} speed={1}>
           <View style={themed($marquee)}>
             <Text style={{ color: "green" }}>Happy new year in advance. </Text>
             <LottieView
@@ -42,11 +35,11 @@ export const HomeScreen: FC = function HomeScreen() {
               source={require("@assets/animations/celebrate.json")}
             />
           </View>
-        </Marquee>
+        </Marquee> */}
         <ProductSearchModal />
         <CategoryList categories={productCategories} />
       </View>
-      <Overlay visible={new Date().getFullYear() === animationDate}>
+      {/* <Overlay visible={new Date().getFullYear() === animationDate}>
         <AnimatedText
           style={[{ color: theme.colors.errorBackground }, animationStyles.slideInYAmination]}
           preset="heading"
@@ -61,7 +54,7 @@ export const HomeScreen: FC = function HomeScreen() {
           }}
           source={require("@assets/animations/congratulation.json")}
         />
-      </Overlay>
+      </Overlay> */}
     </Screen>
   )
 }

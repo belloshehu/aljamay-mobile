@@ -44,7 +44,7 @@ export const ShippingAddress: FC<ShippingAddressProps> = (props: ShippingAddress
     >
       {selectable && <Checkbox value={address?.id === id} />}
       <View style={{ width: "100%" }}>
-        <Text text={isDefault ? "Default" : ""} style={[themed($badge)]} />
+        {isDefault && <Text text={isDefault ? "Default" : ""} style={[themed($badge)]} />}
         <Text
           text={firstName + " " + lastName}
           preset="default"
@@ -82,6 +82,8 @@ const $selectedWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
 
 const $name: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.errorBackground,
+  fontWeight: "bold",
+  textTransform: "capitalize",
 })
 
 const $text: ThemedStyle<TextStyle> = ({ spacing }) => ({

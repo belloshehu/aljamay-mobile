@@ -1,6 +1,5 @@
 import { FC } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
-
 import { Button } from "@/components/Button" // @demo remove-current-line
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
@@ -22,7 +21,7 @@ export const WelcomeScreen: FC = function WelcomeScreen() {
   const router = useRouter()
 
   function goNext() {
-    router.push("/login")
+    router.push("/user/login")
   }
 
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])

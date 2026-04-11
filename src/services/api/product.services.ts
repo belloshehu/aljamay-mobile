@@ -27,7 +27,6 @@ class ProductServiceAPI {
     offset?: number
     search?: string
   }) {
-    console.log("fetching products:", search)
     const { data } = await publicRequest.get<ProductResponseType>("/product", {
       params: { limit, offset, search },
     })
@@ -56,7 +55,6 @@ class ProductServiceAPI {
     payload: Partial<ProductCreateValidationSchemaType>
     protectedRequest: AxiosInstance
   }) {
-    console.log("Updating product with ID:", productId, "Payload:", payload)
     const { data } = await protectedRequest.patch<SingleProductResponseType>(
       "/product/" + productId,
       payload,

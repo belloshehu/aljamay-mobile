@@ -14,7 +14,7 @@ export const useGetCartItems = () => {
   })
 }
 
-export const useAddToCart = () => {
+export const useAddToCart = (productId?: string) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: CartServiceAPI.addToCart,
@@ -24,18 +24,23 @@ export const useAddToCart = () => {
         text1: "Item added to cart",
       })
       queryClient.invalidateQueries({ queryKey: ["cartItems"] })
+      if (productId) {
+        queryClient.invalidateQueries({ queryKey: ["product", productId] })
+      }
     },
     onError: (error: AxiosError<{ error: string }>) => {
       Toast.show({
         type: "error",
-        text1: `Error adding to cart: ${error instanceof Error ? error.message : "Unknown error"}`,
+        text1: `Error adding to cart`,
+        text2:
+          error.response?.data.error || (error instanceof Error ? error.message : "Unknown error"),
       })
     },
   })
 }
 
 // remove item from cart
-export const useRemoveFromCart = () => {
+export const useRemoveFromCart = (productId?: string) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: CartServiceAPI.removeFromCart,
@@ -45,6 +50,9 @@ export const useRemoveFromCart = () => {
         text1: "Item removed from cart",
       })
       queryClient.invalidateQueries({ queryKey: ["cartItems"] })
+      if (productId) {
+        queryClient.invalidateQueries({ queryKey: ["product", productId] })
+      }
     },
     onError: (error: AxiosError<{ error: string }>) => {
       Toast.show({
@@ -56,18 +64,26 @@ export const useRemoveFromCart = () => {
 }
 
 // update cart item quantity
-export const useUpdateCartItemQuantity = () => {
+export const useUpdateCartItemQuantity = (productId?: string) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: CartServiceAPI.updateCartItemQuantity,
     onSuccess: () => {
+      Toast.show({
+        type: "success",
+        text1: "Cart item quantity updated",
+      })
       queryClient.invalidateQueries({ queryKey: ["cartItems"] })
+      if (productId) {
+        queryClient.invalidateQueries({ queryKey: ["product", productId] })
+      }
     },
     onError: (error: AxiosError<{ error: string }>) => {
       Toast.show({
         type: "error",
-        text1: `Error updating cart item quantity: `,
-        text2: error.response?.data.error,
+        text1: `Cart update error: `,
+        text2:
+          error.response?.data.error || (error instanceof Error ? error.message : "Unknown error"),
       })
     },
   })

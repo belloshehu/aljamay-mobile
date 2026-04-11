@@ -1,9 +1,8 @@
 // A self-contained modal with trigger and the actual Component rendered when triggered.
 
-import React, { FC, JSX, ReactNode, useState } from "react"
+import React, { FC } from "react"
 import { Button } from "./Button"
 import {
-  Pressable,
   PressableProps,
   Modal as RNModal,
   StyleProp,
@@ -13,10 +12,11 @@ import {
 } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { $styles } from "@/theme/styles"
-import { Icon, PressableIcon } from "./Icon"
+import { PressableIcon } from "./Icon"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
 import { Text } from "./Text"
+import useCloseOnBack from "@/hooks/useCloseOnBack"
 
 interface DefaultTriggerComponentProps {
   toggle: () => void
@@ -55,18 +55,21 @@ interface ModalProps {
 }
 
 const Modal: FC<ModalProps> = (props: ModalProps) => {
-  const [visible, setVisible] = useState(false)
+  // const [visible, setVisible] = useState(false)
+  const [visible, toggleModal] = useCloseOnBack()
   const { themed } = useAppTheme()
   const { TriggerComponent, RenderedModalChildren, title, titleStyle, headerStyle } = props
 
-  const toggleModal = () => {
-    setVisible((prev) => !prev)
-  }
   if (!visible && TriggerComponent) return <TriggerComponent onPress={toggleModal} />
   else if (!visible) return <DefaultTriggerComponent toggle={toggleModal} />
   else
     return (
-      <RNModal visible={visible}>
+      <RNModal
+        visible={visible}
+        onRequestClose={toggleModal}
+        animationType="slide"
+        transparent={false}
+      >
         <SafeAreaView style={$styles.flex1}>
           <View style={themed([$header, headerStyle])}>
             <PressableIcon
@@ -78,7 +81,7 @@ const Modal: FC<ModalProps> = (props: ModalProps) => {
             <Text style={themed([titleStyle])}>{title ? title : "Title"}</Text>
           </View>
           {RenderedModalChildren ? (
-            <RenderedModalChildren onClose={() => setVisible(false)} />
+            <RenderedModalChildren onClose={toggleModal} />
           ) : (
             <DefaultRenderedModalChildren toggle={toggleModal} />
           )}

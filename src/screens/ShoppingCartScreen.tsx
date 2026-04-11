@@ -1,13 +1,5 @@
 import { FC, useMemo } from "react"
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  ImageStyle,
-  TextStyle,
-  View,
-  ViewStyle,
-} from "react-native"
+import { ActivityIndicator, FlatList, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
@@ -20,7 +12,7 @@ import { push, replace } from "expo-router/build/global-state/routing"
 import { CartItem } from "@/components/shoppingCart/CartItem"
 import Price from "@/components/product/Price"
 import { $separator } from "./ProductScreen/ProductList"
-import withAuth from "@/components/HOC/withAuth"
+import LottieView from "lottie-react-native"
 
 const ShoppingCartScreen: FC = function ShoppingCartScreen() {
   const { themed } = useAppTheme()
@@ -67,10 +59,10 @@ const ShoppingCartScreen: FC = function ShoppingCartScreen() {
             { justifyContent: "center", alignItems: "center", gap: 5 },
           ])}
         >
-          <Image
-            source={require("@assets/images/cart.png")}
-            width={50}
-            height={50}
+          <LottieView
+            autoPlay
+            loop
+            source={require("@assets/animations/shopping-cart.json")}
             style={themed($shoppingCart)}
           />
           <Text tx="cart:noItems" />
@@ -87,7 +79,7 @@ const ShoppingCartScreen: FC = function ShoppingCartScreen() {
     <Screen preset="fixed" contentContainerStyle={{ ...$styles.flex1, padding: 0, margin: 0 }}>
       <View style={themed($topContainer)}>
         <View style={themed($header)}>
-          <Text tx="cart:title" txOptions={{ count: data.length }} style={themed($titleText)} />
+          {/* <Text tx="cart:title" txOptions={{ count: data.length }} style={themed($titleText)} /> */}
           <Price price={totalPrice} priceStyle={themed($priceText)} discount={totalDiscount} />
         </View>
         <FlatList
@@ -131,7 +123,7 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexGrow: 1,
   flexBasis: "57%",
   justifyContent: "flex-start",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.sm,
   gap: spacing.sm,
   paddingBottom: spacing.xs,
 })
@@ -149,9 +141,4 @@ const $priceText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   fontWeight: "500",
 })
 
-const $titleText: ThemedStyle<TextStyle> = ({}) => ({
-  fontSize: 20,
-  fontWeight: "500",
-})
-
-export default withAuth(ShoppingCartScreen)
+export default ShoppingCartScreen

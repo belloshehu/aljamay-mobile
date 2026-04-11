@@ -24,6 +24,7 @@ import { OrderItem } from "../OrderScreen/OrderItem"
 import { formatDate } from "@/utils/formatDate"
 import { ShippingAddress } from "../CheckoutScreen/ShippingAddress"
 import { colors } from "@/theme/colors"
+import LottieView from "lottie-react-native"
 
 // @demo replace-next-line export const ShoppingCartScreen: FC = function ShoppingCartScreen(
 export const OrderDetailScreen: FC = () => {
@@ -51,12 +52,13 @@ export const OrderDetailScreen: FC = () => {
             { justifyContent: "center", alignItems: "center", gap: 5 },
           ])}
         >
-          <Image
-            source={require("@assets/images/cart.png")}
-            width={50}
-            height={50}
+          <LottieView
+            autoPlay
+            loop
+            source={require("@assets/animations/shopping-cart.json")}
             style={themed($shoppingCart)}
           />
+
           <Text tx="order:emptyMany" />
           <Button
             tx="order:goToCart"
@@ -91,7 +93,7 @@ export const OrderDetailScreen: FC = () => {
             },
           ]}
         >
-          <Text text={order.status} style={[{ fontSize: 18, width: "40%" }]} />
+          <Text text={order.status as any} style={[{ fontSize: 18, width: "40%" }]} />
           <Price price={order.totalAmount} priceStyle={themed($priceText)} />
         </View>
         <View>

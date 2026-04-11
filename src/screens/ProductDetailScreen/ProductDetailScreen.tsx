@@ -1,24 +1,25 @@
-import { FC } from "react"
-import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native"
-import type { ThemedStyle } from "@/theme/types"
-import { useAppTheme } from "@/theme/context"
-import { $styles } from "@/theme/styles"
-import { useLocalSearchParams } from "expo-router"
+import { useGetProductById } from "@/hooks/service-hooks/product.service.hooks"
+import AddProductToCart from "@/components/shoppingCart/AddProductToCart"
 import ProductDetailHeader from "../ProductScreen/ProductDetailHeader"
+import { useBottomSheetContext } from "@/context/BottomSheetContext"
+import { ProductDetailSkeleton } from "./ProductDetailSkeleton"
+import { push } from "expo-router/build/global-state/routing"
+import { TextStyle, View, ViewStyle } from "react-native"
+import { useLocalSearchParams } from "expo-router"
+import type { ThemedStyle } from "@/theme/types"
+import Price from "@/components/product/Price"
+import { useAppTheme } from "@/theme/context"
+import { Button } from "@/components/Button"
+import { Screen } from "@/components/Screen"
+import { $styles } from "@/theme/styles"
 import { Card } from "@/components/Card"
 import { Text } from "@/components/Text"
-import { Button } from "@/components/Button"
 import { Icon } from "@/components/Icon"
-import Price from "@/components/product/Price"
-import { useBottomSheetContext } from "@/context/BottomSheetContext"
-import AddProductToCart from "@/components/shoppingCart/AddProductToCart"
-import { Screen } from "@/components/Screen"
-import { push } from "expo-router/build/global-state/routing"
-import { useGetProductById } from "@/hooks/service-hooks/product.service.hooks"
+import { FC } from "react"
 
 // @demo replace-next-line export const ProductDetailScreen: FC = function ProductDetailScreen(
 export const ProductDetailScreen: FC = function ProductDetailScreen() {
-  const { themed, theme } = useAppTheme()
+  const { themed } = useAppTheme()
   const { id } = useLocalSearchParams<{ id: string }>()
   const { handleModalDismiss, setBottomChildren, handleModalPreset } = useBottomSheetContext()
   const { data: product, isLoading } = useGetProductById(id)
@@ -30,10 +31,17 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
     )
     handleModalPreset()
   }
+
   const goToList = () => {
     push("/")
   }
-  if (isLoading) return <ActivityIndicator size={"large"} />
+
+  if (isLoading)
+    return (
+      <Screen>
+        <ProductDetailSkeleton />
+      </Screen>
+    )
   if (!product)
     return (
       <Screen style={[$styles.container, { gap: 15 }]}>
@@ -62,12 +70,15 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
               priceStyle={themed($price)}
               discountStyle={themed($discount)}
             />
+
             <Button
               // tx="productDetail:cart"
               LeftAccessory={() => <Icon icon="cart" />}
               style={themed($cartButton)}
               onPress={showAddToCartBottomSheet}
-              textStyle={{ color: "#fff" }}
+              textStyle={{ color: "#000" }}
+              text={` (${product.cartItems[0]?.quantity || 0})`}
+              role="button"
             />
           </View>
           <Text text={product.quantity + " in stock"} style={themed($quantity)} />

@@ -1,3 +1,4 @@
+import { useBottomSheetBackHandler } from "@/hooks/useBottomsheetBackHandler"
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -36,7 +37,14 @@ export const CustomBottomSheetContextProvider: FC<CustomBottomSheetConextProvide
 }) => {
   const [bottomChildren, setBottomChildren] = useState<ReactNode | null>(null)
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  // const [snapPoints, setSnapPoints] = useState<[]>(_snapPoints)
+
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleSheetChange = useCallback((index: number) => {
+    setIsOpen(index >= 0)
+  }, [])
+
+  useBottomSheetBackHandler(bottomSheetModalRef, isOpen)
 
   const handleModalPreset = useCallback(() => bottomSheetModalRef.current?.present(), [])
 
@@ -55,6 +63,7 @@ export const CustomBottomSheetContextProvider: FC<CustomBottomSheetConextProvide
           onDismiss={() => {
             setBottomChildren(null)
           }}
+          onChange={handleSheetChange}
           enableDynamicSizing
           backgroundStyle={{
             backgroundColor: "rgba(250, 250, 250, 1)",

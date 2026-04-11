@@ -1,6 +1,5 @@
 import { FC } from "react"
 import { Pressable, StyleProp, TextStyle, View, ViewStyle } from "react-native"
-import { Button } from "./Button"
 import { Text } from "./Text"
 import { useAppTheme } from "@/theme/context"
 import { ThemedStyle } from "@/theme/types"
@@ -72,9 +71,10 @@ const $countBtnTextStyle: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   textAlign: "center",
 })
 
-const $countTextStyle: ThemedStyle<TextStyle> = ({}) => ({
+const $countTextStyle: ThemedStyle<TextStyle> = ({ colors }) => ({
   fontWeight: "bold",
   textAlign: "center",
+  color: colors.errorBackground,
 })
 
 const $countWrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({

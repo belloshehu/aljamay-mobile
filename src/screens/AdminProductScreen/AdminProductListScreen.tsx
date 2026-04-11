@@ -1,28 +1,23 @@
-import { FC } from "react"
-import { ActivityIndicator, Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
-import { Screen } from "@/components/Screen"
-import { isRTL } from "@/i18n"
+import { ActivityIndicator, Image, ImageStyle, View, ViewStyle } from "react-native"
+import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
+import { push } from "expo-router/build/global-state/routing"
+import ProductList from "../ProductScreen/ProductList"
+import { AddProductModal } from "./AddProductModal"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
-import { $styles } from "@/theme/styles"
-import { useAuth } from "@/context/AuthContext"
-import { Text } from "@/components/Text"
 import { Button } from "@/components/Button"
-import { push } from "expo-router/build/global-state/routing"
-import { LoginScreen } from "../LoginScreen/LoginScreen"
-import ProductList from "../ProductScreen/ProductList"
-import { useGetProducts } from "@/hooks/service-hooks/product.service.hooks"
-import Modal from "@/components/Modal"
-import { AddProductModal } from "./AddProductModal"
 import { translate } from "@/i18n/translate"
+import { Screen } from "@/components/Screen"
+import { isRTL } from "@/i18n"
+import { Text } from "@/components/Text"
+import { $styles } from "@/theme/styles"
+import Modal from "@/components/Modal"
+import { FC } from "react"
 
 // @demo replace-next-line export const ShoppingCartScreen: FC = function ShoppingCartScreen(
 export const AdminProductListScreen: FC = () => {
   const { themed } = useAppTheme()
-  const { isAuthenticated } = useAuth()
   const { data, isLoading } = useGetProducts({})
-
-  if (!isAuthenticated) return <LoginScreen />
 
   if (isLoading)
     return (
@@ -76,19 +71,12 @@ export const AdminProductListScreen: FC = () => {
   )
 }
 
-const $header: ThemedStyle<ViewStyle> = ({}) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  width: "100%",
-})
-
 const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexShrink: 1,
   flexGrow: 1,
   flexBasis: "57%",
   justifyContent: "flex-start",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.sm,
   gap: spacing.sm,
   paddingBottom: spacing.xs,
 })
@@ -99,9 +87,4 @@ const $shoppingCart: ThemedStyle<ImageStyle> = ({ spacing }) => ({
   transform: [{ scaleX: isRTL ? -1 : 1 }],
   resizeMode: "contain",
   borderRadius: spacing.xxl,
-})
-
-const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  fontSize: 20,
-  fontWeight: "500",
 })

@@ -1,3 +1,4 @@
+import { no } from "zod/v4/locales"
 import demoEn from "./demo-en" // @demo remove-current-line
 import productEn from "./product.en"
 
@@ -105,6 +106,7 @@ const en = {
     title: "Addresses ({{count}})",
     addAddress: "Add address",
     formHeading: "Shipping address",
+    noAddress: "No shipping address found. Please add one to continue.",
   },
   messageScreen: {
     title: "Messages ({{count}})",
@@ -156,15 +158,16 @@ const en = {
     firstNameFieldLabel: "First name",
     firstNameFieldPlaceholder: "Enter first name",
     lastNameFieldLabel: "Last name",
-    lastNameFieldPlaceholder: "Enter first name",
+    lastNameFieldPlaceholder: "Enter last name",
     confirmPasswordFieldLabel: "Confirm Password",
     confirmPasswordFieldPlaceholder: "Confirm password here",
     tapToSignUp: "Tap to sign up!",
     goToLogin: "Log in instead",
     signupProgress: "Please wait ...",
     hint: "Hint: you can use any email address and your favorite password :)",
-    markettingPolicy: "Accept our marketting policies",
-    privacyPolicy: "Accept our privacy policies",
+    markettingPolicy: "Accept our marketting policy",
+    privacyPolicy: "Accept our privacy policy",
+    readMarkettingPolicy: "Read marketting policy",
   },
   emailVerificationScreen: {
     heading: "Email Verification",

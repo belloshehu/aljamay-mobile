@@ -1,15 +1,6 @@
 import { FC } from "react"
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  ImageStyle,
-  TextStyle,
-  View,
-  ViewStyle,
-} from "react-native"
+import { ActivityIndicator, FlatList, TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
-import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
@@ -20,6 +11,7 @@ import { push } from "expo-router/build/global-state/routing"
 import { LoginScreen } from "../LoginScreen/LoginScreen"
 import { $separator } from "../ProductScreen/ProductList"
 import { Message } from "../MessageListScreen/Message"
+import LottieView from "lottie-react-native"
 
 // @demo replace-next-line export const ShoppingCartScreen: FC = function ShoppingCartScreen(
 export const ReviewListScreen: FC = () => {
@@ -46,16 +38,16 @@ export const ReviewListScreen: FC = () => {
         <View
           style={themed([
             $topContainer,
-            { justifyContent: "center", alignItems: "center", gap: 5 },
+            { justifyContent: "flex-start", alignItems: "center", gap: 5 },
           ])}
         >
-          <Image
-            source={require("@assets/images/message_bubble.png")}
-            width={50}
-            height={50}
-            style={themed($shoppingCart)}
+          <LottieView
+            source={require("@assets/animations/review.json")}
+            autoPlay
+            loop
+            style={themed($animation)}
           />
-          <Text tx="messageScreen:emptyMany" />
+          <Text tx="reviewScreen:emptyMany" />
           <Button
             tx="messageScreen:goToProfile"
             preset="filled"
@@ -99,17 +91,14 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexGrow: 1,
   flexBasis: "57%",
   justifyContent: "flex-start",
-  paddingHorizontal: spacing.lg,
+  paddingHorizontal: spacing.sm,
   gap: spacing.sm,
   paddingBottom: spacing.xs,
 })
 
-const $shoppingCart: ThemedStyle<ImageStyle> = ({ spacing }) => ({
-  height: 300,
-  width: 300,
-  transform: [{ scaleX: isRTL ? -1 : 1 }],
-  resizeMode: "contain",
-  borderRadius: spacing.xxl,
+const $animation: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  width: 350,
+  height: 400,
 })
 
 const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({

@@ -1,7 +1,6 @@
 import { FC, useEffect } from "react"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
-import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { Text } from "@/components/Text"
@@ -75,16 +74,4 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 const $logIn: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   marginBottom: spacing.sm,
   color: colors.palette.primary500,
-})
-
-const $profileFace: ImageStyle = {
-  height: 169,
-  width: 269,
-  transform: [{ scaleX: isRTL ? -1 : 1 }],
-  resizeMode: "contain",
-}
-
-const $error: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  color: colors.error,
-  marginBottom: spacing.md,
 })

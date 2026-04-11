@@ -1,13 +1,12 @@
 import { FC } from "react"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
-import { isRTL } from "@/i18n"
 import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { Text } from "@/components/Text"
 import CategoryCardList from "./CategoryCardList"
 import { productCategories } from "@/constants"
+import { Text } from "@/components/Text"
 
 // @demo replace-next-line export const CategoriesScreen: FC = function CategoriesScreen(
 const CategoriesScreen: FC = function CategoriesScreen() {
@@ -16,12 +15,9 @@ const CategoriesScreen: FC = function CategoriesScreen() {
   return (
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
       <View style={themed($topContainer)}>
-        {/* <Text
-          style={themed($CategoriesHeading)}
-          tx="categories:numberOfCategories"
-          txOptions={{ count: productCategories.length }}
-        />
-        <Text tx="categories:listDescription" /> */}
+        <Text>
+          Explore our wide range of product categories and find exactly what you're looking for.
+        </Text>
         <CategoryCardList categories={productCategories} isLoading={false} />
       </View>
     </Screen>
@@ -33,12 +29,9 @@ const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexGrow: 1,
   flexBasis: "57%",
   justifyContent: "flex-start",
-  paddingHorizontal: spacing.lg,
-})
+  paddingHorizontal: spacing.sm,
 
-const $CategoriesHeading: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  marginBottom: spacing.md,
-  fontWeight: "bold",
+  gap: spacing.lg,
 })
 
 export default CategoriesScreen

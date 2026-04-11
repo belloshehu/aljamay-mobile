@@ -14,24 +14,39 @@ export const signupValidationSchema = z
     email: z.email("Invalid email address"),
     password: z
       .string()
-      .regex(
-        /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/,
-        "Password must contain atleat: 1 lower case, 1 upper case, 1 special character ",
-      )
-
-      .min(8)
-      .max(16),
+      .min(8, "Password must be at least 8 characters")
+      .max(16, "Password must not exceed 16 characters")
+      .refine((val) => /[a-z]/.test(val), {
+        message: "Must include a lowercase letter",
+      })
+      .refine((val) => /[A-Z]/.test(val), {
+        message: "Must include an uppercase letter",
+      })
+      .refine((val) => /[0-9]/.test(val), {
+        message: "Must include a number",
+      })
+      .refine((val) => /[!@#$%^&*]/.test(val), {
+        message: "Must include a special character",
+      }),
     passwordRepeat: z
       .string()
-      .regex(
-        /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/,
-        "Password must contain atleat: 1 lower case, 1 upper case, 1 special character ",
-      )
-      .min(8)
-      .max(16),
-    privacyAccepted: z.boolean().refine((val) => val === true, {
-      message: "You must accept the privacy policy",
-    }),
+      .min(8, "Password must be at least 8 characters")
+      .max(16, "Password must not exceed 16 characters")
+      .refine((val) => /[a-z]/.test(val), {
+        message: "Must include a lowercase letter",
+      })
+      .refine((val) => /[A-Z]/.test(val), {
+        message: "Must include an uppercase letter",
+      })
+      .refine((val) => /[0-9]/.test(val), {
+        message: "Must include a number",
+      })
+      .refine((val) => /[!@#$%^&*]/.test(val), {
+        message: "Must include a special character",
+      }),
+    // privacyAccepted: z.boolean().refine((val) => val === true, {
+    //   message: "You must accept the privacy policy",
+    // }),
     marketingAccepted: z.boolean().optional().default(true),
   })
   .refine(
@@ -82,6 +97,7 @@ export const resetPasswordValidationSchema = z
       path: ["passwordRepeat"],
     },
   )
+
 // Type annotation for the auth schema
 export type SignupSchemaType = z.infer<typeof signupValidationSchema>
 export type LoginSchemaType = z.infer<typeof loginValidationSchema>

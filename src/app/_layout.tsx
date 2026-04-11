@@ -61,6 +61,7 @@ export default function Root() {
       },
     },
   })
+
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       {/* <ToastManager> */}
@@ -68,7 +69,7 @@ export default function Root() {
         <OnlineProvider>
           <AuthProvider>
             <QueryClientProvider client={queryClient}>
-              <ThemeProvider>
+              <ThemeProvider initialContext="light">
                 <CheckoutProvider>
                   <CustomBottomSheetContextProvider>
                     <KeyboardProvider>

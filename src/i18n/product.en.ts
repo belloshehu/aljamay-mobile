@@ -9,10 +9,13 @@ const productEn = {
       content: "No {{items}} found yet. Try clicking the button to refresh or reload the app",
     },
   },
+  loadingOne: "Loading product",
+  loadingMany: "Loading products",
   productDetail: {
     notFound: "Product not found",
     checkout: "Checkout",
     cart: "Add to cart",
+    updateCart: "Update cart",
     discount: "Off",
     empty: "No products yet",
     goToList: "Check other products",
@@ -41,6 +44,7 @@ const productEn = {
     notFound: "Promo not found",
     countDown: "{{days}} days to go",
     productList: "Products in the promo ({{count}})",
+    loadingOne: "Loading promo",
   },
   cart: {
     loading: "Loading cart items",
@@ -74,6 +78,7 @@ const productEn = {
     goToCart: "Go to cart",
     orderHeading: "Ordered on, {{date}}",
     itemsCount: "Product/Items ({{count}})",
+    goToProducts: "Go to products",
   },
   productForm: {
     createTitle: "Create Product",
