@@ -81,16 +81,18 @@ export const ProductDetailScreen: FC = function ProductDetailScreen() {
               role="button"
             />
           </View>
-          <Text text={product.quantity + " in stock"} style={themed($quantity)} />
 
           <View style={themed($buttonWrapper)}>
-            <Button
-              textStyle={themed($orderButtonText)}
-              tx="productDetail:checkout"
-              preset="reversed"
-              style={themed($orderButton)}
-              onPress={() => push("/shopping/checkout")}
-            />
+            <Text text={product.quantity + " in stock"} style={themed($quantity)} />
+            {product.cartItems[0]?.quantity > 0 && (
+              <Button
+                textStyle={themed($orderButtonText)}
+                tx="productDetail:checkout"
+                preset="reversed"
+                style={themed($orderButton)}
+                onPress={() => push("/shopping/checkout")}
+              />
+            )}
           </View>
           <Text>{product.description}</Text>
         </View>
@@ -122,7 +124,7 @@ const $orderButton: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   borderRadius: spacing.xl,
   backgroundColor: colors.errorBackground,
   paddingHorizontal: spacing.xxl,
-  width: "100%",
+  flex: 1,
 })
 
 const $orderButtonText: ThemedStyle<TextStyle> = ({ colors }) => ({
@@ -137,6 +139,8 @@ const $cartButton: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 const $buttonWrapper: ThemedStyle<ViewStyle> = ({}) => ({
   flexDirection: "row",
   justifyContent: "space-between",
+  alignItems: "center",
+  gap: 10,
   width: "100%",
 })
 

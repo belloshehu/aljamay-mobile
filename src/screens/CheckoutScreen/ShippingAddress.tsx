@@ -50,8 +50,8 @@ export const ShippingAddress: FC<ShippingAddressProps> = (props: ShippingAddress
           preset="default"
           style={[themed($name), { textDecorationLine: isActive ? "none" : "line-through" }]}
         />
-        {<Text text={city + ", " + state + ", " + country} style={themed($text)} />}
         <Text text={streetAddress.trim()} style={themed($text)} />
+        {<Text text={city + ", " + state + ", " + country} style={themed($text)} />}
         {<Text text={phoneNumber + ", " + postalCode} style={themed($text)} />}
       </View>
     </Pressable>
@@ -87,7 +87,7 @@ const $name: ThemedStyle<TextStyle> = ({ colors }) => ({
 })
 
 const $text: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  fontSize: spacing.md,
+  fontSize: spacing.sm,
 })
 
 const $badge: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
