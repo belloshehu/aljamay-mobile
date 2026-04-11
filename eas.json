@@ -60,6 +60,12 @@
         "track": "internal",
         "serviceAccountKeyPath": "./service-account-aljamay.json"
       }
+    },
+    "closed": {
+      "android": {
+        "track": "alpha",
+        "serviceAccountKeyPath": "./service-account-aljamay.json"
+      }
     }
   }
 }
